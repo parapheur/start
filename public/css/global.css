@@ -1,0 +1,10 @@
+@CHARSET "UTF-8";
+
+#header{
+	height: 125px;
+}
+
+#header-logo{
+	font-size:20pt; 
+	text-align: center;
+}
