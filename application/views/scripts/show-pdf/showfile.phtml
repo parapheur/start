@@ -1,0 +1,78 @@
+<style>
+	body{
+		background:black;
+	}
+	
+	#sidePDFMenu{
+		display:block;
+		color:white;
+		
+	}
+	
+	#PDFlinkfile{
+
+		float:right;
+		width : 80%;
+		height: 90%;
+	}
+	
+	#bottomPDFMenu{
+		display:block;
+		margin-bottom:4px;
+		color:white;
+	}
+</style>
+
+<body>
+		<div id="sidePDFMenu">
+		<!-- Side menu : displays info, print, export icons -->
+
+			<!-- Meta info icon -->
+			<a href="<?php 
+					//Link to the controller displaying the PDF meta informations
+					echo $this->url(
+		            	array(
+		            		'controller' => 'ShowPdf',
+		            		'action'=>'viewmeta'),
+		            		'default',
+		            true) 
+					?>">
+		            
+		            	<img src='C:\Users\Hina\parapheur\public\img\infoIcon.png' alt='icon info image'/>
+		     </a>
+		     
+		    <!-- Print icon -->
+		    <!-- Export icon -->
+		    
+		</div>
+		
+		<div id="PDFlinkfile">
+		            <!-- Creating an object that will contain -->
+		            <object data="<?php 
+			            //Link to the controller displaying the PDF as a PDF application
+		            	echo $this->url(
+							            array(
+		            							'controller' => 'ShowPdf',
+		            							'action'=>'index'),
+		            							'default',
+		            			true) ?>"
+		             type="application/pdf" width="100%" height="100%">
+		 
+								  <p>It appears you don't have a PDF plugin for this browser.
+								  No biggie... you can <a href="<?php echo $this->url(
+						            array(
+						            		'controller' => 'ShowPdf',
+						            		'action'=>'index'),
+						            'default',
+						            true) ?>">click here to
+								  download the PDF file.</a></p>
+		  
+					</object>
+		</div>
+		
+		<div id="bottomPDFMenu">
+		
+		This is the bottom menu.
+		
+		</div>
+</body>
