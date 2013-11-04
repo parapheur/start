@@ -13,6 +13,7 @@ class IndexController extends Zend_Controller_Action
         // action body
     	//$albums = new Application_Model_DbTable_Album();
     	//$this->view->albums = $albums->fetchAll();
+		// ekroepke
     	
     }
 
