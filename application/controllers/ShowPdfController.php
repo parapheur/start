@@ -13,7 +13,7 @@ class ShowPdfController extends Zend_Controller_Action
     	 	$this->_helper->layout->disableLayout();
     		$this->_helper->viewRenderer->setNoRender(true);
     	
-    	$fileName = 'C:\Users\Hina\Downloads\minicdcparapheur.pdf';
+    	$fileName = '‪..\docs\minicdcparapheur.pdf';
     	$pdf = new Zend_Pdf();
     	$pdf = Zend_Pdf::load($fileName,null,true);
     	/* 
@@ -87,7 +87,7 @@ class ShowPdfController extends Zend_Controller_Action
      
     public function viewmetaAction()
     {
-    	$fileName = 'C:\Users\Hina\Downloads\minicdcparapheur.pdf';
+    	$fileName = '‪..\docs\minicdcparapheur.pdf';
     	$pdf = new Zend_Pdf();
     	$pdf = Zend_Pdf::load($fileName,null,true);
     
