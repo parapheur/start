@@ -13,48 +13,11 @@ class ShowPdfController extends Zend_Controller_Action
     	 	$this->_helper->layout->disableLayout();
     		$this->_helper->viewRenderer->setNoRender(true);
     	
-    	$fileName = '‪..\docs\minicdcparapheur.pdf';
+		$fileName = '..\docs\debuter-avec-zend-framework.pdf';
+		//$fileName = 'C:\Users\Hina\Desktop\LettreMotivation_PassageJury_4A5A_HinaTufail.pdf';
+		
     	$pdf = new Zend_Pdf();
     	$pdf = Zend_Pdf::load($fileName,null,true);
-    	/* 
-    	// Create new Style
-    	$style = new Zend_Pdf_Style();
-    	$style->setFillColor(new Zend_Pdf_Color_Rgb(0, 0, 0.9));
-    	$style->setLineColor(new Zend_Pdf_Color_GrayScale(0.2));
-    	$style->setLineWidth(3);
-    	$style->setLineDashingPattern(array(3, 2, 3, 4), 1.6);
-    	$fontH = Zend_Pdf_Font::fontWithName(Zend_Pdf_Font::FONT_HELVETICA_BOLD);
-    	$style->setFont($fontH, 12);
-
-    	try {
-    		// Create new image object
-    		$imageFile = dirname(__FILE__) . '/../../public/img/infoIcon.png';
-    		$stampImage = Zend_Pdf_Image::imageWithPath($imageFile);
-    	} catch (Zend_Pdf_Exception $e) {
-    		// Example of operating with image loading exceptions.
-    		if ($e->getMessage() != 'Image extension is not installed.' &&
-    		$e->getMessage() != 'JPG support is not configured properly.') {
-    			throw $e;
-    		}
-    		$stampImage = null;
-    	}
-    	
-    	foreach ($pdf->pages as $page){
-    		$page->saveGS()
-    		->setAlpha(0.25)
-    		->setStyle($style);
-    		 
-    		$page->saveGS();
-    		
-    		if ($stampImage != null) {
-    			list($width, $height, $type, $attr) = getimagesize($imagePath);
-    			$page->drawImage($stampImage, 50, 70, $width, $height);
-    		}
-    		$page->restoreGS();
-    		 
-    		$page->drawText('Modified by Zend Framework!', 150, 0)
-    		->restoreGS();
-    	}*/
     	 
     	$this->getResponse()->setHeader('Content-type', 'application/pdf', true);
     	$this->getResponse()->setHeader('Content-disposition','inline;filename='.$module.'_'.$m_no.'.pdf', true);
@@ -87,7 +50,7 @@ class ShowPdfController extends Zend_Controller_Action
      
     public function viewmetaAction()
     {
-    	$fileName = '‪..\docs\minicdcparapheur.pdf';
+    	$fileName = '..\docs\debuter-avec-zend-framework.pdf';
     	$pdf = new Zend_Pdf();
     	$pdf = Zend_Pdf::load($fileName,null,true);
     
