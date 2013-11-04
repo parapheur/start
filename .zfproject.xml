@@ -24,6 +24,7 @@
       <modelsDirectory>
         <dbTableDirectory>
           <dbTableFile dbTableName="Album"/>
+          <dbTableFile dbTableName="Courrier"/>
         </dbTableDirectory>
       </modelsDirectory>
       <modulesDirectory enabled="false"/>

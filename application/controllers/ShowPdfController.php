@@ -10,8 +10,8 @@ class ShowPdfController extends Zend_Controller_Action
 
     public function indexAction()
     {
-    	// 	$this->_helper->layout->disableLayout();
-    	//	$this->_helper->viewRenderer->setNoRender(true);
+    	 	$this->_helper->layout->disableLayout();
+    		$this->_helper->viewRenderer->setNoRender(true);
     	
     	$fileName = 'C:\Users\Hina\Downloads\minicdcparapheur.pdf';
     	$pdf = new Zend_Pdf();
@@ -80,6 +80,9 @@ class ShowPdfController extends Zend_Controller_Action
     {
     	 
     	$this->_helper->layout->disableLayout();
+		$courrier = new Application_Model_DbTable_Courrier;
+		$this->view->courrier = $courrier->fetchAll();
+
     }
      
     public function viewmetaAction()
