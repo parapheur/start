@@ -18,7 +18,20 @@ class ShowPdfController extends Zend_Controller_Action
 		
     	$pdf = new Zend_Pdf();
     	$pdf = Zend_Pdf::load($fileName,null,true);
-    	 
+    	
+    	// Inverse l'ordre des pages
+    	//$pdf->pages = array_reverse($pdf->pages);
+    	
+    	// Ajoute une nouvelle page générée par l'objet Zend_Pdf
+    	// (la page est attachée au document)
+    	$pdf->pages[] = ($page1 = $pdf->newPage('A4'));
+    	// Dessine un rectangle
+    	$page1->setFillColor(new Zend_Pdf_Color_GrayScale(0.8))
+    	->setLineColor(new Zend_Pdf_Color_GrayScale(0.2))
+    	->setLineDashingPattern(array(3, 2, 3, 4), 1.6)
+    	->drawRectangle(60, 400, 400, 350)
+    	->clipRectangle(60, 400, 400, 350);
+    	
     	$this->getResponse()->setHeader('Content-type', 'application/pdf', true);
     	$this->getResponse()->setHeader('Content-disposition','inline;filename='.$module.'_'.$m_no.'.pdf', true);
     	
