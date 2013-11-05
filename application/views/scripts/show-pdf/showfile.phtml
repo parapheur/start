@@ -75,6 +75,17 @@
 		<div id="bottomPDFMenu">
 		
 		This is the bottom menu.
+		<!-- Sign the PDF -->
+		<a href="<?php 
+					//Link to the controller displaying the PDF meta informations
+					echo $this->url(
+		            	array(
+		            		'controller' => 'SignPdf',
+		            		'action'=>'index'),
+		            		'default',
+		            true) 
+					?>">Signer le PDF</a>
+		
 		
 		</div>
 </body>

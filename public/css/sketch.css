@@ -1,0 +1,10 @@
+@CHARSET "UTF-8";
+
+#colors_sketch{
+	border:1px solid #000000;
+}
+
+a{
+	float: right;
+	width: 100px;
+}
