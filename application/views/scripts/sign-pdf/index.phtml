@@ -1,11 +1,22 @@
     <title>Signer le PDF</title>
   <?php echo $this->headLink()->appendStylesheet($this->baseUrl().'/css/sketch.css'); ?>
   <?php echo $this->headScript()->appendFile($this->baseUrl().'/js/sketch.js')
-  								->prependFile($this->baseUrl().'/js/jquery.js');?>
+  								->prependFile($this->baseUrl().'/js/jquery.js')
+  								->prependFile($this->baseUrl().'/js/canvas2image.js')
+  								->prependFile($this->baseUrl().'/js/base64.js');?>
 
 <br/>
 <div class="tools">
-  <a href="#colors_sketch" data-download="png" onclick="redirect();" >Download</a>
+  <a href="<?php 
+			//Link to the controller displaying the PDF meta informations
+			echo $this->url(
+          	array(
+          		'controller' => 'ShowPdf',
+          		'action'=>'showfile'),
+          		'default',
+          true) 
+			?>#colors_sketch" data-download="png" >Download</a>
+ 	
 </div>
 
 <canvas id="colors_sketch" 	 width="1000" height="600"></canvas>
@@ -21,7 +32,9 @@
   });
 
   function redirect(){
-	  //document.getElementById(colors_sketch);
+	  var oCanvas = document.getElementById(colors_sketch);
+	  Canvas2Image.saveAsPNG(oCanvas, false, 100, 100);  
+	  
 	  document.location.href="<?php 
 			//Link to the controller displaying the PDF meta informations
 			echo $this->url(
@@ -31,5 +44,8 @@
           		'default',
           true) 
 			?>";
+			
   }
+
+  
 </script>      

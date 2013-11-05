@@ -53,6 +53,7 @@ class ShowPdfController extends Zend_Controller_Action
     {
     	
     	$this->_helper->layout->disableLayout();
+    	
     }
     
     public function showmetaAction()
