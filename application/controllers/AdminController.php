@@ -1,6 +1,6 @@
 <?php
 
-class IndexController extends Zend_Controller_Action
+class AdminController extends Zend_Controller_Action
 {
 
     public function init()
@@ -10,14 +10,12 @@ class IndexController extends Zend_Controller_Action
 
     public function indexAction()
     {
-        // action body
-    	
+    	// action body
     }
     
-    public function addfileAction()
+    public function diagnosticAction()
     {
     	// action body
-       
     }
 
 }

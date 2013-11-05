@@ -1,0 +1,290 @@
+/* DEFAULTS
+----------------------------------------------------------*/
+html, body {
+	height: 100%;
+}
+body {
+	background: url("../img/basic/bg.png") repeat scroll 0 0 rgba(0, 0, 0, 0);
+	color: #989898;
+	cursor: default;
+	font-family: Arial;
+	font-size: 13px;
+}
+a {
+	color: #8D8D8D;
+}
+a:hover {
+	color: #B4B4B4;
+}
+input {
+	color: #989898;
+}
+form label {
+	float: left;
+	min-width: 150px;
+}
+
+/* HEADINGS   
+----------------------------------------------------------*/
+h1 {
+    color: #9DA5B0;
+    font: bold 15px/1 Arial;
+    text-transform: uppercase;
+}
+h2 {
+
+}
+h3 {
+
+}
+h4 {
+
+}
+h5 {
+
+}
+h6 {
+
+}
+
+/* PRIMARY LAYOUT ELEMENTS   
+----------------------------------------------------------*/
+#content {
+	padding: 30px 0 60px; /* bottom must be equal to the footer size. */
+}
+#footer {
+    background: none no-repeat scroll 0 0 rgba(0, 0, 0, 0.05);
+    box-shadow: 0 2px 2px rgba(0, 0, 0, 0.1) inset;
+    clear: both;
+    height: 60px;
+	margin: -60px 0 0; /* top must be negative & equal to the footer size. */
+	position: relative;
+}
+#header {
+    background: url("../img/basic/bg_header.png") repeat scroll 0 0 rgba(0, 0, 0, 0);
+    box-shadow: 0 2px 2px rgba(0, 0, 0, 0.2);
+    height: 40px;
+}
+#wrapper {
+	height: auto;
+	min-height: 100%;
+}
+.wrap {
+	margin: 0 auto;
+	width: 980px;
+}
+
+/* HEADER 
+----------------------------------------------------------*/
+#nav {
+	float: left;
+}
+#nav li {
+	float: left;
+}
+#nav li a {
+    color: #FFFFFF;
+    display: block;
+    height: 27px;
+    padding: 13px 30px 0;
+    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
+}
+#nav li a:hover {
+	background: none no-repeat scroll 0 0 rgba(0, 0, 0, 0.08);
+    box-shadow: 0 0 2px rgba(0, 0, 0, 0.05) inset;
+}
+#nav li a:active, #nav li a.nav-sel {
+    background: none no-repeat scroll 0 0 rgba(49, 50, 65, 0.3);
+    box-shadow: 0 0 6px rgba(0, 0, 0, 0.3) inset;
+}
+.search-box {
+	float: right;
+}
+.search-box label {
+    color: #FFFFFF;
+    margin: 0 10px 0 0;
+    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
+}
+.search-box input {
+    background: none no-repeat scroll 0 0 rgba(255, 255, 255, 0.25);
+    border: medium none;
+    border-radius: 20px 20px 20px 20px;
+    box-shadow: 0 2px 1px rgba(0, 0, 0, 0.3) inset;
+	color: #FFFFFF;
+    height: 25px;
+    margin: 6px 0 0;
+    padding: 0 10px;
+    width: 130px;
+}
+.search-box input:focus {
+    background: none no-repeat scroll 0 0 #FFFFFF;
+	color: #A4A4A4;
+}
+
+/* CONTENT  
+----------------------------------------------------------*/
+#index {
+    height: 440px;
+    margin: 50px 0;
+    overflow: auto;
+}
+.index-row {
+    height: 200px;
+    margin: 0 0 40px;
+}
+.index-row:last-child {
+	margin: 0;
+}
+.index-row li {
+    float: left;
+    height: 200px;
+    margin: 0 18px 0 0;
+    width: 178px;
+}
+.index-row li:last-child {
+	margin: 0;
+}
+.index-row li a.preview {
+    background: url("../img/icons/ico_preview.png") repeat scroll 0 0 rgba(0, 0, 0, 0);
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
+	display: block;
+    height: 150px;
+    margin: 0 auto;
+    position: relative;
+    width: 108px;
+}
+.index-row li a.preview:hover {
+	opacity: 0.7;
+}
+.index-row li a.preview img {
+    bottom: 0;
+    position: absolute;
+    right: 0;	
+}
+.index-row li a {
+    color: #9DA5B0;
+	cursor: pointer;
+	display: block;
+    font: bold 14px/1 Arial;
+	margin: 10px auto 8px;
+}
+.index-row li a:hover {
+	text-decoration: underline;
+}
+.index-row li p {
+	text-align: center;
+}
+#tablet-list {
+    margin: 50px 0;
+}
+.ui-accordion-header {
+    background: url("../img/icons/ico_tablet.png") no-repeat scroll 10px 5px #87BCD7;
+    border: medium none;
+    border-radius: 3px 3px 3px 3px;
+    box-shadow: 0 -2px 0 rgba(126, 32, 90, 0.2) inset, 0 1px 2px rgba(0, 0, 0, 0.2);
+    color: #FFFFFF;
+    cursor: pointer;
+    font: bold 14px/1 Arial;
+    margin: 15px 0 0;
+    padding: 7px 45px 9px;
+    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
+}
+.ui-accordion-header:first-child {
+	margin: 0;
+}
+.ui-accordion-header:active, .ui-accordion-header-active {
+    background: url("../img/icons/ico_tablet.png") no-repeat scroll 10px 6px #7BABC4;
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
+	padding: 8px 45px;
+}
+.ui-accordion-content {
+    padding: 10px 45px;
+}
+.ui-accordion-content li {
+    background: url("../img/icons/ico_pdf_min.png") no-repeat scroll 0 0 rgba(0, 0, 0, 0);
+    margin: 0 0 5px;
+    padding: 4px 30px;
+}
+.ui-accordion-content li:last-child {
+    background: url("../img/icons/ico_sync.png") no-repeat scroll 2px 2px rgba(0, 0, 0, 0);
+    font-style: italic;
+    margin: 15px 0 0;
+}
+#box-test {
+    margin: 50px 0;
+}
+#box-test .box {
+	margin: 0 0 20px;
+}
+#box-test .box:last-child {
+	margin: 0;
+}
+
+/* FOOTER  
+----------------------------------------------------------*/
+.l-foot {
+	float: left;
+    padding: 25px 0 0;
+}
+.l-foot li {
+    float: left;
+    margin: 0 20px 0 0;
+}
+.l-note {
+	float: right;
+	padding: 25px 0 0;
+}
+
+/* MISC  
+----------------------------------------------------------*/
+.on-right {
+	float: right;
+}
+.on-left {
+	float: left;
+}
+.blue-button {
+	background: none repeat scroll 0 0 #87BCD7;
+    border: medium none;
+    border-radius: 3px 3px 3px 3px;
+    box-shadow: 0 -2px 0 rgba(126, 32, 90, 0.2) inset, 0 1px 2px rgba(0, 0, 0, 0.2);
+    color: #FFFFFF;
+	cursor: pointer;
+    font: bold 14px/1 Arial;
+    padding: 7px 40px 9px;
+    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
+}
+.blue-button:active {
+    background: none repeat scroll 0 0 #7BABC4;
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
+	padding: 8px 40px;
+}
+.box {
+    background: none repeat scroll 0 0 #FFFFFF;
+    border-radius: 3px 3px 3px 3px;
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
+    padding: 18px 20px;
+}
+.box h1 {
+	margin: 0 0 8px;
+}
+
+/* EXTRA
+----------------------------------------------------------*/
+.clearfix:after {
+	content: ".";
+	display: block;
+	clear: both;
+	visibility: hidden;
+	line-height: 0;
+	height: 0;
+}
+.clearfix {
+	display: inline-block;
+}
+html[xmlns] .clearfix {
+	display: block;
+}
+* html .clearfix {
+	height: 1%;
+}
