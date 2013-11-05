@@ -7,16 +7,7 @@
 
 <br/>
 <div class="tools">
-  <a href="<?php 
-			//Link to the controller displaying the PDF meta informations
-			echo $this->url(
-          	array(
-          		'controller' => 'ShowPdf',
-          		'action'=>'showfile'),
-          		'default',
-          true) 
-			?>#colors_sketch" data-download="png" >Download</a>
- 	
+  <a href="#colors_sketch" data-download="png" onClick='createPNGButton();'>Download</a> 	
 </div>
 
 <canvas id="colors_sketch" 	 width="1000" height="600"></canvas>
@@ -32,9 +23,8 @@
   });
 
   function redirect(){
-	  var oCanvas = document.getElementById(colors_sketch);
-	  Canvas2Image.saveAsPNG(oCanvas, false, 100, 100);  
-	  
+	  var oCanvas = document.getElementById("#colors_sketch"); 
+	  Canvas2Image.saveAsPNG(oCanvas);  
 	  document.location.href="<?php 
 			//Link to the controller displaying the PDF meta informations
 			echo $this->url(
@@ -46,6 +36,13 @@
 			?>";
 			
   }
+
+  function createPNGButton( ) {
+	  alert('A');
+	  var data = canvas.toDataURL(); 
+	  alert('B');
+	  alert(data);
+	 }
 
   
 </script>      
