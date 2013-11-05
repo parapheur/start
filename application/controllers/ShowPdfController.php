@@ -32,6 +32,9 @@ class ShowPdfController extends Zend_Controller_Action
     	->drawRectangle(60, 400, 400, 350)
     	->clipRectangle(60, 400, 400, 350);
     	
+    	//$image = Zend_Pdf_Image::imageWithPath('mon_image.jpg');
+ 		//$page1->drawImage($image, 100, 100, 400, 300);
+    	
     	$this->getResponse()->setHeader('Content-type', 'application/pdf', true);
     	$this->getResponse()->setHeader('Content-disposition','inline;filename='.$module.'_'.$m_no.'.pdf', true);
     	

@@ -12,6 +12,10 @@ class SignPDFController extends Zend_Controller_Action
     {
         
     	$this->_helper->layout->disableLayout();
+    	if($this->_getParam('colors_sketch', false) != null)
+    	{
+    		$this->_helper->redirector('showfile','ShowPdf');
+    	}
     }
 
 

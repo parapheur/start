@@ -5,9 +5,10 @@
 
 <br/>
 <div class="tools">
-  <a href="#colors_sketch" data-download="png" >Download</a>
+  <a href="#colors_sketch" data-download="png" onclick="redirect();" >Download</a>
 </div>
-<canvas id="colors_sketch" 	 width="1000" height="600px"></canvas>
+
+<canvas id="colors_sketch" 	 width="1000" height="600"></canvas>
 <script type="text/javascript">
   $(function() {
     $.each(['#f00', '#ff0', '#0f0', '#0ff', '#00f', '#f0f', '#000', '#fff'], function() {
@@ -18,4 +19,17 @@
     });
     $('#colors_sketch').sketch();
   });
+
+  function redirect(){
+	  //document.getElementById(colors_sketch);
+	  document.location.href="<?php 
+			//Link to the controller displaying the PDF meta informations
+			echo $this->url(
+          	array(
+          		'controller' => 'ShowPdf',
+          		'action'=>'showfile'),
+          		'default',
+          true) 
+			?>";
+  }
 </script>      
