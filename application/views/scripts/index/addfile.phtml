@@ -3,48 +3,48 @@
 				<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus tincidunt 
 				non diam eu consequat.</p>
 				<br />
-				<input type="file" />
+				<input type="file" name="uploaded_file"/>
 			</div>
 			<br /><br />
-			<form>
+			<form action="index/addfile" method="post">
 				<fieldset>
 					<div>
 						<label>Titre</label>
-						<input type="text" />
+						<input type="text" name="titre"/>
 					</div>
 					<br />
 					<div>
-						<label>Message</label>
-						<input type="text" />
+						<label>Objet du document</label>
+						<input type="text" name="objet" />
 					</div>
 					<br />
 					<div>
 						<label>Type</label>
 						<select>
-							<option>1</option>
-							<option>2</option>
-							<option>3</option>
+							<option>Administratif</option>
+							<option>Projet</option>
+							<option>Divers</option>
 						</select>
 					</div>
 					<br />
 					<div>
-						<label>Auteur</label>
-						<input type="text" />
+						<label>Identifiant Auteur</label>
+						<input type="number" name="id_author" />
 					</div>
 					<br />
 					<div>
 						<label>Date Limite Réponse</label>
-						<input type="text" />
+						<input type="date" name="date_limite"/>
 					</div>
 					<br />
 					<div>
 						<label>Classification</label>
-						<input type="text" />
+						<input type="number" name="classification" />
 					</div>
 					<br />
 					<div>
 						<label>Code Externe</label>
-						<input type="text" />
+						<input type="text" name="code_externe"/>
 					</div>
 					<br />
 					<div>
