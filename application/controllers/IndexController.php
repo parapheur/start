@@ -11,6 +11,10 @@ class IndexController extends Zend_Controller_Action
     public function indexAction()
     {
         // action body
+    	if ($this->_request->isPost()) {
+    		$data = $this->_request->getPost();
+    		Zend_Debug::dump($data);
+    	}
     	
     }
     
