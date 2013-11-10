@@ -10,7 +10,34 @@ class AddafileController extends Zend_Controller_Action
 
     public function indexAction()
     {
-        
+        //Here i will try to unclob a PDF file.
+     	$table = new Application_Model_DbTable_Contenu();
+    	$i=0;
+     	$rows = $table->find(6);
+    	
+     	$thepdf=new Zend_Pdf;
+     	foreach($rows as $row){
+     	foreach ($row AS $field_name => $field_value)
+        {
+
+            if (  is_resource($field_value)  ) {
+				print(fread($field_value, 1000000)."\n");
+
+            } else {
+            	print($field_value."\n");
+            	if($i!=0){
+            		$pdf = Zend_Pdf::parse($field_value);
+            	}
+            	$i=$i+1;
+            }
+
+        }
+     	}
+     	//$pdf = Zend_Pdf::parse($row[1]);
+     	
+     	
+     	//$clobcontent=$row['CONTENT']->load();
+     	//echo $clobcontent;
     	//$this->_helper->layout->disableLayout();
     }
 	
