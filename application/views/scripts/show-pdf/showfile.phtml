@@ -1,4 +1,19 @@
-<style>
+ <script type="text/javascript" src="http://code.jquery.com/jquery-1.7.1.min.js"></script>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  
+ <?php echo $this->headScript()->prependFile($this->baseUrl().'/js/turn.js')
+ 							->prependFile($this->baseUrl().'/js/turn.min.js');?>
+<style type="text/css">
+
+.page{
+        width:1152px;
+        height:752px;
+}
+.page .turn-page{
+        background-color:#ccc;
+        background-size:100% 100%;
+}
+
 	body{
 		background:black;
 	}
@@ -11,19 +26,23 @@
 	
 	#PDFlinkfile{
 
-		float:right;
 		width : 80%;
-		height: 90%;
+		height: 80%;
+		position:absolute;
+		top:10%;
+		left: 10%;
 	}
 	
 	#bottomPDFMenu{
-		display:block;
-		margin-bottom:4px;
+		
 		color:white;
 	}
+	
+
 </style>
 
 <body>
+
 		<div id="sidePDFMenu">
 		<!-- Side menu : displays info, print, export icons -->
 
@@ -56,7 +75,7 @@
 		            							'action'=>'index'),
 		            							'default',
 		            			true) ?>"
-		             type="application/pdf" width="100%" height="100%">
+		             type="application/pdf" id="pdfApp" width="100%" height="100%">
 		 
 								  <p>It appears you don't have a PDF plugin for this browser.
 								  No biggie... you can <a href="<?php echo $this->url(
@@ -88,4 +107,33 @@
 		
 		
 		</div>
+		
+		<script type="text/javascript">
+
+        $(window).ready(function() {
+                $('.page').turn({
+                                                        display: 'double',
+                                                        acceleration: true,
+                                                        gradients: !$.isTouch,
+                                                        elevation:50,
+                                                        when: {
+                                                                turned: function(e, page) {
+                                                                        /*console.log('Current view: ', $(this).turn('view'));*/
+                                                                }
+                                                        }
+                                                });
+        });
+        
+        
+        $(window).bind('keydown', function(e){
+                
+                if (e.keyCode==37)
+                        $('.page').turn('previous');
+                else if (e.keyCode==39)
+                        $('.page').turn('next');
+                        
+        });
+
+</script>
+		
 </body>
