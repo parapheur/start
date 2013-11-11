@@ -1,45 +1,15 @@
  <script type="text/javascript" src="http://code.jquery.com/jquery-1.7.1.min.js"></script>
+ 
+
   <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
   
+  <?php echo $this->headLink()->appendStylesheet($this->baseUrl().'/css/reset.css')
+  							  ->appendStylesheet($this->baseUrl().'/css/style.css')
+  							  ->appendStylesheet($this->baseUrl().'/css/showfileStyle.css'); ?>
  <?php echo $this->headScript()->prependFile($this->baseUrl().'/js/turn.js')
- 							->prependFile($this->baseUrl().'/js/turn.min.js');?>
-<style type="text/css">
-
-.page{
-        width:1152px;
-        height:752px;
-}
-.page .turn-page{
-        background-color:#ccc;
-        background-size:100% 100%;
-}
-
-	body{
-		background:black;
-	}
-	
-	#sidePDFMenu{
-		display:block;
-		color:white;
-		
-	}
-	
-	#PDFlinkfile{
-
-		width : 80%;
-		height: 80%;
-		position:absolute;
-		top:10%;
-		left: 10%;
-	}
-	
-	#bottomPDFMenu{
-		
-		color:white;
-	}
-	
-
-</style>
+ 							->prependFile($this->baseUrl().'/js/turn.min.js')
+ 							->prependFile($this->baseUrl().'/js/custom.js')
+ 							->prependFile($this->baseUrl().'/js/jquery-1.9.1.js');?>
 
 <body>
 
@@ -47,22 +17,13 @@
 		<!-- Side menu : displays info, print, export icons -->
 
 			<!-- Meta info icon -->
-			<a href="<?php 
-					//Link to the controller displaying the PDF meta informations
-					echo $this->url(
-		            	array(
-		            		'controller' => 'ShowPdf',
-		            		'action'=>'viewmeta'),
-		            		'default',
-		            true) 
-					?>">
-						<!-- chemin pour afficher l'icone  -->
-		            	<img src='../../../img/infoIcon.png' alt='icon info image'/>
-		     </a>
-		     
+		    <br/><br/><a href="#" data-width="720" data-rel="info_doc" class="poplight"><img src='../../../img/icons/ico_meta.png' alt='icone info image'/></a>
 		    <!-- Print icon -->
-		    <!-- Export icon -->
-		    
+		    <br/><br/><a href=""><img src='../../../img/icons/ico_print.png' alt='icone imprimante image'/></a>
+		    <!-- Download icon -->
+		    <br/><br/><a href="" id="telechargerIcone"><img src='../../../img/icons/ico_download.png' alt='icone télécharger image'/></a>   
+			<!-- Export icon -->
+			<br/><br/><a href=""><img src='../../../img/icons/ico_transfertTab.png' alt='icone transférer sur tablette image'/></a>
 		</div>
 		
 		<div id="PDFlinkfile">
@@ -93,22 +54,30 @@
 		
 		<div id="bottomPDFMenu">
 		
-		This is the bottom menu.
-		<!-- Sign the PDF -->
-		<a href="<?php 
-					//Link to the controller displaying the PDF meta informations
-					echo $this->url(
-		            	array(
-		            		'controller' => 'SignPdf',
-		            		'action'=>'index'),
-		            		'default',
-		            true) 
-					?>">Signer le PDF</a>
+		<a href="#" data-width="720" data-rel="comment_doc" class="poplight"><img src='../../../img/icons/ico_com.png' alt='icone ajout de commentaire image'/></a>
 		
+		<a href="" id="zoomIcone"><img src='../../../img/icons/ico_plus.png' alt='icone zoom + image'/></a>
+		<a href="" id="dezoomIcone"><img src='../../../img/icons/ico_moins.png' alt='icone zoom - image'/></a>
 		
+		<a href="" id="premierePageIcone"><img src='../../../img/icons/ico_firstPage.png' alt='icone première page image'/></a>
+		<a href="" id="precedentePageIcone"><img src='../../../img/icons/ico_previousPage.png' alt='icone page precedente image'/></a>
+		<a href="" id="suivantePageIcone"><img src='../../../img/icons/ico_nextPage.png' alt='icone page suivante image'/></a>
+		<a href="" id="dernierePageIcone"><img src='../../../img/icons/ico_lastPage.png' alt='icone dernière page image'/></a>
+		
+		<a href="<?php 	echo $this->url(array('controller' => 'Index',
+					            		'action'=>'index'),
+					            		'default', true) ?>" id="pageAccueil"><img src='../../../img/icons/ico_home.png' alt='icone page accueil image'/></a>
+		<a href="<?php 	echo $this->url(array('controller' => 'SignPdf',
+					            		'action'=>'index'),
+					            		'default', true) ?>" id="SignerIcone"><img src='../../../img/icons/ico_sign.png' alt='icone signer image'/></a>
+		
+		<!--Liens vers les popup : valider et refuser le document -->
+		<a href="#" id="validateBtn" data-width="720" data-rel="validate_doc" class="poplight"><img src='../../../img/icons/ico_val.png' alt='icone valider document'/></a>
+		<a href="#" id="refuseBtn" data-width="720" data-rel="refuse_doc" class="poplight"><img src='../../../img/icons/ico_refus.png' alt='icone refus document'/></a>
+
 		</div>
 		
-		<script type="text/javascript">
+<script type="text/javascript">
 
         $(window).ready(function() {
                 $('.page').turn({
@@ -135,5 +104,111 @@
         });
 
 </script>
+		
+<!--POPUP DEBUT-->
+	
+	<!--Valider Document-->
+	<div id="validate_doc" class="popup_block">
+		<a class="close" href="#">
+			<img class="btn_close" alt="" src="../../img/icons/close_pop.png"></img>
+		</a>
+		<h1>Valider le document</h1>
+		<p>Pour envoyer le document dans le workflow, cliquez sur le bouton valider. Une fois validé, le document ne pourra plus 				être modifié.</p>
+		<a href="#"><input class="green-button on-right" type="button" value="Valider" /></a>
+	</div>
+	
+	<!--Refuser Document-->
+	<div id="refuse_doc" class="popup_block">
+		<a class="close" href="#">
+			<img class="btn_close" alt="" src="../../img/icons/close_pop.png"></img>
+		</a>
+		<h1>Refuser le document</h1>
+		<p>Si vous souhaitez retourner le document à son destinataire, cliquez sur le bouton refuser.</p>
+		<div class="popup_message on-left"><h2>Message</h2></div>
+		<textarea  class=" on-right"></textarea>
+		<a href="#"><input class="red-button on-right" type="button" value="Refuser" /></a>
+	</div>
+	
+	<!--Commenter Document-->
+	<div id="comment_doc" class="popup_block">
+		<a class="close" href="#">
+			<img class="btn_close" alt="" src="../../img/icons/close_pop.png"></img>
+		</a>
+		<h1>Commentaires</h1>
+		<div class="write_comment">
+			<select>
+				<option>Projet</option>
+				<option>Document</option>
+			</select>
+			<textarea  class="on-right"></textarea>
+			<a href="#"><input class="blue-button on-right" type="button" value="Commenter" /></a>
+		</div>
+		<div class="all_comments">
+			<ul>
+				<li>
+					<div>
+						<div class="author on-left">Auteur</div>
+						<div class="on-left">&nbsp•&nbsp</div>
+						<div class="on-left">date</div>
+					</div></br>	
+					<div class="comment-inner">
+						<div class="quote on-left"><img src="../../img/pop/quote_start.png"></img></div>
+						<div class="comment">Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
+						</div>
+						<div class="quote on-right on-bottom"><img src="../../img/pop/quote_end.png"></img></div>
+					</div>
+				</li>
+				<li>
+					<div>
+						<div class="author on-left">Auteur</div>
+						<div class="on-left">&nbsp•&nbsp</div>
+						<div class="on-left">date</div>
+					</div></br>	
+					<div class="comment-inner">
+						<div class="quote on-left"><img src="../../img/pop/quote_start.png"></img></div>
+						<div class="comment">Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
+						</div>
+						<div class="quote on-right on-bottom"><img src="../../img/pop/quote_end.png"></img></div>
+					</div>
+				</li>
+			</ul>
+		</div>
+	</div>
+	
+	<!--Afficher Informations Document-->
+	<div id="info_doc" class="popup_block">
+		<a class="close" href="#">
+			<img class="btn_close" alt="" src="../../img/icons/close_pop.png"></img>
+		</a>
+		<h1>Informations sur le document</h1>
+		<p>Voici les méta-informations du document :</p>
+		<div class="informations">
+			<div class="on-left">
+				<ul>
+					<li>Titre :</li>
+					<li>Auteur :</li>
+					<li>Date de création :</li>
+					<li>Date d'expédition :</li>
+					<li>Date limite de réponse :</li>
+					<li>Destinataires :</li>
+				</ul>
+			</div>	
+			<div class="on-right">
+				</ul>
+				<ul>
+					<li>Priorité :</li>
+					<li>Classification :</li>
+					<li>Type :</li>
+					<li>Code externe :</li>
+					<li>Groupe créateur :</li>
+					<li>Dernière modification :</li>
+				</ul>
+			</div>	
+		</div>
+	</div>
+	
+	<div id="popup_fade"></div>
+	
+	<!--POPUP FIN-->
 		
 </body>

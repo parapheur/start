@@ -1,0 +1,95 @@
+@CHARSET "UTF-8";
+
+
+/* POUR QUE LES PAGES TOURNENT  
+----------------------------------------------------------*/
+
+.page{
+        width:1152px;
+        height:752px;
+}
+.page .turn-page{
+        background-color:#ccc;
+        background-size:100% 100%;
+}
+
+#magazine{
+        width:1152px;
+        height:752px;
+}
+#magazine .turn-page{
+        background-color:#ccc;
+        background-size:100% 100%;
+}
+
+
+/* PRIMARY LAYOUT ELEMENTS   
+----------------------------------------------------------*/
+
+	body{
+		background:black;
+	}
+	
+	#sidePDFMenu{
+		color:white;
+		position:absolute;
+		top:10%;
+		left:5%;
+		
+	}
+	
+	#PDFlinkfile{
+
+		width : 80%;
+		height: 80%;
+		position:absolute;
+		top:10%;
+		left: 10%;
+	}
+	
+	#bottomPDFMenu{
+		
+		position:absolute;
+		bottom:2%;
+		left:10%;
+	}
+
+	#zoomIcone{
+		margin-left:270px;
+	}
+	
+	#dezoomIcone{
+		margin-left:15px;
+	}
+	
+	#premierePageIcone{
+		margin-left:15px;
+	}
+	
+	#precedentePageIcone{
+		margin-left:15px;
+	}
+	
+	#suivantePageIcone{
+		margin-left:15px;
+	}
+	
+	#dernierePageIcone{
+		margin-left:15px;
+	}
+	
+	#pageAccueil{
+		margin-left:15px;
+	}
+	
+	#signerIcone{
+		margin-left:15px;
+	}
+		
+	#validateBtn{
+		margin-left:270px;
+	}
+	
+	#refuseBtn{
+		margin-left:15px;
+	}
