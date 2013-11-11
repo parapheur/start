@@ -10,9 +10,13 @@ class AddafileController extends Zend_Controller_Action
 
     public function indexAction()
     {
+    	//Désactive le layout
+    	$this->_helper->layout->disableLayout();
+    	$this->_helper->viewRenderer->setNoRender(true);
+    	
         //Here i will try to unclob a PDF file.
      	$table = new Application_Model_DbTable_Contenu();
-    	$i=0;
+    	
      	$rows = $table->find(6);
     	
      	$thepdf=new Zend_Pdf;
@@ -25,14 +29,28 @@ class AddafileController extends Zend_Controller_Action
 
             } else {
             	print($field_value."\n");
-            	if($i!=0){
-            		$pdf = Zend_Pdf::parse($field_value);
-            	}
-            	$i=$i+1;
+            	
             }
-
         }
      	}
+     	$pdf = Zend_Pdf::parse($field_value);
+     	//Changement des header afin d'indiquer que la page est une application PDF
+     	$this->getResponse()->setHeader('Content-type', 'application/pdf', true);
+     	$this->getResponse()->setHeader('Content-disposition','inline;filename='.$module.'_'.$m_no.'.pdf', true);
+     	
+     	$this->getResponse()->setHeader('Cache-Control: no-cache, must-revalidate');
+     	$this->getResponse()->setHeader('Content-Transfer-Encoding', 'binary', true);
+     	$this->getResponse()->setHeader('Last-Modified', date('r'));
+     	
+     	//Efface ce qui est contenue dans la balise body
+     	$this->getResponse()->clearBody();
+     	//Envoie les headers modifiés au préalable
+     	$this->getResponse()->sendHeaders();
+     	
+     	//Renvoie la chaine de caractère du PDF (donc le contenu) dans le Body
+     	 
+     	//$page1 = clone $pdf->pages[1];
+     	$this->getResponse()->setBody($pdf->render());
      	//$pdf = Zend_Pdf::parse($row[1]);
      	
      	
@@ -109,6 +127,11 @@ class AddafileController extends Zend_Controller_Action
         }
  
         $this->view->form = $form;
+    }
+    
+    public function imagickAction()
+    {
+    	
     }
 
 
