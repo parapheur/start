@@ -10,7 +10,7 @@ class AddafileController extends Zend_Controller_Action
 
     public function indexAction()
     {
-    	//Désactive le layout
+    	//Dï¿½sactive le layout
     	$this->_helper->layout->disableLayout();
     	$this->_helper->viewRenderer->setNoRender(true);
     	
@@ -44,10 +44,10 @@ class AddafileController extends Zend_Controller_Action
      	
      	//Efface ce qui est contenue dans la balise body
      	$this->getResponse()->clearBody();
-     	//Envoie les headers modifiés au préalable
+     	//Envoie les headers modifiï¿½s au prï¿½alable
      	$this->getResponse()->sendHeaders();
      	
-     	//Renvoie la chaine de caractère du PDF (donc le contenu) dans le Body
+     	//Renvoie la chaine de caractï¿½re du PDF (donc le contenu) dans le Body
      	 
      	//$page1 = clone $pdf->pages[1];
      	$this->getResponse()->setBody($pdf->render());
@@ -131,7 +131,8 @@ class AddafileController extends Zend_Controller_Action
     
     public function imagickAction()
     {
-    	
+
+    	$this->_helper->layout->disableLayout();
     }
 
 

@@ -3,7 +3,7 @@
 
 'use strict';
 
-var kDefaultURL = 't1.pdf';
+var kDefaultURL = '../js/t1.pdf';
 //var kDefaultURL = '21.pdf';
 //var kDefaultURL = 'compressed.tracemonkey-pldi-09.pdf';
 var kDefaultScale = 'auto';
@@ -340,7 +340,7 @@ var PDFView = {
     var parameters = {password: password};
     if (typeof url === 'string') { // URL
       this.url = url;
-      document.title = decodeURIComponent(getFileName(url)) || url;
+      //document.title = decodeURIComponent(getFileName(url)) || url;
       parameters.url = url;
     } else if (url && 'byteLength' in url) { // ArrayBuffer
       parameters.data = url;

@@ -28,14 +28,15 @@
     <!-- PDFJSSCRIPT_INCLUDE_FIREFOX_EXTENSION -->
 	
 	<?php echo $this->headLink()->appendStylesheet($this->baseUrl().'/css/viewer.css')
-  ->appendStylesheet($this->baseUrl().'/css/book.css'); ?>
-  	<?php echo $this->headScript()->appendFile($this->baseUrl().'/js/turn.js')
+  								->appendStylesheet($this->baseUrl().'/css/book.css'); ?>
+  	<?php echo $this->headScript()->appendFile($this->baseUrl().'/js/jquery-1.7.1.min.js')
+  								->prependFile($this->baseUrl().'/js/turn.js')
   								->prependFile($this->baseUrl().'/js/jquery-1.9.1.js')
   								->prependFile($this->baseUrl().'/js/compatibility.js')
   								->prependFile($this->baseUrl().'/js/l10n.js')
-  								->prependFile($this->baseUrl().'/js/pdf.js')
-  								->prependFile($this->baseUrl().'/js/debugger.js')
-  								->prependFile($this->baseUrl().'/js/viewer.js');?>
+  								->appendFile($this->baseUrl().'/js/pdf.js')
+  								->appendFile($this->baseUrl().'/js/viewer.js')
+  								->prependFile($this->baseUrl().'/js/debugger.js');?>
 <!--     <link rel="stylesheet" href="viewer.css"/> -->
 <!--     <link rel="stylesheet" href="book.css"/> -->
 <!--     <link rel="resource" type="application/l10n" href="locale.html"/><!-- PDFJSSCRIPT_REMOVE_CORE -->

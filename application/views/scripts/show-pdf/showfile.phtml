@@ -5,11 +5,19 @@
   
   <?php echo $this->headLink()->appendStylesheet($this->baseUrl().'/css/reset.css')
   							  ->appendStylesheet($this->baseUrl().'/css/style.css')
-  							  ->appendStylesheet($this->baseUrl().'/css/showfileStyle.css'); ?>
- <?php echo $this->headScript()->prependFile($this->baseUrl().'/js/turn.js')
+  							  ->appendStylesheet($this->baseUrl().'/css/showfileStyle.css')
+							  ->appendStylesheet($this->baseUrl().'/css/viewer.css')
+							  ->appendStylesheet($this->baseUrl().'/css/book.css'); ?>
+ <?php echo $this->headScript()->appendFile($this->baseUrl().'/js/turn.js')
  							->prependFile($this->baseUrl().'/js/turn.min.js')
  							->prependFile($this->baseUrl().'/js/custom.js')
- 							->prependFile($this->baseUrl().'/js/jquery-1.9.1.js');?>
+ 							->prependFile($this->baseUrl().'/js/jquery-1.9.1.js')
+ 							->prependFile($this->baseUrl().'/js/compatibility.js')
+  							->prependFile($this->baseUrl().'/js/l10n.js')
+  							->appendFile($this->baseUrl().'/js/pdf.js')
+  							->appendFile($this->baseUrl().'/js/debugger.js')
+  							->appendFile($this->baseUrl().'/js/viewer.js');;?>
+ 							
 
 <body>
 
