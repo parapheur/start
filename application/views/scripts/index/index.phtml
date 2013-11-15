@@ -1,22 +1,22 @@
-			<div class="box clearfix">
-				<div class="on-left">
-					<h1><?php echo $this->courrierRows; ?> documents à valider</h1>
-					<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus tincidunt 
-					non diam eu consequat.</p>
-				</div>
-				<input class="blue-button on-right" type="button" value="Transférer" />
-			</div>
+ 			<div class="box clearfix"> 
+ 				<div class="on-left">
+					<h1><?php echo $this->number_doc; ?> documents à valider</h1>
+ 					<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus tincidunt  
+ 					non diam eu consequat.</p> 
+ 				</div> 
+ 				<input class="blue-button on-right" type="button" value="Transférer" /> 
+ 			</div> 
 			
-			<div id="index">
+ 			<div id="index"> 
 			<?php foreach($this->courrier as $courrier) : ?>
-				<ul class="index-row">
-					<li>
-						<a href="" class="preview">
-							<img src="img/icons/ico_pdf.png" alt="" />
-						</a>
+ 				<ul class="index-row"> 
+ 					<li> 
+ 						<a href="" class="preview"> 
+ 							<img src="img/icons/ico_pdf.png" alt="" /> 
+ 						</a> 
 						<a><?php echo $this->escape($courrier->OBJET);?></a>
 						<p>Créé le : <?php echo $this->escape($courrier->DATECREATION);?></p>
-					</li>
-				</ul>
+ 					</li> 
+ 				</ul> 
 				<?php endforeach; ?>
-			</div>
+ 			</div> 
