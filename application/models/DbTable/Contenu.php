@@ -22,6 +22,8 @@ class Application_Model_DbTable_Contenu extends Zend_Db_Table_Abstract
     	}
     	return $row->toArray();
     }
+    
+
 
     public function ajouterContenu($id_fichier, $contenu)
     {

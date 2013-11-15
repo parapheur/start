@@ -10,6 +10,7 @@ class ShowPdfController extends Zend_Controller_Action
 
     public function indexAction()
     {
+	
     	 	$this->_helper->layout->disableLayout();
     		$this->_helper->viewRenderer->setNoRender(true);
     	
@@ -51,9 +52,8 @@ class ShowPdfController extends Zend_Controller_Action
     
     public function showfileAction()
     {
-    	
     	$this->_helper->layout->disableLayout();
-    	
+		
     }
     
     public function showmetaAction()
@@ -65,6 +65,11 @@ class ShowPdfController extends Zend_Controller_Action
 
     }
      
+    public function signpdfAction(){
+    	
+		//$canvasPath = '';
+		//$this->view->assign('canvasURL', $canvasPath);
+    }
     public function viewmetaAction()
     {
     	$fileName = '..\docs\debuter-avec-zend-framework.pdf';

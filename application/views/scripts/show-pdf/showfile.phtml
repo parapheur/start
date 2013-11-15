@@ -1,6 +1,4 @@
  <script type="text/javascript" src="http://code.jquery.com/jquery-1.7.1.min.js"></script>
- 
-
   <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
   
   <?php echo $this->headLink()->appendStylesheet($this->baseUrl().'/css/reset.css')
@@ -16,7 +14,7 @@
   							->prependFile($this->baseUrl().'/js/l10n.js')
   							->appendFile($this->baseUrl().'/js/pdf.js')
   							->appendFile($this->baseUrl().'/js/debugger.js')
-  							->appendFile($this->baseUrl().'/js/viewer.js');;?>
+  							->appendFile($this->baseUrl().'/js/viewer.js');?>
  							
 
 <body>
@@ -38,26 +36,15 @@
 		            <!-- Creating an object that will contain -->
 		            <object data="<?php 
 			            //Link to the controller displaying the PDF as a PDF application
-		            	echo $this->url(
-							            array(
-		            							'controller' => 'ShowPdf',
+		            	echo $this->url(array('controller' => 'ShowPdf',
 		            							'action'=>'index'),
-		            							'default',
-		            			true) ?>"
-		             type="application/pdf" id="pdfApp" width="100%" height="100%">
+		            							'default',true) ?>" type="application/pdf" id="pdfApp" width="100%" height="100%">
 		 
 								  <p>It appears you don't have a PDF plugin for this browser.
-								  No biggie... you can <a href="<?php echo $this->url(
-						            array(
-						            		'controller' => 'ShowPdf',
-						            		'action'=>'index'),
-						            'default',
-						            true) ?>">click here to
+								  No biggie... you can <a href="<?php echo $this->url(array('controller' => 'ShowPdf','action'=>'index'),'default',true) ?>">click here to
 								  download the PDF file.</a></p>
 		  
 					</object>
-					
-        
 		</div>
 		
 		<div id="bottomPDFMenu">
@@ -75,8 +62,8 @@
 		<a href="<?php 	echo $this->url(array('controller' => 'Index',
 					            		'action'=>'index'),
 					            		'default', true) ?>" id="pageAccueil"><img src='../../../img/icons/ico_home.png' alt='icone page accueil image'/></a>
-		<a href="<?php 	echo $this->url(array('controller' => 'SignPdf',
-					            		'action'=>'index'),
+		<a href="<?php 	echo $this->url(array('controller' => 'ShowPdf',
+					            		'action'=>'signpdf'),
 					            		'default', true) ?>" id="SignerIcone"><img src='../../../img/icons/ico_sign.png' alt='icone signer image'/></a>
 		
 		<!--Liens vers les popup : valider et refuser le document -->
@@ -88,7 +75,7 @@
 <script type="text/javascript">
 
         $(window).ready(function() {
-                $('.page').turn({
+                $('#viewer').turn({
                                                         display: 'double',
                                                         acceleration: true,
                                                         gradients: !$.isTouch,
@@ -105,9 +92,9 @@
         $(window).bind('keydown', function(e){
                 
                 if (e.keyCode==37)
-                        $('.page').turn('previous');
+                        $('#viewer').turn('previous');
                 else if (e.keyCode==39)
-                        $('.page').turn('next');
+                        $('#viewer').turn('next');
                         
         });
 

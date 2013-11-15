@@ -17,9 +17,9 @@ class AddafileController extends Zend_Controller_Action
         //Here i will try to unclob a PDF file.
      	$table = new Application_Model_DbTable_Contenu();
     	
-     	$rows = $table->find(6);
+     	$rows = $table->find(21);
     	
-     	$thepdf=new Zend_Pdf;
+     	$thepdf=new Zend_Pdf();
      	foreach($rows as $row){
      	foreach ($row AS $field_name => $field_value)
         {
@@ -34,6 +34,8 @@ class AddafileController extends Zend_Controller_Action
         }
      	}
      	$pdf = Zend_Pdf::parse($field_value);
+		
+     	/*
      	//Changement des header afin d'indiquer que la page est une application PDF
      	$this->getResponse()->setHeader('Content-type', 'application/pdf', true);
      	$this->getResponse()->setHeader('Content-disposition','inline;filename='.$module.'_'.$m_no.'.pdf', true);
@@ -45,7 +47,7 @@ class AddafileController extends Zend_Controller_Action
      	//Efface ce qui est contenue dans la balise body
      	$this->getResponse()->clearBody();
      	//Envoie les headers modifi�s au pr�alable
-     	$this->getResponse()->sendHeaders();
+     	$this->getResponse()->sendHeaders();*/
      	
      	//Renvoie la chaine de caract�re du PDF (donc le contenu) dans le Body
      	 

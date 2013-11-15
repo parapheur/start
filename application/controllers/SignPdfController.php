@@ -11,7 +11,7 @@ class SignPDFController extends Zend_Controller_Action
     public function indexAction()
     {
         
-    	$this->_helper->layout->disableLayout();
+    	//$this->_helper->layout->disableLayout();
     	//$canvas = $this->_getParam('colors_sketch', false);
     	
     	//$download = new Zend_Form_Element_Submit('download');

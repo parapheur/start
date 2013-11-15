@@ -16,6 +16,15 @@ class IndexController extends Zend_Controller_Action
     		Zend_Debug::dump($data);
     	}
     	
+    	//Fetch data from database to list PDF files
+    	$courrier = new Application_Model_DbTable_Courrier;
+    	$courrierRows = $courrier->fetchAll();
+    	$this->view->courrier = $courrierRows;
+    	
+    	//Count how many documents we have to display in the index
+    	$rowCount = count($courrierRows);
+    	$this->view->courrierRows = $rowCount;
+    	
     }
     
     public function addfileAction()

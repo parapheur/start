@@ -7,7 +7,8 @@
 
 <br/>
 <div class="tools">
-  <a href="#colors_sketch" data-download="png" onClick='redirect();'>Download</a> 	
+<!--  data-download="png" -->
+  <a href="#colors_sketch" data-download="png" onClick='createPNGButton();'>Download</a> 	
 </div>
 
 <canvas id="colors_sketch" 	 width="1000" height="600"></canvas>
@@ -39,12 +40,40 @@
   }
 
   function createPNGButton( ) {
-	  var canvasData = testCanvas.toDataURL("image/png"); 
+	  /*var canvasData = testCanvas.toDataURL("image/png"); 
 	  var ajax = new XMLHttpRequest();
 	  ajax.open("POST",'ShowPdfController/showfile.phtml',false);
 	  ajax.setRequestHeader('Content-Type', 'application/upload');
-	  ajax.send(canvasData);
-
+	  ajax.send(canvasData);*/
+	  
+	  var canvas = document.getElementById("colors_sketch"); 
+	  var dataURL = canvas.toDataURL();
+	  
+	  // Get our file
+		/*var file= dataURLtoBlob(dataURL);
+		// Create new form data
+		var fd = new FormData();*/
+		// Append our Canvas image file to the form data
+		//fd.append("sktech", file);
+		// And send it
+		/*$.ajax({
+		   url: "showfile",
+		   type: "POST",
+		   data: fd,
+		   processData: false,
+		   contentType: false,
+		}).done(function(respond){
+		  alert(respond);
+		});
+		
+		$.ajax({
+		  type: "POST",
+		  url: "showfile.phtml",
+		  data: {image: dataURL}
+		}).done(function( respond ) {
+		 alert(respond);
+		});
+*/
 	  
 	  
 	 }
