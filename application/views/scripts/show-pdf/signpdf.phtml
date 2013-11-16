@@ -8,11 +8,11 @@
 <br/>
 <div class="tools">
 <!--  data-download="png" -->
-  <a href="#colors_sketch" data-download="png" onClick='createPNGButton();'>Download</a> 	
+  <a href="<?php echo $this->url(array('controller' => 'ShowPdf','action'=>'index'),'default',true) ?>" onClick='createPNGButton();'>Download</a> 	
 </div>
 
 <img src="" id="company_logo"/>
-<canvas id="colors_sketch" 	 width="1000" height="600"></canvas>
+<canvas id="colors_sketch" 	 width="500" height="500"></canvas>
 
 <script type="text/javascript">
   $(function() {
@@ -25,36 +25,10 @@
     $('#colors_sketch').sketch();
   });
 
-  function redirect(){
-	  var oCanvas = document.getElementById("colors_sketch"); 
-	  Canvas2Image.saveAsPNG(oCanvas);  
-	  document.location.href="<?php 
-			//Link to the controller displaying the PDF meta informations
-			echo $this->url(
-          	array(
-          		'controller' => 'ShowPdf',
-          		'action'=>'showfile'),
-          		'default',
-          true) 
-			?>";
-			
-  }
-
   function createPNGButton( ) {
-	  /*var canvasData = testCanvas.toDataURL("image/png"); 
-	  var ajax = new XMLHttpRequest();
-	  ajax.open("POST",'ShowPdfController/showfile.phtml',false);
-	  ajax.setRequestHeader('Content-Type', 'application/upload');
-	  ajax.send(canvasData);*/
-	  
+
 	  var canvas = document.getElementById("colors_sketch"); 
-	  //var dataURL = canvas.toDataURL();
-      //canvas.width = img.width;
-      //canvas.height = img.height;
-      //var ctx = canvas.getContext("2d");
-      //ctx.drawImage(img,0,0);
       var strdata = canvas.toDataURL("image/png");
-    //document.getElementById("company_logo").src=strdata;
 
     $.ajax({
 	 type: "POST",                                                  
@@ -63,37 +37,8 @@
 	  success: function(arrResult) {
 			//do something
 			alert("success");
-		
 		  }
-		});
-	  
-	  // Get our file
-		/*var file= dataURLtoBlob(dataURL);
-		// Create new form data
-		var fd = new FormData();*/
-		// Append our Canvas image file to the form data
-		//fd.append("sktech", file);
-		// And send it
-		/*$.ajax({
-		   url: "showfile",
-		   type: "POST",
-		   data: fd,
-		   processData: false,
-		   contentType: false,
-		}).done(function(respond){
-		  alert(respond);
-		});
-		
-		$.ajax({
-		  type: "POST",
-		  url: "showfile.phtml",
-		  data: {image: dataURL}
-		}).done(function( respond ) {
-		 alert(respond);
-		});
-*/
-	  
-	  
+		});	  
 	 }
 
   

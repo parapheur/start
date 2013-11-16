@@ -10,26 +10,9 @@ class ShowPdfController extends Zend_Controller_Action
 
     public function indexAction()
     {
-	
+    	$this->_helper->layout->disableLayout();
+    	$this->_helper->viewRenderer->setNoRender(true);    	
 
-    	if ($this->getRequest()->isXmlHttpRequest()) {
-	       if ($this->getRequest()->isPost()) {
-	    		$file = trim($objRequest->getParam('data'));
-	    	
-	    		$strEncodedData = str_replace(' ', '+', $file);
-	    		$strFilteredData = explode(',', $strEncodedData);
-	    		$strUnencoded = base64_decode($strFilteredData[1]);
-	    	
-	    		//$this->view->canvas = $strUnencoded;
-	    		file_put_contents('../public/image.png', $strUnencoded);
-    		}
-    	}
-    	
-    	
-    	 	$this->_helper->layout->disableLayout();
-    		$this->_helper->viewRenderer->setNoRender(true);
-    	
-    		
 		$fileName = '..\docs\debuter-avec-zend-framework.pdf';
 		//$fileName = 'C:\Users\Hina\Desktop\LettreMotivation_PassageJury_4A5A_HinaTufail.pdf';
 		
@@ -43,17 +26,37 @@ class ShowPdfController extends Zend_Controller_Action
     	// (la page est attachée au document)
     	$pdf->pages[] = ($page1 = $pdf->newPage('A4'));
     	// Dessine un rectangle
-    	$page1->setFillColor(new Zend_Pdf_Color_GrayScale(0.8))
+    	/*$page1->setFillColor(new Zend_Pdf_Color_GrayScale(0.8))
     	->setLineColor(new Zend_Pdf_Color_GrayScale(0.2))
     	->setLineDashingPattern(array(3, 2, 3, 4), 1.6)
     	->drawRectangle(60, 400, 400, 350)
-    	->clipRectangle(60, 400, 400, 350);
-    	
+    	->clipRectangle(60, 400, 400, 350);*/
+
     	//$image = Zend_Pdf_Image::imageWithPath('mon_image.jpg');
  		//$page1->drawImage($image, 100, 100, 400, 300);
+ 		
+
+		//--------------ADD SIGNATURE-------------------------
+    	//if ($this->getRequest()->isXmlHttpRequest()) {
+    	if ($this->getRequest()->isPost()) {
+    		$file = trim($this->getRequest()->getParam('data'));
+    		 
+    		$strEncodedData = str_replace(' ', '+', $file);
+    		$strFilteredData = explode(',', $strEncodedData);
+    		$strUnencoded = base64_decode($strFilteredData[1]);
+    		 
+    		$filename = '../public/img/test.png';
+    		file_put_contents($filename, $strUnencoded);
+
+    	}
+    	//}
+
+    	$image = Zend_Pdf_Image::imageWithPath('../public/img/test.png');
+    	$page1->drawImage($image, 100, 100, 400, 300);
     	
+    	//------------SET AND SEND HEADERS------------------------------
     	$this->getResponse()->setHeader('Content-type', 'application/pdf', true);
-    	$this->getResponse()->setHeader('Content-disposition','inline;filename='.$module.'_'.$m_no.'.pdf', true);
+    	//$this->getResponse()->setHeader('Content-disposition','inline;filename='.$module.'_'.$m_no.'.pdf', true);
     	
     	$this->getResponse()->setHeader('Cache-Control: no-cache, must-revalidate');
     	$this->getResponse()->setHeader('Content-Transfer-Encoding', 'binary', true);
@@ -62,6 +65,7 @@ class ShowPdfController extends Zend_Controller_Action
     	$this->getResponse()->clearBody();
     	$this->getResponse()->sendHeaders();
 
+    	//------------SET BODY OF VIEW AS PDF------------------------------
     	$this->getResponse()->setBody($pdf->render());
     	
     }
@@ -69,7 +73,8 @@ class ShowPdfController extends Zend_Controller_Action
     public function showfileAction()
     {
     	$this->_helper->layout->disableLayout();   	
-		
+
+    	
     }
     
     public function showmetaAction()
