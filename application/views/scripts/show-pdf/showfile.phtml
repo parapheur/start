@@ -1,26 +1,16 @@
- <script type="text/javascript" src="http://code.jquery.com/jquery-1.7.1.min.js"></script>
-  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-  
-  <?php echo $this->headLink()->appendStylesheet($this->baseUrl().'/css/reset.css')
+<script type="text/javascript" src="http://code.jquery.com/jquery-1.7.1.min.js"></script>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+ <?php echo $this->headLink()->appendStylesheet($this->baseUrl().'/css/reset.css')
   							  ->appendStylesheet($this->baseUrl().'/css/style.css')
   							  ->appendStylesheet($this->baseUrl().'/css/showfileStyle.css')
 							  ->appendStylesheet($this->baseUrl().'/css/viewer.css')
 							  ->appendStylesheet($this->baseUrl().'/css/book.css'); ?>
- <?php echo $this->headScript()->appendFile($this->baseUrl().'/js/turn.js')
- 							->prependFile($this->baseUrl().'/js/turn.min.js')
- 							->prependFile($this->baseUrl().'/js/custom.js')
- 							->prependFile($this->baseUrl().'/js/jquery-1.9.1.js')
- 							->prependFile($this->baseUrl().'/js/compatibility.js')
-  							->prependFile($this->baseUrl().'/js/l10n.js')
-  							->appendFile($this->baseUrl().'/js/pdf.js')
-  							->appendFile($this->baseUrl().'/js/debugger.js')
-  							->appendFile($this->baseUrl().'/js/viewer.js');?>
- 							
-
+<?php echo $this->headScript()->appendFile($this->baseUrl().'/js/custom.js')
+ 							->prependFile($this->baseUrl().'/js/jquery-1.9.1.js');?>	
 <body>
 
-		<div id="sidePDFMenu">
 		<!-- Side menu : displays info, print, export icons -->
+		<div id="sidePDFMenu">
 			<!-- Meta info icon -->
 		    <br/><br/><a href="#" data-width="720" data-rel="info_doc" class="poplight"><img src='../../../img/icons/ico_meta.png' alt='icone info image'/></a>
 		    <!-- Print icon -->
@@ -31,23 +21,17 @@
 			<br/><br/><a href=""><img src='../../../img/icons/ico_transfertTab.png' alt='icone transférer sur tablette image'/></a>
 		</div>
 		
+		<!-- PDF link file -->
 		<div id="PDFlinkfile">
-		            <!-- Creating an object that will contain -->
-		            <object data="<?php 
-			            //Link to the controller displaying the PDF as a PDF application
-		            	echo $this->url(array('controller' => 'ShowPdf',
-		            							'action'=>'index'),
-		            							'default',true) ?>" type="application/pdf" id="pdfApp" width="100%" height="100%">
-		 
-								  <p>It appears you don't have a PDF plugin for this browser.
-								  No biggie... you can <a href="<?php echo $this->url(array('controller' => 'ShowPdf','action'=>'index'),'default',true) ?>">click here to
-								  download the PDF file.</a></p>
-		  
+		            <object data="<?php echo $this->url(array('controller' => 'ShowPdf','action'=>'index'),'default',true) ?>" type="application/pdf" id="pdfApp" width="100%" height="100%">
+								  <p>Il semblerait que vous n'ayez pas de plugin PDF pour ce navigateur
+								  Pas de problèmes...vous pouvez <a href="<?php echo $this->url(array('controller' => 'ShowPdf','action'=>'index'),'default',true) ?>">cliquer ici pour
+								  télécharger le fichier PDF.</a></p>
 					</object>
 		</div>
 		
+		<!-- Bottom menu : comment, zoom, dezoom, first, last, previous, next pages, validate and refuse icons -->
 		<div id="bottomPDFMenu">
-		
 		<a href="#" data-width="720" data-rel="comment_doc" class="poplight"><img src='../../../img/icons/ico_com.png' alt='icone ajout de commentaire image'/></a>
 		
 		<a href="" id="zoomIcone"><img src='../../../img/icons/ico_plus.png' alt='icone zoom + image'/></a>
@@ -71,138 +55,22 @@
 
 		</div>
 		
-<script type="text/javascript">
-
-        $(window).ready(function() {
-                $('#viewer').turn({
-                                                        display: 'double',
-                                                        acceleration: true,
-                                                        gradients: !$.isTouch,
-                                                        elevation:50,
-                                                        when: {
-                                                                turned: function(e, page) {
-                                                                        /*console.log('Current view: ', $(this).turn('view'));*/
-                                                                }
-                                                        }
-                                                });
-        });
-        
-        
-        $(window).bind('keydown', function(e){
-                
-                if (e.keyCode==37)
-                        $('#viewer').turn('previous');
-                else if (e.keyCode==39)
-                        $('#viewer').turn('next');
-                        
-        });
-
-</script>
-		
 <!--POPUP DEBUT-->
 	
-	<!--Valider Document-->
-	<div id="validate_doc" class="popup_block">
-		<a class="close" href="#">
-			<img class="btn_close" alt="" src="../../img/icons/close_pop.png"></img>
-		</a>
-		<h1>Valider le document</h1>
-		<p>Pour envoyer le document dans le workflow, cliquez sur le bouton valider. Une fois validé, le document ne pourra plus 				être modifié.</p>
-		<a href="#"><input class="green-button on-right" type="button" value="Valider" /></a>
-	</div>
+	<!--Validate Document-->
+	<?php include ('validatePopup.phtml'); ?>
 	
-	<!--Refuser Document-->
-	<div id="refuse_doc" class="popup_block">
-		<a class="close" href="#">
-			<img class="btn_close" alt="" src="../../img/icons/close_pop.png"></img>
-		</a>
-		<h1>Refuser le document</h1>
-		<p>Si vous souhaitez retourner le document à son destinataire, cliquez sur le bouton refuser.</p>
-		<div class="popup_message on-left"><h2>Message</h2></div>
-		<textarea  class=" on-right"></textarea>
-		<a href="#"><input class="red-button on-right" type="button" value="Refuser" /></a>
-	</div>
+	<!--Refuse Document-->
+	<?php include('refusePopup.phtml')?>
 	
-	<!--Commenter Document-->
-	<div id="comment_doc" class="popup_block">
-		<a class="close" href="#">
-			<img class="btn_close" alt="" src="../../img/icons/close_pop.png"></img>
-		</a>
-		<h1>Commentaires</h1>
-		<div class="write_comment">
-			<select>
-				<option>Projet</option>
-				<option>Document</option>
-			</select>
-			<textarea  class="on-right"></textarea>
-			<a href="#"><input class="blue-button on-right" type="button" value="Commenter" /></a>
-		</div>
-		<div class="all_comments">
-			<ul>
-				<li>
-					<div>
-						<div class="author on-left">Auteur</div>
-						<div class="on-left">&nbsp•&nbsp</div>
-						<div class="on-left">date</div>
-					</div></br>	
-					<div class="comment-inner">
-						<div class="quote on-left"><img src="../../img/pop/quote_start.png"></img></div>
-						<div class="comment">Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
-						</div>
-						<div class="quote on-right on-bottom"><img src="../../img/pop/quote_end.png"></img></div>
-					</div>
-				</li>
-				<li>
-					<div>
-						<div class="author on-left">Auteur</div>
-						<div class="on-left">&nbsp•&nbsp</div>
-						<div class="on-left">date</div>
-					</div></br>	
-					<div class="comment-inner">
-						<div class="quote on-left"><img src="../../img/pop/quote_start.png"></img></div>
-						<div class="comment">Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
-						</div>
-						<div class="quote on-right on-bottom"><img src="../../img/pop/quote_end.png"></img></div>
-					</div>
-				</li>
-			</ul>
-		</div>
-	</div>
+	<!--Comment Document-->
+	<?php include('commentPopup.phtml')?>
 	
-	<!--Afficher Informations Document-->
-	<div id="info_doc" class="popup_block">
-		<a class="close" href="#">
-			<img class="btn_close" alt="" src="../../img/icons/close_pop.png"></img>
-		</a>
-		<h1>Informations sur le document</h1>
-		<p>Voici les méta-informations du document :</p>
-		<div class="informations">
-			<div class="on-left">
-				<ul>
-					<li>Titre :</li>
-					<li>Auteur :</li>
-					<li>Date de création :</li>
-					<li>Date d'expédition :</li>
-					<li>Date limite de réponse :</li>
-					<li>Destinataires :</li>
-				</ul>
-			</div>	
-			<div class="on-right">
-				</ul>
-				<ul>
-					<li>Priorité :</li>
-					<li>Classification :</li>
-					<li>Type :</li>
-					<li>Code externe :</li>
-					<li>Groupe créateur :</li>
-					<li>Dernière modification :</li>
-				</ul>
-			</div>	
-		</div>
-	</div>
+	<!--Display Document Informations-->
+	<?php include('metainfoPopup.phtml')?>
 	
 	<div id="popup_fade"></div>
 	
-	<!--POPUP FIN-->
+<!--POPUP FIN-->
 		
 </body>

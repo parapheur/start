@@ -5,7 +5,7 @@ class Application_Form_Addafile extends Zend_Form
 
     public function init()
     {
-		// La méthode HTTP d'envoi du formulaire
+		// HTTP method of sending form : Post
     	$this->setAttrib('enctype', 'multipart/form-data');
     	$this->setMethod('post');
  
