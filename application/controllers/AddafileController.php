@@ -10,34 +10,34 @@ class AddafileController extends Zend_Controller_Action
 
     public function indexAction()
     {
-    	//D�sactive le layout
+    	$id=2;
+    	//Désactiver le layout
     	$this->_helper->layout->disableLayout();
     	$this->_helper->viewRenderer->setNoRender(true);
     	
         //Here i will try to unclob a PDF file.
      	$table = new Application_Model_DbTable_Contenu();
+     	$rows = $table->obtenirPdf($id);
     	
-     	$rows = $table->find(21);
-    	
-     	$thepdf=new Zend_Pdf();
+     	//$thepdf=new Zend_Pdf();
      	foreach($rows as $row){
-     	foreach ($row AS $field_name => $field_value)
-        {
+     	//foreach ($row AS $field_name => $field_value)
+        //{
 
-            if (  is_resource($field_value)  ) {
-				print(fread($field_value, 1000000)."\n");
+            if (is_resource($row)  ) {
+				print(fread($row, 1000000)."\n");
 
             } else {
-            	print($field_value."\n");
+            	print($row."\n");
             	
             }
-        }
+        //}
      	}
-     	$pdf = Zend_Pdf::parse($field_value);
+     	$pdf = Zend_Pdf::parse($row);
 		
-     	/*
+     	
      	//Changement des header afin d'indiquer que la page est une application PDF
-     	$this->getResponse()->setHeader('Content-type', 'application/pdf', true);
+     	/*$this->getResponse()->setHeader('Content-type', 'application/pdf', true);
      	$this->getResponse()->setHeader('Content-disposition','inline;filename='.$module.'_'.$m_no.'.pdf', true);
      	
      	$this->getResponse()->setHeader('Cache-Control: no-cache, must-revalidate');

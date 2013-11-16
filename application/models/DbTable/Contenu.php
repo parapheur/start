@@ -23,7 +23,22 @@ class Application_Model_DbTable_Contenu extends Zend_Db_Table_Abstract
     	return $row->toArray();
     }
     
-
+	public function obtenirPdf($id){
+		//get id
+		$id = (int)$id;
+		
+		//get row by id
+		$row = $this->fetchRow('ID_FICHIER = ' . $id);
+		
+		//$row = $this->find($id);
+		
+		if (!$row) {
+			throw new Exception("Impossible de trouver l'enregistrement $id");
+		}
+		
+		//return $row['CONTENT']->load();
+		return $row->toArray();
+	}
 
     public function ajouterContenu($id_fichier, $contenu)
     {

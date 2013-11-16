@@ -11,9 +11,25 @@ class ShowPdfController extends Zend_Controller_Action
     public function indexAction()
     {
 	
+
+    	//if ($this->getRequest()->isXmlHttpRequest()) {
+	      //  if ($this->getRequest()->isPost()) {
+	    		$file = trim($objRequest->getParam('data'));
+	    	
+	    		$strEncodedData = str_replace(' ', '+', $file);
+	    		$strFilteredData = explode(',', $strEncodedData);
+	    		$strUnencoded = base64_decode($strFilteredData[1]);
+	    	
+	    		//$this->view->canvas = $strUnencoded;
+	    		file_put_contents('../public/image.png', $strUnencoded);
+    		//}
+    	//}
+    	
+    	
     	 	$this->_helper->layout->disableLayout();
     		$this->_helper->viewRenderer->setNoRender(true);
     	
+    		
 		$fileName = '..\docs\debuter-avec-zend-framework.pdf';
 		//$fileName = 'C:\Users\Hina\Desktop\LettreMotivation_PassageJury_4A5A_HinaTufail.pdf';
 		
@@ -52,7 +68,7 @@ class ShowPdfController extends Zend_Controller_Action
     
     public function showfileAction()
     {
-    	$this->_helper->layout->disableLayout();
+    	$this->_helper->layout->disableLayout();   	
 		
     }
     
