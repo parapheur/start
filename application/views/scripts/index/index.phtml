@@ -1,4 +1,4 @@
- 			<div class="box clearfix"> 
+ 			 <div class="box clearfix"> 
  				<div class="on-left">
 					<h1><?php echo $this->number_doc; ?> documents à valider</h1>
  					<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus tincidunt  
@@ -6,17 +6,34 @@
  				</div> 
  				<input class="blue-button on-right" type="button" value="Transférer" /> 
  			</div> 
-			
+			<?php $i=0;?>
  			<div id="index"> 
-			<?php foreach($this->courrier as $courrier) : ?>
+			<?php foreach($this->id_document as $id_document) : ?>
  				<ul class="index-row"> 
  					<li> 
- 						<a href="" class="preview"> 
+ 						<a class="preview" href="<?php 
+							echo $this->url(
+				            	array(
+				            		'controller' => 'showPdf',
+				            		'action'=>'showfile',
+									'COURRIER_ID'=>$this->id_document[$i]),
+				            		'default',
+				            true) 
+						?>"> 
  							<img src="img/icons/ico_pdf.png" alt="" /> 
- 						</a> 
-						<a><?php echo $this->escape($courrier->OBJET);?></a>
-						<p>Créé le : <?php echo $this->escape($courrier->DATECREATION);?></p>
+ 						</a>
+						 <a href="<?php 
+							echo $this->url(
+				            	array(
+				            		'controller' => 'showPdf',
+				            		'action'=>'showfile',
+									'COURRIER_ID'=>$this->id_document[$i]),
+				            		'default',
+				            true) 
+						?>"> <?php echo $this->titre[$i];?></a>
+						<p>Créé le : <?php echo $this->date[$i]; $i++;?></p>
  					</li> 
  				</ul> 
 				<?php endforeach; ?>
- 			</div> 
+ 			</div>
+						
