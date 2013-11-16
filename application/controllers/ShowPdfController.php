@@ -52,7 +52,7 @@ class ShowPdfController extends Zend_Controller_Action
     	//}
 
     	$image = Zend_Pdf_Image::imageWithPath('../public/img/test.png');
-    	$page1->drawImage($image, 100, 100, 400, 300);
+    	$page1->drawImage($image, 100, 100, 400, 350);
     	
     	//------------SET AND SEND HEADERS------------------------------
     	$this->getResponse()->setHeader('Content-type', 'application/pdf', true);
