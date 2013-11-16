@@ -12,8 +12,8 @@ class ShowPdfController extends Zend_Controller_Action
     {
 	
 
-    	//if ($this->getRequest()->isXmlHttpRequest()) {
-	      //  if ($this->getRequest()->isPost()) {
+    	if ($this->getRequest()->isXmlHttpRequest()) {
+	       if ($this->getRequest()->isPost()) {
 	    		$file = trim($objRequest->getParam('data'));
 	    	
 	    		$strEncodedData = str_replace(' ', '+', $file);
@@ -22,8 +22,8 @@ class ShowPdfController extends Zend_Controller_Action
 	    	
 	    		//$this->view->canvas = $strUnencoded;
 	    		file_put_contents('../public/image.png', $strUnencoded);
-    		//}
-    	//}
+    		}
+    	}
     	
     	
     	 	$this->_helper->layout->disableLayout();
