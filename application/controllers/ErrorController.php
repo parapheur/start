@@ -1,8 +1,21 @@
 <?php
 
+/*
+ * File : ErrorController.php
+* Author : 
+* Created : 
+* Modified : 
+* 1.1 : 
+*
+* Controller that controls views for errors
+*
+* Projet parapheur 2014
+*/
+
 class ErrorController extends Zend_Controller_Action
 {
 
+	//Action that handles errors events
     public function errorAction()
     {
         $errors = $this->_getParam('error_handler');
@@ -43,6 +56,7 @@ class ErrorController extends Zend_Controller_Action
         $this->view->request   = $errors->request;
     }
 
+    //Action that gets logs
     public function getLog()
     {
         $bootstrap = $this->getInvokeArg('bootstrap');

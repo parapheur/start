@@ -1,4 +1,12 @@
 <?php
+		/*
+		 * File : showfile.php
+		* Created : 19/10/2013
+		* 1.1 :  Clément Mouraud - creation-modification
+		*
+		*
+		* Projet parapheur 2014
+		*/
 
 class Bootstrap extends Zend_Application_Bootstrap_Bootstrap
 {

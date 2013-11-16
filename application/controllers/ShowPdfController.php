@@ -1,5 +1,25 @@
 <?php
 
+/*
+ * File : ShowPdfController.php
+* Author : Hina Tufail
+* Created : 19/10/2013
+* Modified : 16/11/2013
+* 1.1 :  Hina Tufail - creation
+* 1.2 : Mathilde de l'Hermuzière - modification
+* 1.3 : Hina Tufail - modification
+* 1.4 : Clément Mouraud - modification
+* 1.5 : Mathilde de l'Hermuzière - modification
+* 1.6 : Hina Tufail - modification
+* 1.7 : Clément Mouraud - modification
+* 1.8 : Hina Tufail - modification
+* 1.9 : Hina Tufail - modification
+*
+* Controller that controls views for doing action on a PDF document
+*
+* Projet parapheur 2014
+*/
+
 class ShowPdfController extends Zend_Controller_Action
 {
 
@@ -7,6 +27,7 @@ class ShowPdfController extends Zend_Controller_Action
     {
     }
 
+    //Action that displays a PDF application
     public function indexAction()
     {
     	$this->_helper->layout->disableLayout();
@@ -57,23 +78,17 @@ class ShowPdfController extends Zend_Controller_Action
     	
     }
 
+    //Action that displays the PDF app with other functionnalities such as zoom, print, comment, refuse, validate...
     public function showfileAction()
     {
+    	//Disabling the layout
     	$this->_helper->layout->disableLayout();   	
     }
 
+    //Action that helps to sign a PDF
     public function signpdfAction()
     {
     }
-
-    public function validatePopupAction()
-    {
-    }
-    
-    public function refusePopupAction()
-    {
-    }
-
 
 }
 

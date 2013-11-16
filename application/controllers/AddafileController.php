@@ -3,11 +3,12 @@
 /*
 * File : AddafileController.php
 * Author : Mathilde De l'Hermuzière
-* Created : 
-* Date de modification
-* Numéros de versions – Nom et Prénom du modificateur
-*
-* Description du fichier
+* Created : 09/11/2013
+* Modified : 16/11/2013
+* 1.1 : Mathilde de l'Hermuzière - Creation and modification for adding clob
+* 1.2 : Hina Tufail - modification
+* 
+* Controller that controls views for adding a file into database
 *
 * Projet parapheur 2014
 */
@@ -19,6 +20,7 @@ class AddafileController extends Zend_Controller_Action
     {
     }
 
+    //Test action for retrieving document into clob format from database
     public function indexAction()
     {
     	//Database connexion
@@ -56,7 +58,8 @@ class AddafileController extends Zend_Controller_Action
      	//Set the body
      	$this->getResponse()->setBody($pdf->render());
     }
-	
+
+    //Action that adds a document into clob format in the database
 	public function signAction()
     {
         $request = $this->getRequest();
@@ -129,6 +132,7 @@ class AddafileController extends Zend_Controller_Action
         $this->view->form = $form;
     }
     
+    //Test action for the flipbook - to be deleted later
     public function imagickAction()
     {    	$this->_helper->layout->disableLayout();
     }

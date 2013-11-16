@@ -1,5 +1,17 @@
 <?php
 
+/*
+ * File : Addafile.php
+* Author : Mathilde de l'Hermuzière
+* Created : 09/11/2013
+* Modified : 11/11/2013
+* 1.1 :  Mathilde de l'Hermuzière - creation and modification
+* 1.2 :  Mathilde de l'Hermuzière - modification
+* Form that permits to add a file 
+* 
+* Projet parapheur 2014
+*/
+
 class Application_Form_Addafile extends Zend_Form
 {
 

@@ -1,5 +1,20 @@
 <?php
 
+/*
+ * File : IndexController.php
+* Author : Hina Tufail
+* Created : 19/10/2013
+* Modified : 16/11/2013
+* 1.1 :  Hina Tufail - creation
+* 1.2 : Mathilde de l'Hermuzière - modification
+* 1.3 : Hina Tufail - modification
+* 1.4 : Mathilde de l'Hermuzière - modification
+*
+* Controller that controls views for the main page
+*
+* Projet parapheur 2014
+*/
+
 class IndexController extends Zend_Controller_Action
 {
 
@@ -7,6 +22,7 @@ class IndexController extends Zend_Controller_Action
     {
     }
 
+    //Action that will display index for documents present in database
     public function indexAction()
     {
     	//As we do not have Active Directory, we assume that our user ID is 6
