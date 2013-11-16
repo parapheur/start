@@ -42,7 +42,7 @@ class Application_Model_DbTable_Contenu extends Zend_Db_Table_Abstract
 
     public function ajouterContenu($id_fichier, $contenu)
     {
-    	$sql = "INSERT INTO CONTENU(ID_FICHIER,CONTENU) VALUES ($id_fichier, EMPTY_CLOB())
+	    $sql = "INSERT INTO CONTENU(ID_FICHIER,CONTENU) VALUES ($id_fichier, EMPTY_CLOB())
         RETURNING CONTENU INTO :CONTENU_loc";
     	$conn = oci_connect("DBA_PARAPHEUR","12345678","XE");
     	$stmt = oci_parse($conn, $sql);
@@ -68,4 +68,3 @@ class Application_Model_DbTable_Contenu extends Zend_Db_Table_Abstract
     	}
     }
 }
-

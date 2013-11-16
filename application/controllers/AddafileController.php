@@ -6,35 +6,77 @@ class AddafileController extends Zend_Controller_Action
     public function init()
     {
         /* Initialize action controller here */
+    	
     }
 
     public function indexAction()
     {
-    	$id=2;
-    	//Désactiver le layout
-    	$this->_helper->layout->disableLayout();
-    	$this->_helper->viewRenderer->setNoRender(true);
+    	$id = '63';
+    	$conn = oci_connect('DBA_PARAPHEUR', '12345678', 'XE');
+    	if (!$conn){
+    		echo 'Connection error.';
+    	}
+    	$sql = 'SELECT * FROM CONTENU WHERE ID_FICHIER=:id';
+    	$stid = oci_parse($conn, $sql);
+    	oci_bind_by_name($stid, ":id", $id);
+    	$result = oci_execute($stid);
+    	if($result !== false){
+	    	while($row = oci_fetch_assoc($stid)){
+	            echo $row['CONTENU']->load();
+	            //or
+	            echo $row['CONTENU']->read(2000);
+	        }
+    	}
     	
-        //Here i will try to unclob a PDF file.
-     	$table = new Application_Model_DbTable_Contenu();
-     	$rows = $table->obtenirPdf($id);
+//     	$id=66;
+//     	//Désactiver le layout
+//     	$this->_helper->layout->disableLayout();
+//     	$this->_helper->viewRenderer->setNoRender(true);
     	
-     	//$thepdf=new Zend_Pdf();
-     	foreach($rows as $row){
-     	//foreach ($row AS $field_name => $field_value)
-        //{
+    	
+//         //Here i will try to unclob a PDF file.
+//      	$table = new Application_Model_DbTable_Contenu();
+//      	$rows = $table->obtenirPdf($id);
+    	
+//      	//$thepdf=new Zend_Pdf();
+//      	foreach($rows as $row){
+//      	//foreach ($row AS $field_name => $field_value)
+//         //{
 
-            if (is_resource($row)  ) {
-				print(fread($row, 1000000)."\n");
+//             if (is_resource($row)  ) {
+// 				print(fread($row, 1000000)."\n");
+				
 
-            } else {
-            	print($row."\n");
+//             } else {
+//             //	print($row."\n");
             	
-            }
-        //}
-     	}
-     	$pdf = Zend_Pdf::parse($row);
-		
+//             }
+//         //}
+//      	}
+//      	//$pdf = Zend_Pdf::load(realpath(APPLICATION_PATH . '/data/a.pdf'));
+//      	//$pdf->render();
+//      	$pdf = Zend_Pdf::parse($row);
+     	//$pdf->save(APPLICATION_PATH. '/data/test-pdf.pdf');
+     	
+//      	// Set headers
+//      	header('Content-Type: application/pdf');
+//      	header('Content-Disposition: inline; filename=filename.pdf');
+//      	header('Cache-Control: private, max-age=0, must-revalidate');
+//      	header('Pragma: public');
+//      	ini_set('zlib.output_compression','0');
+     	
+//      	// Get File Contents and echo to output
+//      	echo file_get_contents($pdf);
+     	
+//      	// Prevent anything else from being outputted
+//      	die();
+     	// Set PDF headers
+     	//header ('Content-Type:', 'application/pdf');
+     	//header ('Content-Disposition:', 'inline;');
+     	
+     	// Output pdf
+     	//echo $pdf->render();
+     	
      	
      	//Changement des header afin d'indiquer que la page est une application PDF
      	/*$this->getResponse()->setHeader('Content-type', 'application/pdf', true);
@@ -52,7 +94,7 @@ class AddafileController extends Zend_Controller_Action
      	//Renvoie la chaine de caract�re du PDF (donc le contenu) dans le Body
      	 
      	//$page1 = clone $pdf->pages[1];
-     	$this->getResponse()->setBody($pdf->render());
+     	//$this->getResponse()->setBody($pdf->render());
      	//$pdf = Zend_Pdf::parse($row[1]);
      	
      	
