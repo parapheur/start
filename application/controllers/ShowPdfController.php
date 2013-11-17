@@ -148,61 +148,65 @@ class ShowPdfController extends Zend_Controller_Action
 // 	    	echo $this->url(array('controller' => 'index',
 // 	    					      'action'=>'index'),
 // 	    			              'default',true);
-// 	    }
-	//----------------------------------------------------------------------
-	// COMMENT POPUP
-	// Form of a comment ---------------------------------------------------
-  	$request = $this->getRequest();
-  	$form = new Application_Form_Comment();
-  	
-  	if ($this->getRequest()->isPost()) {
-  		if ($form->isValid($request->getPost())) {
-  			
-  			$formData = $form->getValues();
-  			
-  			$type_commentaire = $form->getValue('type_commentaire');	
-  			$text_commentaire = $form->getValue('text_commentaire');
-  			$date = '06/11/2011';
-  			
-  			$commentaire = new Application_Model_DbTable_Commentaire();
-  			$commentaire->ajouterCommentaire($id_document, $user_ID, $text_commentaire, $date, $id_typecourrier);
-  			
-  			return $this->_helper->redirector('showfile');
-  		}
-  	}
-  	$form->setAction('/resource/process')
-  		 ->setMethod('post');
-  	
-  	echo $form->render($view);
-  	
-  	// Display old comment -------------------------------------------------
-	//Get the comment linked to the document
-    $sqlcom = 'SELECT * FROM COMMENTAIRE WHERE ID_COURRIER ='.$id_document;
-    //Get the result
-    $stmtcom = $db->query($sqlcom);
-    
-    $contenu= array();
-	$date=array();
-	$id_author=array();
-	$id_comment=array();
-	
- 	while ($rowcom=$stmtcom->fetch()){//For each documents
- 		$sqlaut='SELECT ID_ENTITEDESTINATAIRE FROM LIENINTERNE WHERE ID_LIENINTERNE ='.$rowcom[ID_COURRIERENTITE];//Get the author
- 		$stmtaut = $db->query($sqlaut);
- 		$rowaut = $stmtaut->fetch();
-		
- 		$id_comment[]=$rowaut[ID_COMMENTAIRE];
- 		$id_author[]=$rowcom[ID_ENTITEDESTINATAIRE];//Save the ID Value
-  		$contenu[]=$rowcom[CONTENU];//Save the title Value
-  		$date[]=$rowcom[DATECREATION];//Save the date value
- 	}
- 	//Pass values to view
- 	$this->view->id_comment=$id_comment;
- 	$this->view->id_author=$id_author;
- 	$this->view->contenu =$contenu;
- 	$this->view->date =$date;
+// 	    }	
     }
-
+	
+    //Action that helps to sign a PDF
+    public function commentpopupAction()
+    {
+    	//----------------------------------------------------------------------
+    	// COMMENT POPUP
+    	// Form of a comment ---------------------------------------------------
+    	$request = $this->getRequest();
+    	$form = new Application_Form_Comment();
+    	
+    	if ($this->getRequest()->isPost()) {
+    		if ($form->isValid($request->getPost())) {
+    				
+    			$formData = $form->getValues();
+    				
+    			$type_commentaire = $form->getValue('type_commentaire');
+    			$text_commentaire = $form->getValue('text_commentaire');
+    			$date = '06/11/2011';
+    				
+    			$commentaire = new Application_Model_DbTable_Commentaire();
+    			$commentaire->ajouterCommentaire($id_document, $user_ID, $text_commentaire, $date, $id_typecourrier);
+    				
+    			return $this->_helper->redirector('showfile');
+    		}
+    	
+    	
+    	}
+    	$this->view->form = $form;
+    	
+    	// Display old comment -------------------------------------------------
+    	//Get the comment linked to the document
+    	$sqlcom = 'SELECT * FROM COMMENTAIRE WHERE ID_COURRIER ='.$id_document;
+    	//Get the result
+    	$stmtcom = $db->query($sqlcom);
+    	
+    	$contenu= array();
+    	$date=array();
+    	$id_author=array();
+    	$id_comment=array();
+    	
+    	while ($rowcom=$stmtcom->fetch()){//For each documents
+    		$sqlaut='SELECT ID_ENTITEDESTINATAIRE FROM LIENINTERNE WHERE ID_LIENINTERNE ='.$rowcom[ID_COURRIERENTITE];//Get the author
+    		$stmtaut = $db->query($sqlaut);
+    		$rowaut = $stmtaut->fetch();
+    	
+    		$id_comment[]=$rowaut[ID_COMMENTAIRE];
+    		$id_author[]=$rowcom[ID_ENTITEDESTINATAIRE];//Save the ID Value
+    		$contenu[]=$rowcom[CONTENU];//Save the title Value
+    		$date[]=$rowcom[DATECREATION];//Save the date value
+    	}
+    	//Pass values to view
+    	$this->view->id_comment=$id_comment;
+    	$this->view->id_author=$id_author;
+    	$this->view->contenu =$contenu;
+    	$this->view->date =$date;
+    }
+    
     //Action that helps to sign a PDF
     public function signpdfAction()
     {
