@@ -14,6 +14,7 @@
 * 1.7 : ClÃ©ment Mouraud - modification
 * 1.8 : Hina Tufail - modification
 * 1.9 : Hina Tufail - modification
+* 1.10 : Mathilde de l'Hermuzière - link with the index of documents
 *
 * Controller that controls views for doing action on a PDF document
 *
@@ -30,7 +31,8 @@ class ShowPdfController extends Zend_Controller_Action
     //Action that displays a PDF application
     public function indexAction()
     {
-    	$this->_helper->layout->disableLayout();
+     	
+    	//$this->_helper->layout->disableLayout();
     	$this->_helper->viewRenderer->setNoRender(true);    	
 
     	//Set a file name (hardcoded = to change later)
@@ -82,7 +84,98 @@ class ShowPdfController extends Zend_Controller_Action
     public function showfileAction()
     {
     	//Disabling the layout
-    	$this->_helper->layout->disableLayout();   	
+    	$this->_helper->layout->disableLayout();
+    	
+    	//Getting the database connexion
+     	$db = Zend_Db_Table::getDefaultAdapter();
+    	
+     	//As we do not have Active Directory, we assume that our user ID is 6
+     	$user_ID=6;
+    	 
+     	//We get the ID of the document we have to display from the indexController
+     	$request = $this->getRequest();
+     	$id_document = $request->getParam('COURRIER_ID');
+    	    	 
+     	//We have to check is this user is habilitated to see this document...
+     	$sql1 = 'SELECT ID_ETATDESTINATAIRE FROM LIENINTERNE WHERE ID_COURRIER = 82 AND ID_ENTITEDESTINATAIRE = 6';
+     	//Get the result
+     	$stmt1 = $db->query($sql1);
+  		$rows1 = $stmt1->fetchAll();
+//  		$etat=$rows1[0]['ID_ETATDESTINATAIRE'];
+ 		
+//  		if($etat==1||$etat==2){//user is allowed to see the document
+// 	    	//We get the ID of the file from the ID of the document in the database
+// 	    	$sql='SELECT ID_FICHIER FROM FICHIER WHERE ID_COURRIER ='.$id_document;
+// 	    	//Get the result
+// 	    	$stmt = $db->query($sql);
+// 	    	$rows=$stmt->fetchAll();
+// 	    	$id_fichier=$rows[0]['ID_FICHIER'];
+	    	
+// 	    	//Select the file from ID and declob it
+// 	    	$conn = oci_connect('DBA_PARAPHEUR', '12345678', 'XE');
+// 	    	if (!$conn){
+// 	    		echo 'Connection error.';
+// 	    	}
+// 	    	$sql = 'SELECT CONTENU FROM CONTENU WHERE ID_FICHIER=:id_fichier';
+// 	    	$stid = oci_parse($conn, $sql);
+// 	    	oci_bind_by_name($stid, ":id_fichier", $id_fichier);
+	    	//$result = oci_execute($stid);
+	    	
+	    	//Fetch the row
+	    	//if($result !== false){
+	    		//while($row = oci_fetch_assoc($stid)){
+	    			//echo $row['CONTENU']->load();
+	    			//or
+	    			//echo $row['CONTENU']->read(2000);
+	    		//}
+	    	//}
+	    	//---------------------SET AND SEND HEADER AS TO INDICATE IT IS A PDF APPLICATION---------------
+	    	//$this->getResponse()->setHeader('Content-type', 'application/pdf', true);
+	    	//$this->getResponse()->setHeader('Content-disposition','inline;filename='.$module.'_'.$m_no.'.pdf', true);
+	    	
+	    	//$this->getResponse()->setHeader('Cache-Control: no-cache, must-revalidate');
+	    	//$this->getResponse()->setHeader('Content-Transfer-Encoding', 'binary', true);
+	    	//$this->getResponse()->setHeader('Last-Modified', date('r'));
+	    	
+	    	//$this->getResponse()->clearBody();
+	    	//$this->getResponse()->sendHeaders();
+	    	
+	    	//Set the body
+	    	//$this->getResponse()->setBody($pdf->render());
+ 		//}
+// 	    else{//User is not allowed to see the document
+// 	    	//Redirection to the index
+// 	    	echo $this->url(array('controller' => 'index',
+// 	    					      'action'=>'index'),
+// 	    			              'default',true);
+// 	    }
+	//----------------------------------------------------------------------
+	// COMMENT POPUP
+	//Get the comment linked to the document
+    $sqlcom = 'SELECT * FROM COMMENTAIRE WHERE ID_COURRIER ='.$id_document;
+    //Get the result
+    $stmtcom = $db->query($sqlcom);
+    
+    $contenu= array();
+	$date=array();
+	$id_author=array();
+	$id_comment=array();
+	
+ 	while ($rowcom=$stmtcom->fetch()){//For each documents
+ 		$sqlaut='SELECT ID_ENTITEDESTINATAIRE FROM LIENINTERNE WHERE ID_LIENINTERNE ='.$rowcom[ID_COURRIERENTITE];//Get the author
+ 		$stmtaut = $db->query($sqlaut);
+ 		$rowaut = $stmtaut->fetch();
+		
+ 		$id_comment[]=$rowaut[ID_COMMENTAIRE];
+ 		$id_author[]=$rowcom[ID_ENTITEDESTINATAIRE];//Save the ID Value
+  		$contenu[]=$rowcom[CONTENU];//Save the title Value
+  		$date[]=$rowcom[DATECREATION];//Save the date value
+ 	}
+ 	//Pass values to view
+ 	$this->view->id_comment=$id_comment;
+ 	$this->view->id_author=$id_author;
+ 	$this->view->contenu =$contenu;
+ 	$this->view->date =$date;
     }
 
     //Action that helps to sign a PDF

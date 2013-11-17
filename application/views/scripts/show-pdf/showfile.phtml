@@ -45,14 +45,14 @@
 		
 		<!-- PDF link file -->
 		<div id="PDFlinkfile">
-		            <object data="<?php echo $this->url(array('controller' => 'ShowPdf','action'=>'index'),'default',true) ?>" type="application/pdf" id="pdfApp" width="100%" height="100%">
+		            <object data="<?php //echo $this->url(array('controller' => 'ShowPdf','action'=>'index'),'default',true) ?>" type="application/pdf" id="pdfApp" width="100%" height="100%">
 								  <p>Il semblerait que vous n'ayez pas de plugin PDF pour ce navigateur
-								  Pas de problèmes...vous pouvez <a href="<?php echo $this->url(array('controller' => 'ShowPdf','action'=>'index'),'default',true) ?>">cliquer ici pour
+								  Pas de problèmes...vous pouvez <a href="<?php //echo $this->url(array('controller' => 'ShowPdf','action'=>'index'),'default',true) ?>">cliquer ici pour
 								  télécharger le fichier PDF.</a></p>
 					</object>
 		</div>
 		
-		<!-- Bottom menu : comment, zoom, dezoom, first, last, previous, next pages, validate and refuse icons -->
+		<!-- Bottom menu : comment, zoom, dezoom, first, last, previous, next pages, validate and refuse icons  -->
 		<div id="bottomPDFMenu">
 		<a href="#" data-width="720" data-rel="comment_doc" class="poplight"><img src='../../../img/icons/ico_com.png' alt='icone ajout de commentaire image'/></a>
 		
@@ -65,7 +65,7 @@
 		<a href="" id="dernierePageIcone"><img src='../../../img/icons/ico_lastPage.png' alt='icone dernière page image'/></a>
 		
 		<a href="<?php 	echo $this->url(array('controller' => 'Index',
-					            		'action'=>'index'),
+					           		'action'=>'index'),
 					            		'default', true) ?>" id="pageAccueil"><img src='../../../img/icons/ico_home.png' alt='icone page accueil image'/></a>
 		<a href="<?php 	echo $this->url(array('controller' => 'ShowPdf',
 					            		'action'=>'signpdf'),
@@ -77,22 +77,68 @@
 
 		</div>
 		
-<!--POPUP DEBUT-->
+<!--POPUP DEBUT -->
 	
-	<!--Validate Document-->
+	<!--Validate Document -->
 	<?php include ('validatePopup.phtml'); ?>
 	
-	<!--Refuse Document-->
+	<!--Refuse Document -->
 	<?php include('refusePopup.phtml')?>
 	
-	<!--Comment Document-->
-	<?php include('commentPopup.phtml')?>
+	<!--Comment Document -->
+	<?php // include('commentPopup.phtml')?>
+	<?php 
+	/*
+	 * File : commentPopup.phtml
+	* Author : Fanny Seiler
+	* Created : 09/11/2013
+	* 1.1 : Fanny Seiler - creation
+	* 
+	* Action pop up for commenting a document
+	*
+	* Projet parapheur 2014
+	*/
+	?>
+
+	<div id="comment_doc" class="popup_block">
+		<a class="close" href="#">
+			<img class="btn_close" alt="" src="../../img/icons/close_pop.png"></img>
+		</a>
+		<h1>Commentaires</h1>
+		<div class="write_comment">
+			<select>
+				<option>Projet</option>
+				<option>Document</option>
+			</select>
+			<textarea  class="on-right"></textarea>
+			<a href="#"><input class="blue-button on-right" type="button" value="Commenter" /></a>
+		</div>
+		<?php $i=0;?>
+		<div class="all_comments">
+			<?php foreach($this->id_comment as $id_comment) : ?>
+			<ul>
+				<li>
+					<div>
+						<div class="author on-left"><?php echo $this->id_author[$i]; ?></div>
+						<div class="on-left">&nbsp•&nbsp</div>
+						<div class="on-left"><?php echo $this->date[$i]; ?></div>
+					</div><br />	
+					<div class="comment-inner">
+						<div class="quote on-left"><img src="../../img/pop/quote_start.png"></img></div>
+						<div class="comment"><?php echo $this->contenu[$i]; $i++; ?></div>
+						<div class="quote on-right on-bottom"><img src="../../img/pop/quote_end.png"></img></div>
+					</div>
+				</li>
+			</ul>
+			<?php endforeach; ?>
+		</div>
+	</div>
 	
-	<!--Display Document Informations-->
+	<!--Display Document Informations -->
 	<?php include('metainfoPopup.phtml')?>
 	
 	<div id="popup_fade"></div>
 	
-<!--POPUP FIN-->
+<!--POPUP FIN -->
 		
 </body>
