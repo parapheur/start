@@ -14,7 +14,7 @@
 * 1.7 : ClÃ©ment Mouraud - modification
 * 1.8 : Hina Tufail - modification
 * 1.9 : Hina Tufail - modification
-* 1.10 : Mathilde de l'Hermuzière - link with the index of documents
+* 1.10 : Mathilde de l'Hermuzière - link with the index of documents and comment
 *
 * Controller that controls views for doing action on a PDF document
 *
@@ -151,6 +151,31 @@ class ShowPdfController extends Zend_Controller_Action
 // 	    }
 	//----------------------------------------------------------------------
 	// COMMENT POPUP
+	// Form of a comment ---------------------------------------------------
+  	$request = $this->getRequest();
+  	$form = new Application_Form_Comment();
+  	
+  	if ($this->getRequest()->isPost()) {
+  		if ($form->isValid($request->getPost())) {
+  			
+  			$formData = $form->getValues();
+  			
+  			$type_commentaire = $form->getValue('type_commentaire');	
+  			$text_commentaire = $form->getValue('text_commentaire');
+  			$date = '06/11/2011';
+  			
+  			$commentaire = new Application_Model_DbTable_Commentaire();
+  			$commentaire->ajouterCommentaire($id_document, $user_ID, $text_commentaire, $date, $id_typecourrier);
+  			
+  			return $this->_helper->redirector('showfile');
+  		}
+  	}
+  	$form->setAction('/resource/process')
+  		 ->setMethod('post');
+  	
+  	echo $form->render($view);
+  	
+  	// Display old comment -------------------------------------------------
 	//Get the comment linked to the document
     $sqlcom = 'SELECT * FROM COMMENTAIRE WHERE ID_COURRIER ='.$id_document;
     //Get the result
