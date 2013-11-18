@@ -15,7 +15,7 @@
 * 1.8 : Hina Tufail - modification
 * 1.9 : Hina Tufail - modification
 * 1.10 : Mathilde de l'Hermuzi�re - link with the index of documents and comment
-* 1.11 : Hina Tufail - méta informations
+* 1.11 : Hina Tufail - méta informations and comment pop ups
 *
 * Controller that controls views for doing action on a PDF document
 *
