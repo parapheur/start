@@ -57,13 +57,13 @@ class ShowPdfController extends Zend_Controller_Action
     		$strUnencoded = base64_decode($strFilteredData[1]);
     		
     		//put the content into a file
-    		$filename = '../public/img/test.png';
+    		$filename = '../public/img/test2.png';
     		file_put_contents($filename, $strUnencoded);
 
     	}
     	
 		//Load signature image and add it to the PDF
-    	$image = Zend_Pdf_Image::imageWithPath('../public/img/test.png');
+    	$image = Zend_Pdf_Image::imageWithPath('../public/img/test2.png');
     	$page1->drawImage($image, 100, 100, 400, 350);
     	
     	//------------SET AND SEND HEADERS TO ACTION------------------------------
@@ -215,8 +215,8 @@ class ShowPdfController extends Zend_Controller_Action
     		$stmtaut = $db->query($sqlaut);
     		$rowaut = $stmtaut->fetch();
     		
-    		$id_comment[]=$rowaut['ID_COMMENTAIRE'];
-    		$id_author[]=$rowcom['ID_ENTITEDESTINATAIRE'];//Save the ID Value
+    		$id_comment[]=$rowcom['ID_COMMENTAIRE'];
+    		$id_author[]=$rowaut['ID_ENTITEDESTINATAIRE'];//Save the ID Value
     		$contenu[]=$rowcom['CONTENU'];//Save the title Value
     		$date[]=$rowcom['DATECREATION'];//->toString();//Save the date value
     	}
@@ -344,6 +344,11 @@ class ShowPdfController extends Zend_Controller_Action
     //Action that helps to sign a PDF
     public function signpdfAction()
     {
+    	//We get the ID of the document we have to display from the indexController
+    	$request = $this->getRequest();
+    	$id_document = $request->getParam('COURRIER_ID');
+    	
+    	$this->view->id_document= $id_document;
     }
 
 }
