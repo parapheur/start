@@ -16,6 +16,22 @@
 			</a>
 			<h1>Valider le document</h1>
 			<p>Pour envoyer le document dans le workflow, cliquez sur le bouton valider. Une fois validé, le document ne pourra plus 				être modifié.</p>
-			<a href="#"><input class="green-button on-right" type="button" value="Valider" /></a>
+			<a href="#"><input class="green-button on-right" type="button" value="Valider" onclick="validate();" /></a>
 </div>
 		
+<script type="text/javascript">
+ 
+  function validate() {
+      var strdata = 'valid';
+
+    $.ajax({
+	 type: "POST",                                                  
+	   url: "validatePopup",                     
+	  data: "&data="+strdata,
+	  success: function(arrResult) {
+			//do something
+			alert("success");
+		  }
+		});	  
+	 }
+</script>    

@@ -17,18 +17,18 @@
 			<img class="btn_close" alt="" src="../../img/icons/close_pop.png"></img>
 		</a>
 		<h1>Commentaires</h1>
+		<div class="write_comment">
 		<?php
-			$this->form->setAction($this->url());
-			//echo $this->form; 
+			$this->commentForm->setAction($this->url());
+			echo $this->commentForm; 
 		?>
-		<!-- <div class="write_comment">
-			<select>
+		<!-- 	<select>
 				<option>Projet</option>
 				<option>Document</option>
 			</select>
 			<textarea  class="on-right"></textarea>
-			<a href="#"><input class="blue-button on-right" type="button" value="Commenter" /></a> 
-		</div> -->
+			<a href="#"><input class="blue-button on-right" type="button" value="Commenter" /></a>  -->
+		</div> 
 		<?php $i=0;?>
 		<div class="all_comments">
 			<?php foreach($this->id_comment as $id_comment) : ?>

@@ -45,9 +45,9 @@
 		
 		<!-- PDF link file -->
 		<div id="PDFlinkfile">
-		            <object data="<?php //echo $this->url(array('controller' => 'ShowPdf','action'=>'index'),'default',true) ?>" type="application/pdf" id="pdfApp" width="100%" height="100%">
+		            <object data="<?php echo $this->url(array('controller' => 'ShowPdf','action'=>'index'),'default',true) ?>" type="application/pdf" id="pdfApp" width="100%" height="100%">
 								  <p>Il semblerait que vous n'ayez pas de plugin PDF pour ce navigateur
-								  Pas de problèmes...vous pouvez <a href="<?php //echo $this->url(array('controller' => 'ShowPdf','action'=>'index'),'default',true) ?>">cliquer ici pour
+								  Pas de problèmes...vous pouvez <a href="<?php echo $this->url(array('controller' => 'ShowPdf','action'=>'index'),'default',true) ?>">cliquer ici pour
 								  télécharger le fichier PDF.</a></p>
 					</object>
 		</div>
@@ -78,19 +78,19 @@
 		</div>
 		
 <!--POPUP DEBUT -->
-	
+			
 	<!--Validate Document -->
 	<?php include ('validatePopup.phtml'); ?>
 	
 	<!--Refuse Document -->
 	<?php include('refusePopup.phtml')?>
 	
-	<!--Comment Document -->
-	<?php include('commentPopup.phtml')?>
-	
-	
 	<!--Display Document Informations -->
 	<?php include('metainfoPopup.phtml')?>
+	
+	<!--Comment Document -->
+	<?php include('commentPopup.phtml')?>
+
 	
 	<div id="popup_fade"></div>
 	

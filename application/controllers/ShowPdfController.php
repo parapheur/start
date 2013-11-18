@@ -14,7 +14,8 @@
 * 1.7 : Clément Mouraud - modification
 * 1.8 : Hina Tufail - modification
 * 1.9 : Hina Tufail - modification
-* 1.10 : Mathilde de l'Hermuzi�re - link with the index of documents and comment
+* 1.10 : Mathilde de l'Hermuzi�re - link with the index of documents and comment
+* 1.11 : Hina Tufail - méta informations
 *
 * Controller that controls views for doing action on a PDF document
 *
@@ -95,9 +96,12 @@ class ShowPdfController extends Zend_Controller_Action
      	//We get the ID of the document we have to display from the indexController
      	$request = $this->getRequest();
      	$id_document = $request->getParam('COURRIER_ID');
-    	    	 
+     	
+		$this->view->id_document= $id_document;
+     	
      	//We have to check is this user is habilitated to see this document...
-     	$sql1 = 'SELECT ID_ETATDESTINATAIRE FROM LIENINTERNE WHERE ID_COURRIER = 82 AND ID_ENTITEDESTINATAIRE = 6';
+     	//$sql1 = 'SELECT ID_ETATDESTINATAIRE FROM LIENINTERNE WHERE ID_COURRIER = 82 AND ID_ENTITEDESTINATAIRE = 6';
+     	$sql1 = 'SELECT ID_ETATDESTINATAIRE FROM LIENINTERNE WHERE ID_COURRIER = '.$id_document.'AND ID_ENTITEDESTINATAIRE = 6';
      	//Get the result
      	$stmt1 = $db->query($sql1);
   		$rows1 = $stmt1->fetchAll();
@@ -149,10 +153,19 @@ class ShowPdfController extends Zend_Controller_Action
 // 	    					      'action'=>'index'),
 // 	    			              'default',true);
 // 	    }	
+    
+  		//Get the database infos
+  		$db = Zend_Db_Table::getDefaultAdapter();
+  		//Call the form for comments
+  		$this->addCommentPopup($id_document,$user_ID,$db);
+  		
+  		//Call the display info
+  		$this->showMeta($id_document,$db);
+    
     }
 	
-    //Action that helps to sign a PDF
-    public function commentpopupAction()
+    //Action that helps to comment a PDF
+    public function addCommentPopup($id_document,$user_ID,$db)
     {
     	//----------------------------------------------------------------------
     	// COMMENT POPUP
@@ -177,7 +190,7 @@ class ShowPdfController extends Zend_Controller_Action
     	
     	
     	}
-    	$this->view->form = $form;
+    	$this->view->commentForm = $form;
     	
     	// Display old comment -------------------------------------------------
     	//Get the comment linked to the document
@@ -205,6 +218,48 @@ class ShowPdfController extends Zend_Controller_Action
     	$this->view->id_author=$id_author;
     	$this->view->contenu =$contenu;
     	$this->view->date =$date;
+    }
+    
+    public function showMeta($id_courrier,$db){
+
+    	
+    	$titre= array();
+    	$date=array();
+    	
+    	$sql2='SELECT DATECREATION FROM COURRIER WHERE ID_COURRIER = '.$id_courrier;//Get the creation date
+    	$stmt2 = $db->query($sql2);
+    	$row2 = $stmt2->fetch();
+    		
+    	$sql3='SELECT NOMORIGINE FROM FICHIER WHERE ID_COURRIER = '.$id_courrier;//get the title
+    	$stmt3 = $db->query($sql3);
+    	$row3 = $stmt3->fetch();
+    	
+    	$titre[]=$row3;//Save the title Value
+    	$date[]=$row2;//Save the date value
+    	
+    	//Pass values to view
+    	$this->view->titre =$titre;
+    	$this->view->date =$date;
+    }
+
+    //Function that valid a document
+    public function validatePopup(){
+    	
+    	if ($this->getRequest()->isPost()) {
+    		//Get the data
+    		$this->getRequest()->getParam('data');
+    	
+    		//Get the PDF
+    		
+    		//Add validation image to PDF
+    		
+    		//Do associate changes into database
+    		
+    		//Save the PDF
+    		
+    	
+    	}
+    	
     }
     
     //Action that helps to sign a PDF
