@@ -16,7 +16,7 @@
 * 1.9 : Hina Tufail - modification
 * 1.10 : Mathilde de l'Hermuziï¿½re - link with the index of documents and comment
 * 1.11 : Hina Tufail - mÃ©ta informations and comment pop ups
-* 1.12 : Mathilde de l'Hermuzière: Révision des métainformations
+* 1.12 : Mathilde de l'Hermuziï¿½re: Rï¿½vision des mï¿½tainformations
 *
 * Controller that controls views for doing action on a PDF document
 *
@@ -248,9 +248,9 @@ class ShowPdfController extends Zend_Controller_Action
     	$destinataires= array();
     	
     	while ($rowlieninterne=$stmtlieninterne->fetch()){//For each documents
-    		$entitedestinataire= $rowlieninterne[ID_ENTITEDESTINATAIRE];
-    		$id_demandeur= $rowlieninterne[ID_ENTITEEXPEDITEUR];
-    		$etat= $rowlieninterne[ID_ETATDESTINATAIRE];
+    		$entitedestinataire= $rowlieninterne['ID_ENTITEDESTINATAIRE'];
+    		$id_demandeur= $rowlieninterne['ID_ENTITEEXPEDITEUR'];
+    		$etat= $rowlieninterne['ID_ETATDESTINATAIRE'];
     		
     		if($etat=="1"||$etat=="2"){//If the person is still in the workflow
     			$destinataires[]= $entitedestinataire;
