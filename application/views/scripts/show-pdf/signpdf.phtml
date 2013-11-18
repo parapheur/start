@@ -19,18 +19,18 @@
 * Projet parapheur 2014
 */
 ?>
-
+	
 <title>Signer le PDF</title>
   <?php echo $this->headLink()->appendStylesheet($this->baseUrl().'/css/sketch.css'); ?>
   <?php echo $this->headScript()->appendFile($this->baseUrl().'/js/sketch.js')
   								->prependFile($this->baseUrl().'/js/jquery.js')
-  								->appendFile($this->baseUrl().'/js/canvas2image.js')
-  								->appendFile($this->baseUrl().'/js/base64.js');?>
+  								->prependFile($this->baseUrl().'/js/canvas2image.js')
+  								->prependFile($this->baseUrl().'/js/base64.js');?>
 
 <br/>
 <div class="tools">
 <!--  data-download="png" -->
-  <a href="<?php echo $this->url(array('controller' => 'ShowPdf','action'=>'showfile','COURRIER_ID'=>$this->id_document),'default',true) ?>" data-download="png" onClick='createPNGButton();'>Download</a> 	
+<a href="<?php echo $this->url(array('controller' => 'ShowPdf', 'action' => 'showfile','COURRIER_ID'=> $this->id_doc),'default',true)?>" data-download="png" onClick='createPNGButton();'>Download</a>
 </div>
 
 <img src="" id="company_logo"/>

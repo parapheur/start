@@ -34,7 +34,7 @@ class ShowPdfController extends Zend_Controller_Action
     public function indexAction()
     {
      	
-    	//$this->_helper->layout->disableLayout();
+    	$this->_helper->layout->disableLayout();
     	$this->_helper->viewRenderer->setNoRender(true);    	
 
     	//Set a file name (hardcoded = to change later)
@@ -98,14 +98,14 @@ class ShowPdfController extends Zend_Controller_Action
      	$request = $this->getRequest();
      	$id_document = $request->getParam('COURRIER_ID');
      	
-		$this->view->id_document= $id_document;
-     	
+		//$this->view->id_document= $id_document;
+		/*
      	//We have to check is this user is habilitated to see this document...
      	//$sql1 = 'SELECT ID_ETATDESTINATAIRE FROM LIENINTERNE WHERE ID_COURRIER = 82 AND ID_ENTITEDESTINATAIRE = 6';
      	$sql1 = 'SELECT ID_ETATDESTINATAIRE FROM LIENINTERNE WHERE ID_COURRIER = '.$id_document.'AND ID_ENTITEDESTINATAIRE = 6';
      	//Get the result
      	$stmt1 = $db->query($sql1);
-  		$rows1 = $stmt1->fetchAll();
+  		$rows1 = $stmt1->fetchAll();*/
 //  		$etat=$rows1[0]['ID_ETATDESTINATAIRE'];
  		
 //  		if($etat==1||$etat==2){//user is allowed to see the document
@@ -156,12 +156,12 @@ class ShowPdfController extends Zend_Controller_Action
 // 	    }	
     
   		//Get the database infos
-  		$db = Zend_Db_Table::getDefaultAdapter();
+  		//$db = Zend_Db_Table::getDefaultAdapter();
   		//Call the form for comments
-  		$this->addCommentPopup($id_document,$user_ID,$db);
+  		//$this->addCommentPopup($id_document,$user_ID,$db);
   		
   		//Call the display info
-  		$this->showMeta($id_document,$db);
+  		//$this->showMeta($id_document,$db);
     
     }
 	
@@ -345,10 +345,10 @@ class ShowPdfController extends Zend_Controller_Action
     public function signpdfAction()
     {
     	//We get the ID of the document we have to display from the indexController
-    	$request = $this->getRequest();
-    	$id_document = $request->getParam('COURRIER_ID');
+    	//$request = $this->getRequest();
+    	//$id_document = $request->getParam('COURRIER_ID');
     	
-    	$this->view->id_document= $id_document;
+    	//$this->view->id_doc= $id_document;
     }
 
 }
