@@ -5,6 +5,7 @@
 	* Created : 09/11/2013
 	* 1.1 : Fanny Seiler - creation
 	* 1.2 : Hina Tufail - modification adding database info - 18/11/2013
+	* 1.3 : Mathilde de l'Hermuziere - r�vision of database info -18/11/2013
 	* 
 	* Action pop up for meta informations
 	*
@@ -21,23 +22,26 @@
 		<div class="informations">
 			<div class="on-left">
 				<ul>
-					<li>Titre : <?php echo 'id is : '.$this->id_document;?></li>
-					<li>Auteur :</li>
-					<li>Date de création : <?php echo $this->date;?></li>
-					<li>Date d'expédition :</li>
-					<li>Date limite de réponse :</li>
-					<li>Destinataires :</li>
+					<li>Titre : <?php echo $this->titre;?></li>
+					<li>ID Demandeur : <?php echo $this->demandeur;?></li>
+					<li>Date de création : <?php echo $this->datecreation;?></li>
+					<li>Date d'expédition : <?php echo $this->dateexpedition;?></li>
+					<li>Date limite de réponse : <?php echo $this->datelimitereponse;?></li>
+					
+					<?php $i=0;?>
+					<?php foreach($this->destinataires as $destinataires) : ?>
+						<li>ID Destinataire <?php echo ($i+1);?> : <?php echo $this->destinataires[$i]; $i++;?></li>
+					<?php endforeach;?>
 				</ul>
 			</div>	
 			<div class="on-right">
-				</ul>
 				<ul>
-					<li>Priorité :</li>
-					<li>Classification :</li>
-					<li>Type :</li>
-					<li>Code externe :</li>
-					<li>Groupe créateur :</li>
-					<li>Dernière modification :</li>
+					<li>Priorité : <?php echo $this->priorite;?></li>
+					<li>Classification : <?php echo $this->classification;?></li>
+					<li>Type : <?php echo $this->type;?></li>
+					<li>Code externe : <?php echo $this->codeexterne;?></li>
+					<li>Groupe créateur : <?php echo $this->groupecreateur;?></li>
+					<li>Dernière modification : <?php echo $this->dernieremodif;?></li>
 				</ul>
 			</div>	
 		</div>

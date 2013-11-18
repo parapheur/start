@@ -16,6 +16,7 @@
 * 1.9 : Hina Tufail - modification
 * 1.10 : Mathilde de l'Hermuziï¿½re - link with the index of documents and comment
 * 1.11 : Hina Tufail - mÃ©ta informations and comment pop ups
+* 1.12 : Mathilde de l'Hermuzière: Révision des métainformations
 *
 * Controller that controls views for doing action on a PDF document
 *
@@ -180,12 +181,18 @@ class ShowPdfController extends Zend_Controller_Action
     				
     			$type_commentaire = $form->getValue('type_commentaire');
     			$text_commentaire = $form->getValue('text_commentaire');
+    			
+    			//Find the ID of the lieninterne between our user and the document
+    			$sqlfind = 'SELECT ID_LIENINTERNE FROM LIENINTERNE WHERE ID_ENTITEDESTINATAIRE= 6 AND ID_COURRIER ='.$id_document;
+    			$stmtfind = $db->query($sqlfind);
+    			$rowsfind = $stmtfind->fetchAll();
+    			$id_lieninterne= $rowsfind[0][ID_LIENINTERNE];
+    			
     			$date = '06/11/2011';
-    				
     			$commentaire = new Application_Model_DbTable_Commentaire();
-    			$commentaire->ajouterCommentaire($id_document, $user_ID, $text_commentaire, $date, $id_typecourrier);
+    			$commentaire->ajouterCommentaire($id_document, $id_lieninterne, $text_commentaire, $date, $type_commentaire);
     				
-    			return $this->_helper->redirector('showfile');
+    			//return $this->_helper->redirector('showfile');
     		}
     	
     	
@@ -207,11 +214,12 @@ class ShowPdfController extends Zend_Controller_Action
     		$sqlaut='SELECT ID_ENTITEDESTINATAIRE FROM LIENINTERNE WHERE ID_LIENINTERNE ='.$rowcom[ID_COURRIERENTITE];//Get the author
     		$stmtaut = $db->query($sqlaut);
     		$rowaut = $stmtaut->fetch();
-    	
+    		
+    		$zdate= new Zend_Date($rowcom[DATECREATION]);
     		$id_comment[]=$rowaut[ID_COMMENTAIRE];
     		$id_author[]=$rowcom[ID_ENTITEDESTINATAIRE];//Save the ID Value
     		$contenu[]=$rowcom[CONTENU];//Save the title Value
-    		$date[]=$rowcom[DATECREATION];//Save the date value
+    		$date[]="10/08/2013";//->toString();//Save the date value
     	}
     	//Pass values to view
     	$this->view->id_comment=$id_comment;
@@ -222,24 +230,96 @@ class ShowPdfController extends Zend_Controller_Action
     
     public function showMeta($id_courrier,$db){
 
+    	//We get the infos from the database
     	
-    	$titre= array();
-    	$date=array();
+    	//Meta infos from the table FICHIER ******************
+    	$sqlfichier='SELECT NOMORIGINE FROM FICHIER WHERE ID_COURRIER = '.$id_courrier;
+    	$stmtfichier = $db->query($sqlfichier);
+    	$rowfichier = $stmtfichier->fetchAll();
     	
-    	$sql2='SELECT DATECREATION FROM COURRIER WHERE ID_COURRIER = '.$id_courrier;//Get the creation date
-    	$stmt2 = $db->query($sql2);
-    	$row2 = $stmt2->fetch();
-    		
-    	$sql3='SELECT NOMORIGINE FROM FICHIER WHERE ID_COURRIER = '.$id_courrier;//get the title
-    	$stmt3 = $db->query($sql3);
-    	$row3 = $stmt3->fetch();
-    	
-    	$titre[]=$row3;//Save the title Value
-    	$date[]=$row2;//Save the date value
+    	$titre=$rowfichier[0]['NOMORIGINE'];//Save the title Value
     	
     	//Pass values to view
     	$this->view->titre =$titre;
-    	$this->view->date =$date;
+    	
+    	//Meta infos from the table LIENINTERNE **************
+    	$sqlieninterne='SELECT * FROM LIENINTERNE WHERE ID_COURRIER ='.$id_courrier;
+    	$stmtlieninterne = $db->query($sqlieninterne);
+    	$id_demandeur = null;
+    	$destinataires= array();
+    	
+    	while ($rowlieninterne=$stmtlieninterne->fetch()){//For each documents
+    		$entitedestinataire= $rowlieninterne[ID_ENTITEDESTINATAIRE];
+    		$id_demandeur= $rowlieninterne[ID_ENTITEEXPEDITEUR];
+    		$etat= $rowlieninterne[ID_ETATDESTINATAIRE];
+    		
+    		if($etat=="1"||$etat=="2"){//If the person is still in the workflow
+    			$destinataires[]= $entitedestinataire;
+    		}
+    	}
+    	//Pass values to view
+    	$this->view->demandeur =$id_demandeur;
+    	$this->view->destinataires=$destinataires;
+    	
+    	//Meta infos from the table COURRIER *****************
+    	$sqlcourrier='SELECT * FROM COURRIER WHERE ID_COURRIER = '.$id_courrier;//Get the creation date
+    	$stmtcourrier = $db->query($sqlcourrier);
+    	$rowcourrier = $stmtcourrier ->fetchAll();
+    	
+    	$datecreation=$rowcourrier[0]['DATECREATION'];//Save the date value
+    	$dateexpedition=$rowcourrier[0]['DATEEXPEDITION'];
+    	$datelimitereponse=$rowcourrier[0]['DATELIMITEREPONSE'];
+    	$priorite=$rowcourrier[0]['ID_PRIORITE'];
+    	if($priorite!=null){
+    		//Now that we have the id of classification, we want the libelle
+    		$sqlpriorite='SELECT LIBELLE FROM T_PRIORITE WHERE ID_PRIORITE='.$priorite;
+    		$stmtpriorite = $db->query($sqlpriorite);
+    		$rowpriorite = $stmtpriorite ->fetchAll();
+    		$prioritelibelle=$rowpriorite[0]['LIBELLE'];
+    	}
+    	else{
+    		$prioritelibelle=null;
+    	}
+    	
+    	$classification=$rowcourrier[0]['ID_CLASSIFICATION'];
+    	if($classification!=null){
+	    	//Now that we have the id of classification, we want the libelle
+	    	$sqlclassification='SELECT LIBELLE FROM T_CLASSIFICATION WHERE ID_CLASSIFICATION='.$classification;
+	    	$stmtclassification = $db->query($sqlclassification);
+	    	$rowclassification = $stmtclassification ->fetchAll();
+	    	$classificationlibelle=$rowclassification[0]['LIBELLE'];
+    	}
+    	else{
+    		$classificationlibelle=null;
+    	}
+    	
+    	$type=$rowcourrier[0]['ID_TYPECOURRIER'];
+    	if($type!=null){
+    		//Now that we have the id of type, we want the libelle
+    		$sqltype='SELECT LIBELLE FROM T_TYPECOURRIER WHERE ID_TYPECOURRIER='.$type;
+    		$stmttype = $db->query($sqltype);
+    		$rowtype = $stmttype ->fetchAll();
+    		$typelibelle=$rowtype[0]['LIBELLE'];
+    	}
+    	else{
+    		$typelibelle=null;
+    	}
+    	
+    	$codeexterne=$rowcourrier[0]['CODEEXTERNE'];
+    	$groupecreateur=$rowcourrier[0]['ID_GROUPECREATEUR'];
+    	$dernieremodif=$rowcourrier[0]['IRDERNIEREMODIF'];
+    	
+    	//Pass values to view
+    	$this->view->datecreation =$datecreation;
+    	$this->view->dateexpedition =$dateexpedition;
+    	$this->view->datelimitereponse =$datelimitereponse;
+    	$this->view->priorite =$prioritelibelle;
+    	$this->view->classification =$classificationlibelle;
+    	$this->view->type =$typelibelle;
+    	$this->view->codeexterne =$codeexterne;
+    	$this->view->groupecreateur =$groupecreateur;
+    	$this->view->dernieremodif =$dernieremodif;
+    	
     }
 
     //Function that valid a document
