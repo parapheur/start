@@ -23,8 +23,9 @@
  			</div> 
 			<?php $i=0;?>
  			<div id="index"> 
-			<?php foreach($this->id_document as $id_document) : ?>
+			
  				<ul class="index-row"> 
+ 				<?php foreach($this->id_document as $id_document) : ?>
  					<li> 
  						<a class="preview" href="<?php 
 							echo $this->url(
@@ -47,8 +48,10 @@
 				            true) 
 						?>"> <?php echo $this->titre[$i];?></a>
 						<p>Créé le : <?php echo $this->date[$i]; $i++;?></p>
+						<?php if($i%5==0){?></ul><ul class ="index-row"><?php }?>
  					</li> 
+ 				<?php endforeach; ?>
  				</ul> 
-				<?php endforeach; ?>
+				
  			</div>
 						

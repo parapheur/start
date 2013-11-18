@@ -24,6 +24,9 @@
         <controllerFile controllerName="Admin">
           <actionMethod actionName="index"/>
         </controllerFile>
+        <controllerFile controllerName="Viewer">
+          <actionMethod actionName="index"/>
+        </controllerFile>
       </controllersDirectory>
       <formsDirectory>
         <formFile formName="Addafile"/>
@@ -64,6 +67,9 @@
           </viewControllerScriptsDirectory>
           <viewControllerScriptsDirectory forControllerName="ShowPdf">
             <viewScriptFile forActionName="testValidate"/>
+          </viewControllerScriptsDirectory>
+          <viewControllerScriptsDirectory forControllerName="Viewer">
+            <viewScriptFile forActionName="index"/>
           </viewControllerScriptsDirectory>
         </viewScriptsDirectory>
         <viewHelpersDirectory/>

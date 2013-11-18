@@ -2709,7 +2709,6 @@ var CanvasGraphics = (function CanvasGraphicsClosure() {
         var canvas = ctx.canvas;
         var width = canvas.width;
         var height = canvas.height;
-
         var bl = Util.applyTransform([0, 0], inv);
         var br = Util.applyTransform([0, height], inv);
         var ul = Util.applyTransform([width, 0], inv);
