@@ -527,20 +527,20 @@ position: absolute;
 .btn-valid:hover, .btn-invalid:hover, .btn-meta:hover, .btn-export:hover, .btn-print:hover {
 	opacity: 0.5;
 }
-.btn-comment { background: url("../img/ico_comment.png") no-repeat scroll center center transparent; }
-.btn-zoomin { background: url("../img/ico_zoomin.png") no-repeat scroll center center transparent; }
-.btn-zoomout { background: url("../img/ico_zoomout.png") no-repeat scroll center center transparent; }
-.btn-previous { background: url("../img/ico_previous.png") no-repeat scroll center center transparent; }
-.btn-next { background: url("../img/ico_next.png") no-repeat scroll center center transparent; }
-.btn-gofirst { background: url("../img/ico_gofirst.png") no-repeat scroll center center transparent; }
-.btn-golast { background: url("../img/ico_golast.png") no-repeat scroll center center transparent; }
-.btn-home { background: url("../img/ico_home.png") no-repeat scroll center center transparent; }
-.btn-valid { background: url("../img/ico_valid.png") no-repeat scroll center center transparent; }
-.btn-invalid { background: url("../img/ico_invalid.png") no-repeat scroll center center transparent; }
-.btn-download { background: url("../img/ico_download.png") no-repeat scroll center center transparent; }
-.btn-meta { background: url("../img/ico_meta.png") no-repeat scroll center center transparent; }
-.btn-export { background: url("../img/ico_export.png") no-repeat scroll center center transparent; }
-.btn-print { background: url("../img/ico_print.png") no-repeat scroll center center transparent; }
+.btn-comment { background: url("../img/icons/ico_comment.png") no-repeat scroll center center transparent; }
+.btn-zoomin { background: url("../img/icons/ico_zoomin.png") no-repeat scroll center center transparent; }
+.btn-zoomout { background: url("../img/icons/ico_zoomout.png") no-repeat scroll center center transparent; }
+.btn-previous { background: url("../img/icons/ico_previous.png") no-repeat scroll center center transparent; }
+.btn-next { background: url("../img/icons/ico_next.png") no-repeat scroll center center transparent; }
+.btn-gofirst { background: url("../img/icons/ico_gofirst.png") no-repeat scroll center center transparent; }
+.btn-golast { background: url("../img/icons/ico_golast.png") no-repeat scroll center center transparent; }
+.btn-home { background: url("../img/icons/ico_home.png") no-repeat scroll center center transparent; }
+.btn-valid { background: url("../img/icons/ico_valid.png") no-repeat scroll center center transparent; }
+.btn-invalid { background: url("../img/icons/ico_invalid.png") no-repeat scroll center center transparent; }
+.btn-download { background: url("../img/icons/ico_download.png") no-repeat scroll center center transparent; }
+.btn-meta { background: url("../img/icons/ico_meta.png") no-repeat scroll center center transparent; }
+.btn-export { background: url("../img/icons/ico_export.png") no-repeat scroll center center transparent; }
+.btn-print { background: url("../img/icons/ico_print.png") no-repeat scroll center center transparent; }
 
 
 /* SIDE BAR
@@ -561,7 +561,7 @@ position: absolute;
 /* LOADING INFOS
 ----------------------------------------------------------*/
 .loadingIcon {
-    background: url("../img/loading-icon.gif") no-repeat scroll center center rgba(0, 0, 0, 0);
+    background: url("../img/icons/loading-icon.gif") no-repeat scroll center center rgba(0, 0, 0, 0);
     bottom: 0;
     display: block;
     left: 0;
