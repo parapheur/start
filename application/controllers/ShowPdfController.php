@@ -215,11 +215,10 @@ class ShowPdfController extends Zend_Controller_Action
     		$stmtaut = $db->query($sqlaut);
     		$rowaut = $stmtaut->fetch();
     		
-    		$zdate= new Zend_Date($rowcom[DATECREATION]);
     		$id_comment[]=$rowaut[ID_COMMENTAIRE];
     		$id_author[]=$rowcom[ID_ENTITEDESTINATAIRE];//Save the ID Value
     		$contenu[]=$rowcom[CONTENU];//Save the title Value
-    		$date[]="10/08/2013";//->toString();//Save the date value
+    		$date[]=$rowcom[DATECREATION];//->toString();//Save the date value
     	}
     	//Pass values to view
     	$this->view->id_comment=$id_comment;

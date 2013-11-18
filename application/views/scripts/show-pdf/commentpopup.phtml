@@ -15,7 +15,7 @@
 
 	<div id="comment_doc" class="popup_block">
 		<a class="close" href="#">
-			<img class="btn_close" alt="" src="../../img/icons/close_pop.png"></img>
+			<img class="btn_close" alt="" src="../../../img/icons/close_pop.png"></img>
 		</a>
 		<h1>Commentaires</h1>
 		<div class="write_comment">
@@ -30,6 +30,7 @@
 			<textarea  class="on-right"></textarea>
 			<a href="#"><input class="blue-button on-right" type="button" value="Commenter" /></a>  -->
 		</div> 
+		<br />
 		<?php $i=0;?>
 		<div class="all_comments">
 			<?php foreach($this->id_comment as $id_comment) : ?>
@@ -41,9 +42,9 @@
 						<div class="on-left"><?php echo $this->date[$i]; ?></div>
 					</div><br />	
 					<div class="comment-inner">
-						<div class="quote on-left"><img src="../../img/pop/quote_start.png"></img></div>
+						<div class="quote on-left"><img src="../../../img/pop/quote_start.png"></img></div>
 						<div class="comment"><?php echo $this->contenu[$i]; $i++; ?></div>
-						<div class="quote on-right on-bottom"><img src="../../img/pop/quote_end.png"></img></div>
+						<div class="quote on-right on-bottom"><img src="../../../img/pop/quote_end.png"></img></div>
 					</div>
 				</li>
 			</ul>
