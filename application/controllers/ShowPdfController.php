@@ -186,7 +186,7 @@ class ShowPdfController extends Zend_Controller_Action
     			$sqlfind = 'SELECT ID_LIENINTERNE FROM LIENINTERNE WHERE ID_ENTITEDESTINATAIRE= 6 AND ID_COURRIER ='.$id_document;
     			$stmtfind = $db->query($sqlfind);
     			$rowsfind = $stmtfind->fetchAll();
-    			$id_lieninterne= $rowsfind[0][ID_LIENINTERNE];
+    			$id_lieninterne= $rowsfind[0]['ID_LIENINTERNE'];
     			
     			$date = '06/11/2011';
     			$commentaire = new Application_Model_DbTable_Commentaire();
@@ -211,14 +211,14 @@ class ShowPdfController extends Zend_Controller_Action
     	$id_comment=array();
     	
     	while ($rowcom=$stmtcom->fetch()){//For each documents
-    		$sqlaut='SELECT ID_ENTITEDESTINATAIRE FROM LIENINTERNE WHERE ID_LIENINTERNE ='.$rowcom[ID_COURRIERENTITE];//Get the author
+    		$sqlaut='SELECT ID_ENTITEDESTINATAIRE FROM LIENINTERNE WHERE ID_LIENINTERNE ='.$rowcom['ID_COURRIERENTITE'];//Get the author
     		$stmtaut = $db->query($sqlaut);
     		$rowaut = $stmtaut->fetch();
     		
-    		$id_comment[]=$rowaut[ID_COMMENTAIRE];
-    		$id_author[]=$rowcom[ID_ENTITEDESTINATAIRE];//Save the ID Value
-    		$contenu[]=$rowcom[CONTENU];//Save the title Value
-    		$date[]=$rowcom[DATECREATION];//->toString();//Save the date value
+    		$id_comment[]=$rowaut['ID_COMMENTAIRE'];
+    		$id_author[]=$rowcom['ID_ENTITEDESTINATAIRE'];//Save the ID Value
+    		$contenu[]=$rowcom['CONTENU'];//Save the title Value
+    		$date[]=$rowcom['DATECREATION'];//->toString();//Save the date value
     	}
     	//Pass values to view
     	$this->view->id_comment=$id_comment;

@@ -68,7 +68,8 @@
 					           		'action'=>'index'),
 					            		'default', true) ?>" id="pageAccueil"><img src='../../../img/icons/ico_home.png' alt='icone page accueil image'/></a>
 		<a href="<?php 	echo $this->url(array('controller' => 'ShowPdf',
-					            		'action'=>'signpdf'),
+					            		'action'=>'signpdf',
+										'COURRIER_ID'=>$this->id_document),
 					            		'default', true) ?>" id="SignerIcone"><img src='../../../img/icons/ico_sign.png' alt='icone signer image'/></a>
 		
 		<!--Liens vers les popup : valider et refuser le document -->

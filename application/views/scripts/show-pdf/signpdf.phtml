@@ -30,7 +30,7 @@
 <br/>
 <div class="tools">
 <!--  data-download="png" -->
-  <a href="<?php echo $this->url(array('controller' => 'ShowPdf','action'=>'showfile'),'default',true) ?>" data-download="png" onClick='createPNGButton();'>Download</a> 	
+  <a href="<?php echo $this->url(array('controller' => 'ShowPdf','action'=>'showfile','COURRIER_ID'=>$this->COURRIER_ID),'default',true) ?>" data-download="png" onClick='createPNGButton();'>Download</a> 	
 </div>
 
 <img src="" id="company_logo"/>
