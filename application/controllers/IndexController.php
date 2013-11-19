@@ -58,18 +58,18 @@ class IndexController extends Zend_Controller_Action
 		$id_document=array();
 		
  		while ($row=$stmt->fetch()){//For each documents
- 			$sql2='SELECT DATECREATION FROM COURRIER WHERE ID_COURRIER = '.$row[ID_COURRIER];//Get the creation date
+ 			$sql2='SELECT DATECREATION FROM COURRIER WHERE ID_COURRIER = '.$row['ID_COURRIER'];//Get the creation date
  			$stmt2 = $db->query($sql2);
  			$row2 = $stmt2->fetch();
 			
- 			$sql3='SELECT NOMORIGINE FROM FICHIER WHERE ID_COURRIER = '.$row[ID_COURRIER];//get the title
+ 			$sql3='SELECT NOMORIGINE FROM FICHIER WHERE ID_COURRIER = '.$row['ID_COURRIER'];//get the title
  			$stmt3 = $db->query($sql3);
  			$row3 = $stmt3->fetch();
  			
  			$number_doc++;//Increment the number of documents
-  			$id_document[]=$row[ID_COURRIER];//Save the ID Value
-  			$titre[]=$row3[NOMORIGINE];//Save the title Value
-  			$date[]=$row2[DATECREATION];//Save the date value
+  			$id_document[]=$row['ID_COURRIER'];//Save the ID Value
+  			$titre[]=$row3['NOMORIGINE'];//Save the title Value
+  			$date[]=$row2['DATECREATION'];//Save the date value
  		}
  		//Pass values to view
 		$this->view->id_document=$id_document;

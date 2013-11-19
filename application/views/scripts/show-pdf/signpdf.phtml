@@ -19,7 +19,7 @@
 * Projet parapheur 2014
 */
 ?>
-
+	
 <title>Signer le PDF</title>
   <?php echo $this->headLink()->appendStylesheet($this->baseUrl().'/css/sketch.css'); ?>
   <?php echo $this->headScript()->appendFile($this->baseUrl().'/js/sketch.js')
@@ -30,7 +30,7 @@
 <br/>
 <div class="tools">
 <!--  data-download="png" -->
-  <a href="<?php echo $this->url(array('controller' => 'ShowPdf','action'=>'showfile'),'default',true) ?>" data-download="png" onClick='createPNGButton();'>Download</a> 	
+<a href="<?php echo $this->url(array('controller' => 'ShowPdf', 'action' => 'showfile','COURRIER_ID'=> $this->id_doc),'default',true)?>" data-download="png" onClick='createPNGButton();'>Download</a>
 </div>
 
 <img src="" id="company_logo"/>
@@ -47,7 +47,7 @@
     $('#colors_sketch').sketch();
   });
 
-  function createPNGButton( ) {
+  function createPNGButton() {
 
 	  var canvas = document.getElementById("colors_sketch"); 
       var strdata = canvas.toDataURL("image/png");

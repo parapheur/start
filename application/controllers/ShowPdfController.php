@@ -16,7 +16,7 @@
 * 1.9 : Hina Tufail - modification
 * 1.10 : Mathilde de l'Hermuziï¿½re - link with the index of documents and comment
 * 1.11 : Hina Tufail - mÃ©ta informations and comment pop ups
-* 1.12 : Mathilde de l'Hermuzière: Révision des métainformations
+* 1.12 : Mathilde de l'Hermuziï¿½re: Rï¿½vision des mï¿½tainformations
 *
 * Controller that controls views for doing action on a PDF document
 *
@@ -34,7 +34,7 @@ class ShowPdfController extends Zend_Controller_Action
     public function indexAction()
     {
      	
-    	//$this->_helper->layout->disableLayout();
+    	$this->_helper->layout->disableLayout();
     	$this->_helper->viewRenderer->setNoRender(true);    	
 
     	//Set a file name (hardcoded = to change later)
@@ -57,13 +57,13 @@ class ShowPdfController extends Zend_Controller_Action
     		$strUnencoded = base64_decode($strFilteredData[1]);
     		
     		//put the content into a file
-    		$filename = '../public/img/test.png';
+    		$filename = '../public/img/test2.png';
     		file_put_contents($filename, $strUnencoded);
 
     	}
     	
 		//Load signature image and add it to the PDF
-    	$image = Zend_Pdf_Image::imageWithPath('../public/img/test.png');
+    	$image = Zend_Pdf_Image::imageWithPath('../public/img/test2.png');
     	$page1->drawImage($image, 100, 100, 400, 350);
     	
     	//------------SET AND SEND HEADERS TO ACTION------------------------------
@@ -98,14 +98,14 @@ class ShowPdfController extends Zend_Controller_Action
      	$request = $this->getRequest();
      	$id_document = $request->getParam('COURRIER_ID');
      	
-		$this->view->id_document= $id_document;
-     	
+		//$this->view->id_document= $id_document;
+		/*
      	//We have to check is this user is habilitated to see this document...
      	//$sql1 = 'SELECT ID_ETATDESTINATAIRE FROM LIENINTERNE WHERE ID_COURRIER = 82 AND ID_ENTITEDESTINATAIRE = 6';
      	$sql1 = 'SELECT ID_ETATDESTINATAIRE FROM LIENINTERNE WHERE ID_COURRIER = '.$id_document.'AND ID_ENTITEDESTINATAIRE = 6';
      	//Get the result
      	$stmt1 = $db->query($sql1);
-  		$rows1 = $stmt1->fetchAll();
+  		$rows1 = $stmt1->fetchAll();*/
 //  		$etat=$rows1[0]['ID_ETATDESTINATAIRE'];
  		
 //  		if($etat==1||$etat==2){//user is allowed to see the document
@@ -156,12 +156,12 @@ class ShowPdfController extends Zend_Controller_Action
 // 	    }	
     
   		//Get the database infos
-  		$db = Zend_Db_Table::getDefaultAdapter();
+  		//$db = Zend_Db_Table::getDefaultAdapter();
   		//Call the form for comments
-  		$this->addCommentPopup($id_document,$user_ID,$db);
+  		//$this->addCommentPopup($id_document,$user_ID,$db);
   		
   		//Call the display info
-  		$this->showMeta($id_document,$db);
+  		//$this->showMeta($id_document,$db);
     
     }
 	
@@ -186,7 +186,7 @@ class ShowPdfController extends Zend_Controller_Action
     			$sqlfind = 'SELECT ID_LIENINTERNE FROM LIENINTERNE WHERE ID_ENTITEDESTINATAIRE= 6 AND ID_COURRIER ='.$id_document;
     			$stmtfind = $db->query($sqlfind);
     			$rowsfind = $stmtfind->fetchAll();
-    			$id_lieninterne= $rowsfind[0][ID_LIENINTERNE];
+    			$id_lieninterne= $rowsfind[0]['ID_LIENINTERNE'];
     			
     			$date = '06/11/2011';
     			$commentaire = new Application_Model_DbTable_Commentaire();
@@ -211,14 +211,14 @@ class ShowPdfController extends Zend_Controller_Action
     	$id_comment=array();
     	
     	while ($rowcom=$stmtcom->fetch()){//For each documents
-    		$sqlaut='SELECT ID_ENTITEDESTINATAIRE FROM LIENINTERNE WHERE ID_LIENINTERNE ='.$rowcom[ID_COURRIERENTITE];//Get the author
+    		$sqlaut='SELECT ID_ENTITEDESTINATAIRE FROM LIENINTERNE WHERE ID_LIENINTERNE ='.$rowcom['ID_COURRIERENTITE'];//Get the author
     		$stmtaut = $db->query($sqlaut);
     		$rowaut = $stmtaut->fetch();
     		
-    		$id_comment[]=$rowaut[ID_COMMENTAIRE];
-    		$id_author[]=$rowcom[ID_ENTITEDESTINATAIRE];//Save the ID Value
-    		$contenu[]=$rowcom[CONTENU];//Save the title Value
-    		$date[]=$rowcom[DATECREATION];//->toString();//Save the date value
+    		$id_comment[]=$rowcom['ID_COMMENTAIRE'];
+    		$id_author[]=$rowaut['ID_ENTITEDESTINATAIRE'];//Save the ID Value
+    		$contenu[]=$rowcom['CONTENU'];//Save the title Value
+    		$date[]=$rowcom['DATECREATION'];//->toString();//Save the date value
     	}
     	//Pass values to view
     	$this->view->id_comment=$id_comment;
@@ -248,9 +248,9 @@ class ShowPdfController extends Zend_Controller_Action
     	$destinataires= array();
     	
     	while ($rowlieninterne=$stmtlieninterne->fetch()){//For each documents
-    		$entitedestinataire= $rowlieninterne[ID_ENTITEDESTINATAIRE];
-    		$id_demandeur= $rowlieninterne[ID_ENTITEEXPEDITEUR];
-    		$etat= $rowlieninterne[ID_ETATDESTINATAIRE];
+    		$entitedestinataire= $rowlieninterne['ID_ENTITEDESTINATAIRE'];
+    		$id_demandeur= $rowlieninterne['ID_ENTITEEXPEDITEUR'];
+    		$etat= $rowlieninterne['ID_ETATDESTINATAIRE'];
     		
     		if($etat=="1"||$etat=="2"){//If the person is still in the workflow
     			$destinataires[]= $entitedestinataire;
@@ -344,6 +344,11 @@ class ShowPdfController extends Zend_Controller_Action
     //Action that helps to sign a PDF
     public function signpdfAction()
     {
+    	//We get the ID of the document we have to display from the indexController
+    	//$request = $this->getRequest();
+    	//$id_document = $request->getParam('COURRIER_ID');
+    	
+    	//$this->view->id_doc= $id_document;
     }
 
 }
