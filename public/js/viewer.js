@@ -3,7 +3,7 @@
 
 'use strict';
 
-var kDefaultURL = 'TD-1.pdf';
+var kDefaultURL = '/TD-1.pdf';
 var kDefaultScale = 0.53;
 var kDefaultScaleDelta = 1.1;
 var kUnknownScale = 0;
@@ -169,7 +169,7 @@ var Settings = (function SettingsClosure() {
     else
       return false;
 
-    database = JSON.parse(database);
+    database = JSONP.parse(database);
     if (!('files' in database))
       database.files = [];
     if (database.files.length >= kSettingsMemory)
@@ -1180,6 +1180,7 @@ window.addEventListener('load', function webViewerLoad(evt) {
   var file = PDFJS.isFirefoxExtension ?
               window.location.toString() : params.file || kDefaultURL;
 
+alert(file);
   // Special debugging flags in the hash section of the URL.
   var hash = document.location.hash.substring(1);
   var hashParams = PDFView.parseQueryString(hash);
