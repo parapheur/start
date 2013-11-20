@@ -30,7 +30,17 @@
 <br/>
 <div class="tools">
 <!--  data-download="png" -->
-<a href="<?php echo $this->url(array('controller' => 'ShowPdf', 'action' => 'showfile','COURRIER_ID'=> $this->id_doc),'default',true)?>" data-download="png" onClick='createPNGButton();'>Download</a>
+
+<a data-download="png" onClick='createPNGButton();' href="<?php echo $this->url(array('controller' => 'ShowPdf',
+									 'action' => 'showfile',
+									 'COURRIER_ID'=> $this->id_doc),
+									 'default'
+									,true)?>">Image</a>
+<!-- <a data-download="png" href="<?php //echo $this->url(array('controller' => 'ShowPdf',
+									 //'action' => 'showfile',
+									 //'COURRIER_ID'=> $this->id_doc),
+									 //'default'
+									//,true)?>">Download</a>-->
 </div>
 
 <img src="" id="company_logo"/>
@@ -59,7 +69,11 @@
 	  success: function(arrResult) {
 			//do something
 			alert("success");
-		  }
+		  },
+      error: function(arrResult) {
+		    //do something
+		    alert("error");
+	      }
 		});	  
 	 }
 </script>      

@@ -87,7 +87,7 @@ class ShowPdfController extends Zend_Controller_Action
     {
     	//Disabling the layout
     	$this->_helper->layout->disableLayout();
-    	$this->_helper->viewRenderer->setNoRender(true); 
+    	//$this->_helper->viewRenderer->setNoRender(true); 
     	
     	//Getting the database connexion
      	$db = Zend_Db_Table::getDefaultAdapter();
@@ -100,7 +100,7 @@ class ShowPdfController extends Zend_Controller_Action
      	$id_document = $request->getParam('COURRIER_ID');
      	
      	//la ligne suivante ne fonctionne pas
-		//$this->view->id_document= $id_document;
+		$this->view->id_document= $id_document;
 		/*
      	//We have to check is this user is habilitated to see this document...
      	//$sql1 = 'SELECT ID_ETATDESTINATAIRE FROM LIENINTERNE WHERE ID_COURRIER = 82 AND ID_ENTITEDESTINATAIRE = 6';
@@ -158,12 +158,18 @@ class ShowPdfController extends Zend_Controller_Action
 // 	    }	
     
   		//Get the database infos
-  		//$db = Zend_Db_Table::getDefaultAdapter();
+  		$db = Zend_Db_Table::getDefaultAdapter();
+		
+		//Call the form for add person
+		$this->addPersonPopup($id_document,$user_ID,$db);
+		
   		//Call the form for comments
-  		//$this->addCommentPopup($id_document,$user_ID,$db);
+  		$this->addCommentPopup($id_document,$user_ID,$db);
+  		
+  		
   		
   		//Call the display info
-  		//$this->showMeta($id_document,$db);
+  		$this->showMeta($id_document,$db);
     
     }
 	
@@ -347,10 +353,39 @@ class ShowPdfController extends Zend_Controller_Action
     public function signpdfAction()
     {
     	//We get the ID of the document we have to display from the indexController
-    	//$request = $this->getRequest();
-    	//$id_document = $request->getParam('COURRIER_ID');
+    	$request = $this->getRequest();
+    	$id_document = $request->getParam('COURRIER_ID');
     	
-    	//$this->view->id_doc= $id_document;
+    	$this->view->id_doc= $id_document;
+    }
+    
+    //Action that add people to the workflow
+    public function addPersonPopup($id_document,$user_ID,$db)
+    {
+    	//----------------------------------------------------------------------
+    	// ADD PERSON POPUP
+    	// Form of a person ---------------------------------------------------
+    	$request = $this->getRequest();
+    	$form = new Application_Form_Addperson();
+    	 
+    	if ($this->getRequest()->isPost()) {
+    		if ($form->isValid($request->getPost())) {
+    	
+    			$formData = $form->getValues();
+    	
+    			$id_dest = $form->getValue('id_person');
+    			$IRauteur = $form->getValue('IRauteur');
+    			$type = $form->getValue('type');
+    			$date = '06/11/2011';
+    			
+    			$lieninterne = new Application_Model_DbTable_Lieninterne();
+    			$lieninterne->ajouterLieninterne($id_document, $user_ID, $id_dest, $type, '5', 'N', $date, $IRauteur);
+    	
+    			//return $this->_helper->redirector('showfile');
+    		}
+    	}
+    	$this->view->addpersonForm = $form;
+    	$this->view->id_doc= $id_document;
     }
 
 }

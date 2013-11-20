@@ -56,6 +56,7 @@
 		<div id="bottomPDFMenu">
 		<a href="#" data-width="720" data-rel="comment_doc" class="poplight"><img src='../../../img/icons/ico_com.png' alt='icone ajout de commentaire image'/></a>
 		
+		
 		<a href="" id="zoomIcone"><img src='../../../img/icons/ico_plus.png' alt='icone zoom + image'/></a>
 		<a href="" id="dezoomIcone"><img src='../../../img/icons/ico_moins.png' alt='icone zoom - image'/></a>
 		
@@ -63,6 +64,8 @@
 		<a href="" id="precedentePageIcone"><img src='../../../img/icons/ico_previousPage.png' alt='icone page precedente image'/></a>
 		<a href="" id="suivantePageIcone"><img src='../../../img/icons/ico_nextPage.png' alt='icone page suivante image'/></a>
 		<a href="" id="dernierePageIcone"><img src='../../../img/icons/ico_lastPage.png' alt='icone dernière page image'/></a>
+		
+		<a href="#" data-width="720" data-rel="addperson_doc" class="poplight"><img src='../../../img/icons/ico_print.png' alt='icone ajout de destinataire image'/></a>
 		
 		<a href="<?php 	echo $this->url(array('controller' => 'Index',
 					           		'action'=>'index'),
@@ -92,6 +95,8 @@
 	<!--Comment Document -->
 	<?php include('commentpopup.phtml')?>
 
+	<!--Add person to Document -->
+	<?php include('addpersonpopup.phtml')?>
 	
 	<div id="popup_fade"></div>
 	

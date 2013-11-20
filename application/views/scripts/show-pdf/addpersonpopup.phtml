@@ -1,0 +1,26 @@
+<?php 
+	/*
+	 * File : addpersonPopup.phtml
+	* Author : Mathilde de l'Hermuziere
+	* Created : 20/11/2013
+	* 1.1 : Mathilde de l'Hermuzière - creation
+	* 
+	* Action pop up for add a person to the workflow of the document
+	*
+	* Projet parapheur 2014
+	*/
+?>
+
+	<div id="addperson_doc" class="popup_block">
+		<a class="close" href="#">
+			<img class="btn_close" alt="" src="../../../img/icons/close_pop.png"></img>
+		</a>
+		<h1>Ajout de destinataires</h1>
+		<div class="write_comment">
+		<?php
+			$this->addpersonForm->setAction($this->url());
+			echo $this->addpersonForm; 
+		?>
+		</div> 
+		<br />
+	</div>
