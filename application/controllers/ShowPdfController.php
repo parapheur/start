@@ -87,6 +87,7 @@ class ShowPdfController extends Zend_Controller_Action
     {
     	//Disabling the layout
     	$this->_helper->layout->disableLayout();
+    	$this->_helper->viewRenderer->setNoRender(true); 
     	
     	//Getting the database connexion
      	$db = Zend_Db_Table::getDefaultAdapter();
@@ -98,7 +99,7 @@ class ShowPdfController extends Zend_Controller_Action
      	$request = $this->getRequest();
      	$id_document = $request->getParam('COURRIER_ID');
      	
-		//$this->view->id_document= $id_document;
+		$this->view->id_document= $id_document;
 		/*
      	//We have to check is this user is habilitated to see this document...
      	//$sql1 = 'SELECT ID_ETATDESTINATAIRE FROM LIENINTERNE WHERE ID_COURRIER = 82 AND ID_ENTITEDESTINATAIRE = 6';
