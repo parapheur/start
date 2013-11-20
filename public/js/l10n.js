@@ -113,6 +113,7 @@
   // load and parse the specified resource file
   function loadResource(href, lang, onSuccess, onFailure) {
     var xhr = new XMLHttpRequest();
+    alert(href);
     xhr.open('GET.html', href, true);
     xhr.overrideMimeType('text/plain; charset=utf-8');
     xhr.onreadystatechange = function() {

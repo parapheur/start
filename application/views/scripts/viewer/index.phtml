@@ -1,0 +1,102 @@
+<?php
+
+/*
+ * File : index.phtml
+* Author : Mathilde de l'Hermuzière
+* Created : 09/11/2013
+* Modified : 13/11/2013
+* 1.1 :  Mathilde de l'Hermuzière - creation and modification
+* 1.2 : Thomas Nguyen-huu - modification
+* 1.3 :  Mathilde de l'Hermuzière - modification
+* Action to use a flipbook
+*
+* Projet parapheur 2014
+*/
+?>
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<title>PDF Flip Book</title>
+	<?php echo $this->headLink()->appendStylesheet($this->baseUrl().'/css/reset.css')
+  								->appendStylesheet($this->baseUrl().'/css/flip.css'); ?>
+  	<?php echo $this->headScript()->appendFile($this->baseUrl().'/js/jquery-1.7.1.min.js')
+  								  ->appendFile($this->baseUrl().'/js/turn.js')
+  							      ->appendFile($this->baseUrl().'/js/compatibility.js')
+  								  ->appendFile($this->baseUrl().'/js/l10n.js')
+  								  ->appendFile($this->baseUrl().'/js/pdf.js')
+  								  ->appendFile($this->baseUrl().'/js/viewer.js')
+  								  ->appendFile($this->baseUrl().'/js/sketch.js');?>
+ </head>
+ 
+<body>
+	<div id="loadingBox">
+		<div id="loading" data-l10n-args="{'percent': 0}" data-l10n-id="loading">Loading... 0%</div>
+		<div id="loadingBar">
+			<div class="progress"></div>
+		</div>
+	</div>
+	<div id="flip-book">
+		<div id="viewer"></div>
+	</div>
+	<div id="side-bar">
+		<ul>
+			<li>
+				<input id="download" class="btn-meta" type="button">
+			</li>
+			<li>
+				<input id="download" class="btn-print" type="button">
+			</li>
+			<li>
+				<input id="download" class="btn-download" type="button" onclick="PDFView.download();">
+			</li>
+			<li>
+				<input id="download" class="btn-export" type="button">			
+			</li>
+		</ul>
+	</div>
+	<div id="tool-bar">
+		<div class="tool-left">
+			<input class="btn-comment" type="button">		
+		</div>
+		<ul>
+			<li>
+				<input class="btn-zoomin" type="button" onclick="PDFView.zoomIn();">
+			</li>
+			<li>
+				<input class="btn-zoomout"  type="button" onclick="PDFView.zoomOut();">
+			</li>
+			<li>
+				<input id="go-first" class="btn-gofirst"  type="button" onclick="PDFView.page = 1">
+			</li>
+			<li>
+				<input id="previous" class="btn-previous"  type="button" onclick="PDFView.page--">
+			</li>
+			<li class="page-cur">
+				<input id="pageNumber" type="text" value="1" onchange="PDFView.page = this.value;" disabled="true">
+				<span id="numPages"></span>
+			</li>
+			<li>
+				<input id="next" class="btn-next" type="button" onclick="PDFView.page++">
+			</li>
+			<li>
+				<input id="go-last" class="btn-golast"  type="button" onclick="PDFView.page = PDFView.pages.length">
+			</li>
+			<li>
+				<a class="btn-home" href="/" class=""></a>
+			</li>
+			<li>
+			</li>
+		</ul>		
+		<div class="tool-right">
+			<input class="btn-valid" type="button">		
+			<input class="btn-invalid" type="button">	
+		</div>
+		<select id="scaleSelect" onchange="PDFView.parseScale(this.value);" style="display:none;">
+			<option id="pageAutoOption" value="auto">Automatic Zoom</option>
+			<option id="customScaleOption" value="custom"></option>
+		</select>
+	</div>
+	
+</body>
+</html>

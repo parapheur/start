@@ -1,0 +1,172 @@
+	/*
+	 * File : style.css
+	* Author : Thomas Nguyen-huu
+	* Created : 23/10/2013
+	* 1.1 : Thomas Nguyen-huu - creation
+	* 1.2 : Thomas Nguyen-huu - modification
+	* 1.3 : Fanny Seiler - modification
+	*
+	* CSS for the whole application
+	*
+	* Projet parapheur 2014
+	*/
+
+/* DEFAULTS
+----------------------------------------------------------*/
+html, body {
+	height: 100%;
+	/*overflow: hidden;*/
+	width: 100%;
+}
+body {
+	background: none repeat scroll 0 0 #1B1B27;
+	color: #FFFFFF;
+	font-family: Arial;
+}
+
+
+/* BOOK
+----------------------------------------------------------*/
+#flip-book {
+    height: 600px;
+	margin: 60px 0 0;
+    overflow: auto;
+}
+#viewer {
+    margin: 0 auto;
+	overflow: hidden;
+}
+.page {
+    background: none repeat scroll 0 0 #FFFFFF;
+    overflow: hidden;
+    position: relative;
+}
+
+
+/* TOOL BAR
+----------------------------------------------------------*/
+#tool-bar {
+    margin: 12px auto 0;
+    position: relative;
+    width: 980px;
+}
+#tool-bar .tool-left {
+	left: 0;
+	position: absolute;
+	top: 0;
+}
+#tool-bar .tool-right {
+	right: 0;
+	position: absolute;
+	top: 0;
+}
+#tool-bar .tool-right input {
+	float: left;
+	margin: 0 0 0 10px;
+}
+#tool-bar ul {
+	height: 32px;
+	margin: 0 auto;
+	width: 500px;
+}
+#tool-bar ul li {
+	float: left;
+	margin: 0 10px;
+
+}
+#tool-bar ul .page-cur input {
+    background: none repeat scroll 0 0 rgba(0, 0, 0, 0);
+    border: medium none;
+    color: #FFFFFF;
+    font-size: 25px;
+    font-weight: bold;
+    text-align: center;
+    width: 35px;
+}
+.btn-comment, .btn-zoomin, .btn-zoomout, .btn-previous, .btn-next, .btn-gofirst,
+ .btn-golast, .btn-home, .btn-download, .btn-valid, .btn-invalid, .btn-meta, .btn-export, .btn-print {
+	border: none;
+	cursor: pointer;
+	display: block;
+	height: 32px;
+	width: 36px;
+}
+.btn-comment:hover, .btn-zoomin:hover, .btn-zoomout:hover, .btn-previous:hover, 
+.btn-next:hover, .btn-gofirst:hover, .btn-golast:hover, .btn-home:hover, .btn-download:hover,
+.btn-valid:hover, .btn-invalid:hover, .btn-meta:hover, .btn-export:hover, .btn-print:hover {
+	opacity: 0.5;
+}
+.btn-comment { background: url("../img/ico_comment.png") no-repeat scroll center center transparent; }
+.btn-zoomin { background: url("../img/ico_zoomin.png") no-repeat scroll center center transparent; }
+.btn-zoomout { background: url("../img/ico_zoomout.png") no-repeat scroll center center transparent; }
+.btn-previous { background: url("../img/ico_previous.png") no-repeat scroll center center transparent; }
+.btn-next { background: url("../img/ico_next.png") no-repeat scroll center center transparent; }
+.btn-gofirst { background: url("../img/ico_gofirst.png") no-repeat scroll center center transparent; }
+.btn-golast { background: url("../img/ico_golast.png") no-repeat scroll center center transparent; }
+.btn-home { background: url("../img/ico_home.png") no-repeat scroll center center transparent; }
+.btn-valid { background: url("../img/ico_valid.png") no-repeat scroll center center transparent; }
+.btn-invalid { background: url("../img/ico_invalid.png") no-repeat scroll center center transparent; }
+.btn-download { background: url("../img/ico_download.png") no-repeat scroll center center transparent; }
+.btn-meta { background: url("../img/ico_meta.png") no-repeat scroll center center transparent; }
+.btn-export { background: url("../img/ico_export.png") no-repeat scroll center center transparent; }
+.btn-print { background: url("../img/ico_print.png") no-repeat scroll center center transparent; }
+
+
+/* SIDE BAR
+----------------------------------------------------------*/
+#side-bar {
+	background: none no-repeat scroll 0 0 rgba(27, 27, 39, 0.2);
+	border-radius: 5px;
+	left: 50px;
+	padding: 10px 10px 0 10px;
+	position: fixed;
+	top: 60px;
+}
+#side-bar ul li {
+	margin: 0 0 15px;
+}
+
+
+/* LOADING INFOS
+----------------------------------------------------------*/
+.loadingIcon {
+    background: url("../img/loading-icon.gif") no-repeat scroll center center rgba(0, 0, 0, 0);
+    bottom: 0;
+    display: block;
+    left: 0;
+    position: absolute;
+    right: 0;
+    top: 0;
+}
+#loadingBox {
+    color: #DDDDDD;
+    font-size: 14px;
+    margin: 100px 0 0 50%;
+    text-align: center;
+    position: absolute;
+    
+}
+#loadingBar {
+    background-color: #333333;
+    border: 1px solid #000000;
+    border-radius: 4px;
+    clear: both;
+    display: inline-block;
+    height: 25px;
+    line-height: 0;
+    margin: 5px 0 0;
+    width: 200px;
+}
+#loadingBar .progress {
+    background: -moz-linear-gradient(center top , #999999 0%, #666666 50%, #999999 100%) repeat scroll 0 0 rgba(0, 0, 0, 0);
+    border-bottom-left-radius: 3px;
+    border-top-left-radius: 3px;
+    display: inline-block;
+    float: left;
+    height: 100%;
+    width: 0;
+}
+#loadingBar .progress.full {
+    border-bottom-right-radius: 3px;
+    border-top-right-radius: 3px;
+}
