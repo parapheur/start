@@ -20,11 +20,16 @@ class IndexController extends Zend_Controller_Action
 
     public function init()
     {
+
     }
 
     //Action that will display index for documents present in database
     public function indexAction()
     {
+
+    	//Set signature message if page is redirected here after signing a document
+    	$this->signSuccessMessage();
+    	
     	//As we do not have Active Directory, we assume that our user ID is 6
     	$user_ID=6;
     	//We initialise a variable that will count our number of documents
@@ -77,6 +82,25 @@ class IndexController extends Zend_Controller_Action
 		$this->view->titre =$titre;
 		$this->view->date =$date;
     	
+    }
+    
+    private function signSuccessMessage(){
+    	
+    	$signSuccess = '';
+    	$signError =  '';
+    	$request = $this->getRequest();
+    	$success = $request->getParam('SUCCESS');
+    	if($success == '1'){
+    		//Message to show if signing document is successful
+    		$signSuccess='Félicitations ! Votre document a été signé !';
+    	}
+    	else if($success == '0'){
+    		//Message to show if signing document is successful
+    		$signError='Il y a eu une erreur dans la signature !';
+    	}
+    	 
+    	$this->view->sucessMessage = $signSuccess;
+    	$this->view->errorMessage = $signError;
     }
     
     public function addfileAction()

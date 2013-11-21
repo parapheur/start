@@ -31,16 +31,8 @@
 <div class="tools">
 <!--  data-download="png" -->
 
-<a data-download="png" onClick='createPNGButton();' href="<?php echo $this->url(array('controller' => 'ShowPdf',
-									 'action' => 'showfile',
-									 'COURRIER_ID'=> $this->id_doc),
-									 'default'
-									,true)?>">Image</a>
-<!-- <a data-download="png" href="<?php //echo $this->url(array('controller' => 'ShowPdf',
-									 //'action' => 'showfile',
-									 //'COURRIER_ID'=> $this->id_doc),
-									 //'default'
-									//,true)?>">Download</a>-->
+<a href="#" data-download="png" onClick='createPNGButton();'>Download</a>
+
 </div>
 
 <img src="" id="company_logo"/>
@@ -60,20 +52,25 @@
   function createPNGButton() {
 
 	  var canvas = document.getElementById("colors_sketch"); 
-      var strdata = canvas.toDataURL("image/png");
+      var strdata = canvas.toDataURL("image/png");      
 
     $.ajax({
 	 type: "POST",                                                  
 	   url: "index",                     
 	  data: "&data="+strdata,
 	  success: function(arrResult) {
-			//do something
-			alert("success");
+			var str = 'http://parapheur/index/index/SUCCESS/1';
+			window.location.replace(str);
 		  },
-      error: function(arrResult) {
-		    //do something
-		    alert("error");
-	      }
+  	  error: function(arrResult) {
+		//do something
+		alert("error");
+		var str = 'http://parapheur/index/index/SUCCESS/0';
+		window.location.replace(str);
+	  },
+	  complete: function(){
+
+		  } 
 		});	  
 	 }
 </script>      

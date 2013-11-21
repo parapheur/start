@@ -20,10 +20,15 @@
  					non diam eu consequat.</p> 
  				</div> 
  				<input class="blue-button on-right" type="button" value="Transférer" /> 
- 			</div> 
+ 			</div>
+ 			<div id="display-sign-success">
+ 				<p><?php echo $this->sucessMessage;?></p>
+ 			</div>
+ 			 <div id="display-sign-error">
+ 				<p><?php echo $this->errorMessage;?></p>
+ 			</div>
 			<?php $i=0;?>
  			<div id="index"> 
-			
  				<ul class="index-row"> 
  				<?php foreach($this->id_document as $id_document) : ?>
  					<li> 

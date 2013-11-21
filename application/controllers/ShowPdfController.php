@@ -28,6 +28,14 @@ class ShowPdfController extends Zend_Controller_Action
 
     public function init()
     {
+    	//We get the ID of the document we have to display from the indexController
+    	$request = $this->getRequest();
+    	$this->id_document = $request->getParam('COURRIER_ID');
+    	
+    	//Get the PDF
+    	//Set a file name (hardcoded = to change later)
+    	$this->fileName = '..\docs\debuter-avec-zend-framework.pdf';
+
     }
 
     //Action that displays a PDF application
@@ -37,34 +45,10 @@ class ShowPdfController extends Zend_Controller_Action
     	$this->_helper->layout->disableLayout();
     	$this->_helper->viewRenderer->setNoRender(true);    	
 
-    	//Set a file name (hardcoded = to change later)
-		$fileName = '..\docs\debuter-avec-zend-framework.pdf';
-
     	$pdf = new Zend_Pdf();
-    	$pdf = Zend_Pdf::load($fileName,null,true);
+    	$pdf = Zend_Pdf::load($this->fileName,null,true);
   	
-    	// Add a new page with Zend_Pdf to the document
-    	$pdf->pages[] = ($page1 = $pdf->newPage('A4'));
-
-		//--------------ADD SIGNATURE-------------------------
-    	if ($this->getRequest()->isPost()) {
-    		//Get the data
-    		$file = trim($this->getRequest()->getParam('data'));
-    		 
-    		//Decode data
-    		$strEncodedData = str_replace(' ', '+', $file);
-    		$strFilteredData = explode(',', $strEncodedData);
-    		$strUnencoded = base64_decode($strFilteredData[1]);
-    		
-    		//put the content into a file
-    		$filename = '../public/img/test2.png';
-    		file_put_contents($filename, $strUnencoded);
-
-    	}
-    	
-		//Load signature image and add it to the PDF
-    	$image = Zend_Pdf_Image::imageWithPath('../public/img/test2.png');
-    	$page1->drawImage($image, 100, 100, 400, 350);
+    	$this->signWithCanvas($pdf);
     	
     	//------------SET AND SEND HEADERS TO ACTION------------------------------
     	$this->getResponse()->setHeader('Content-type', 'application/pdf', true);
@@ -81,13 +65,49 @@ class ShowPdfController extends Zend_Controller_Action
     	$this->getResponse()->setBody($pdf->render());
     	
     }
+    
+    public function signWithCanvas($pdf){
+    	 
+    	// Add a new page with Zend_Pdf to the document
+    	$pdf->pages[] = ($page1 = $pdf->newPage('A4'));
+    	
+    	// Reverse page order
+    	//$pdf->pages = array_reverse($pdf->pages);
+    	//Delete the last page with signature (for test purpose) --> to be removed later.
+    	//unset($pdf->pages[1]);
+    	
+    	//--------------ADD SIGNATURE-------------------------
+    	if ($this->getRequest()->isPost()) {
+    		//Get the data
+    		$file = trim($this->getRequest()->getParam('data'));
+    		 
+    		//Decode data
+    		$strEncodedData = str_replace(' ', '+', $file);
+    		$strFilteredData = explode(',', $strEncodedData);
+    		$strUnencoded = base64_decode($strFilteredData[1]);
+    	
+    		//put the content into a file
+    		$fileimg = '../public/img/test2.png';
+    		file_put_contents($fileimg, $strUnencoded);
+    	
+    	}
+    	 
+    	//Load signature image and add it to the PDF
+    	$image = Zend_Pdf_Image::imageWithPath('../public/img/test2.png');
+    	$page1->drawImage($image, 100, 100, 400, 350);
+
+    	
+    	// Update the PDF document
+    	//$pdf->save($this->fileName, true);
+    	// Save document as a new file
+    	//$pdf->save('test.pdf');
+    }
 
     //Action that displays the PDF app with other functionnalities such as zoom, print, comment, refuse, validate...
     public function showfileAction()
     {
     	//Disabling the layout
     	$this->_helper->layout->disableLayout();
-    	//$this->_helper->viewRenderer->setNoRender(true); 
     	
     	//Getting the database connexion
      	$db = Zend_Db_Table::getDefaultAdapter();
@@ -99,8 +119,7 @@ class ShowPdfController extends Zend_Controller_Action
      	$request = $this->getRequest();
      	$id_document = $request->getParam('COURRIER_ID');
      	
-     	//la ligne suivante ne fonctionne pas
-		$this->view->id_document= $id_document;
+		$this->view->id_document= $this->id_document;
 		/*
      	//We have to check is this user is habilitated to see this document...
      	//$sql1 = 'SELECT ID_ETATDESTINATAIRE FROM LIENINTERNE WHERE ID_COURRIER = 82 AND ID_ENTITEDESTINATAIRE = 6';
@@ -165,9 +184,7 @@ class ShowPdfController extends Zend_Controller_Action
 		
   		//Call the form for comments
   		$this->addCommentPopup($id_document,$user_ID,$db);
-  		
-  		
-  		
+
   		//Call the display info
   		$this->showMeta($id_document,$db);
     
@@ -352,11 +369,6 @@ class ShowPdfController extends Zend_Controller_Action
     //Action that helps to sign a PDF
     public function signpdfAction()
     {
-    	//We get the ID of the document we have to display from the indexController
-    	$request = $this->getRequest();
-    	$id_document = $request->getParam('COURRIER_ID');
-    	
-    	$this->view->id_doc= $id_document;
     }
     
     //Action that add people to the workflow
