@@ -20,7 +20,7 @@ class Application_Form_Addperson extends Zend_Form
 		
 		// L'identifiant de la personne que l'on veut ajouter
 		$this->addElement('text', 'id_person', array(
-				'label'      => 'ID Nouveau destinataire',
+				'label'      => 'ID Destinataire',
 				'required'   => true,
 		));
 		
