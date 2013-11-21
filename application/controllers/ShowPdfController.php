@@ -216,7 +216,7 @@ class ShowPdfController extends Zend_Controller_Action
     			$id_lieninterne= $rowsfind[0]['ID_LIENINTERNE'];
     			
     			//Date : for test
-    			$date = '';
+    			$date = '06/11/2011';
     			$commentaire = new Application_Model_DbTable_Commentaire();
     			$commentaire->ajouterCommentaire($id_document, $id_lieninterne, $text_commentaire, $date, $type_commentaire);
     				
