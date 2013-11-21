@@ -9,6 +9,7 @@
 * 1.2 : Mathilde de l'Hermuzière - modification
 * 1.3 : Hina Tufail - modification
 * 1.4 : Mathilde de l'Hermuzière - modification
+* 1.5 : Hina Tufail - modification - 20/11/2013
 *
 * Controller that controls views for the main page
 *
