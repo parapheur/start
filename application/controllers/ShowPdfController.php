@@ -220,7 +220,6 @@ class ShowPdfController extends Zend_Controller_Action
     			$commentaire = new Application_Model_DbTable_Commentaire();
     			$commentaire->ajouterCommentaire($id_document, $id_lieninterne, $text_commentaire, $date, $type_commentaire);
     				
-    			//return $this->_helper->redirector('showfile');
     		}
     	
     	
@@ -394,7 +393,7 @@ class ShowPdfController extends Zend_Controller_Action
     			$date = '06/11/2011';
     			
     			$lieninterne = new Application_Model_DbTable_Lieninterne();
-    			$lieninterne->ajouterLieninterne($id_document, $user_ID, $id_dest, $type, '5', 'N', $date, $IRauteur);
+    			$lieninterne->ajouterLieninterne($id_document, $user_ID, $id_dest, $type, '1', 'N', $date, $IRauteur);
     	
     			//return $this->_helper->redirector('showfile');
     		}
