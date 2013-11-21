@@ -21,7 +21,10 @@ class IndexController extends Zend_Controller_Action
 
     public function init()
     {
-
+    	if($this->_request->getParam('search')!=''){
+    		$this->test = 'Paramètre récupéré';
+    		$this->view->test = $this->test;
+    	}
     }
 
     //Action that will display index for documents present in database

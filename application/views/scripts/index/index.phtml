@@ -17,8 +17,9 @@
 ?> 			 <div class="box clearfix"> 
  				<div class="on-left">
 					<h1><?php echo $this->number_doc; ?> documents à valider</h1>
- 					<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus tincidunt  
- 					non diam eu consequat.</p> 
+ 					<p>Veuillez sélectionner à l'aide des cases à cocher les documents que vous souhaitez
+ 						transférer sur tablette.
+ 						<?php echo $this->test;?></p> 
  				</div> 
  				<input class="blue-button on-right" type="button" value="Transférer" /> 
  			</div>
@@ -53,7 +54,8 @@
 				            		'default',
 				            true) 
 						?>"> <?php echo $this->titre[$i];?></a>
-						<p>Créé le : <?php echo $this->date[$i]; $i++;?></p>
+						<p>Créé le : <?php echo $this->date[$i]; $i++;?></p><br/>
+ 					<p><input type="checkbox" name="<?php echo $this->titre[$i];?>"></p>
 						<?php if($i%5==0){?></ul><ul class ="index-row"><?php }?>
  					</li> 
  				<?php endforeach; ?>
