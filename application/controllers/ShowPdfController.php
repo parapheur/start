@@ -194,27 +194,29 @@ class ShowPdfController extends Zend_Controller_Action
     //Action that helps to comment a PDF
     public function addCommentPopup($id_document,$user_ID,$db)
     {
-    	//----------------------------------------------------------------------
     	// COMMENT POPUP
     	// Form of a comment ---------------------------------------------------
     	$request = $this->getRequest();
     	$form = new Application_Form_Comment();
     	
+    	//If request is post
     	if ($this->getRequest()->isPost()) {
     		if ($form->isValid($request->getPost())) {
     				
+    			//Get values from form
     			$formData = $form->getValues();
     				
     			$type_commentaire = $form->getValue('type_commentaire');
     			$text_commentaire = $form->getValue('text_commentaire');
     			
     			//Find the ID of the lieninterne between our user and the document
-    			$sqlfind = 'SELECT ID_LIENINTERNE FROM LIENINTERNE WHERE ID_ENTITEDESTINATAIRE= 6 AND ID_COURRIER ='.$id_document;
+    			$sqlfind = 'SELECT ID_LIENINTERNE FROM LIENINTERNE WHERE ID_ENTITEDESTINATAIRE='.$user_ID.' AND ID_COURRIER ='.$id_document;
     			$stmtfind = $db->query($sqlfind);
     			$rowsfind = $stmtfind->fetchAll();
     			$id_lieninterne= $rowsfind[0]['ID_LIENINTERNE'];
     			
-    			$date = '06/11/2011';
+    			//Date : for test
+    			$date = '';
     			$commentaire = new Application_Model_DbTable_Commentaire();
     			$commentaire->ajouterCommentaire($id_document, $id_lieninterne, $text_commentaire, $date, $type_commentaire);
     				
