@@ -378,7 +378,7 @@ class ShowPdfController extends Zend_Controller_Action
     {
     	//----------------------------------------------------------------------
     	// ADD PERSON POPUP
-    	// Form of a person ---------------------------------------------------
+    	// Form of a person ----------------------------------------------------
     	$request = $this->getRequest();
     	$form = new Application_Form_Addperson();
     	 
@@ -396,10 +396,35 @@ class ShowPdfController extends Zend_Controller_Action
     			$lieninterne->ajouterLieninterne($id_document, $user_ID, $id_dest, $type, '1', 'N', $date, $IRauteur);
     	
     			//return $this->_helper->redirector('showfile');
-    		}
+    		}   		
     	}
     	$this->view->addpersonForm = $form;
     	$this->view->id_doc= $id_document;
+    	
+    	// Show the workflow of persons waiting ---------------------------------
+    	//Get the comment linked to the document
+    	$sqldest = 'SELECT * FROM LIENINTERNE WHERE (ID_ETATDESTINATAIRE=1 OR ID_ETATDESTINATAIRE=2) AND ID_COURRIER ='.$id_document.'ORDER BY DATECREATION';
+    	//Get the result
+    	$stmtdest = $db->query($sqldest);
+    	 
+    	$expediteur= array();
+    	$destinataire=array();
+    	$etat=array();
+    	$date=array();
+    	 
+    	while ($rowdest=$stmtdest->fetch()){//For each documents
+    		$idlien[]=$rowdest['ID_LIENINTERNE'];
+    		$expediteur[]=$rowdest['ID_ENTITEEXPEDITEUR'];
+    		$destinataire[]=$rowdest['ID_ENTITEDESTINATAIRE'];//Save the ID Value
+    		$etat[]=$rowdest['ID_ETATDESTINATAIRE'];//Save the title Value
+    		$date[]=$rowdest['DATECREATION'];//->toString();//Save the date value
+    	}
+    	//Pass values to view
+    	$this->view->idlien = $idlien;
+    	$this->view->expediteur = $expediteur;
+    	$this->view->destinataire = $destinataire;
+    	$this->view->etat = $etat;
+    	$this->view->date = $date;
     }
 
 }

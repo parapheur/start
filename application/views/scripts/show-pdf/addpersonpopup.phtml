@@ -16,6 +16,7 @@
 			<img class="btn_close" alt="" src="../../../img/icons/close_pop.png"></img>
 		</a>
 		<h1>Ajout de destinataires</h1>
+		<br />
 		<div class="write_comment">
 		<?php
 			$this->addpersonForm->setAction($this->url());
@@ -23,4 +24,20 @@
 		?>
 		</div> 
 		<br />
+		
+		<?php $i=0;?>
+		<div class="all_comments">
+			<?php foreach($this->idlien as $idlien) : ?>
+			<ul>
+				<li>
+					<div>
+						<div class="author on-left">Destinataire n&ordm;<?php echo $i+1;?>: ID <?php echo($this->destinataire[$i]); ?>, a</div>
+						<div class="author on-left">jout&eacute; par l'ID <?php echo($this->expediteur[$i]); ?> l</div>
+						<div class="author on-left">e <?php echo $this->date[$i]; ?>.</div>
+						<?php $i++;?>
+					</div>
+				</li>
+			</ul>
+			<?php endforeach; ?>
+		</div>
 	</div>
