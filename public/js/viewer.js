@@ -1156,7 +1156,6 @@ window.addEventListener('load', function webViewerLoad(evt) {
   var file = PDFJS.isFirefoxExtension ?
               window.location.toString() : params.file || kDefaultURL;
 
-alert(file);
   // Special debugging flags in the hash section of the URL.
   var hash = document.location.hash.substring(1);
   var hashParams = PDFView.parseQueryString(hash);

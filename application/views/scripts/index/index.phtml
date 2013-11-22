@@ -34,28 +34,33 @@
  				<ul class="index-row"> 
  				<?php foreach($this->id_document as $id_document) : ?>
  					<li> 
- 						<a class="preview" href="<?php 
-							echo $this->url(
-				            	array(
-				            		'controller' => 'showPdf',
-				            		'action'=>'showfile',
-									'COURRIER_ID'=>$this->id_document[$i]),
-				            		'default',
-				            true) 
-						?>"> 
- 							<img src="img/icons/ico_pdf.png" alt="" /> 
- 						</a>
-						 <a href="<?php 
-							echo $this->url(
-				            	array(
-				            		'controller' => 'showPdf',
-				            		'action'=>'showfile',
-									'COURRIER_ID'=>$this->id_document[$i]),
-				            		'default',
-				            true) 
-						?>"> <?php echo $this->titre[$i];?></a>
-						<p>Créé le : <?php echo $this->date[$i]; $i++;?></p><br/>
- 					<p><input type="checkbox" name="<?php echo $this->titre[$i];?>"></p>
+	 					
+	 						<a class="preview" href="<?php 
+								echo $this->url(
+					            		array(
+										'controller' => 'viewer',
+										'action'=>'index')
+										)
+							?>"> 
+								<?php $id=$this->id_document[$i];
+		 						  Zend_Session::start();
+		 						  $sessioniddoc = new Zend_Session_Namespace('sessioniddoc');
+								  $sessioniddoc->id=$id;
+								?>
+	 							<img src="img/icons/ico_pdf.png" alt="" /> 
+	 						</a>
+							 <a href="<?php 
+								echo $this->url(
+	 				            	array(
+	 				            		'controller' => 'showPdf',
+	 				            		'action'=>'showfile',
+	 									'COURRIER_ID'=>$this->id_document[$i]),
+	 				            		'default',
+	 				            true)
+							?>"> 
+							<?php echo $this->titre[$i];?></a>
+							<p>Créé le : <?php echo $this->date[$i]; $i++;?></p><br/>
+	 						<p><input type="checkbox" name="<?php echo $this->titre[$i];?>"></p>
 						<?php if($i%5==0){?></ul><ul class ="index-row"><?php }?>
  					</li> 
  				<?php endforeach; ?>

@@ -1,7 +1,7 @@
 <?php
 
 /*
- * File : IndexController.php
+* File : IndexController.php
 * Author : Hina Tufail
 * Created : 19/10/2013
 * Modified : 16/11/2013
@@ -41,8 +41,10 @@ class IndexController extends Zend_Controller_Action
     	//Get the database infos
     	$db = Zend_Db_Table::getDefaultAdapter();
     	
-    	
-//     	$sql=$db->select()
+    	//Zend_Session::start();
+        //$sessioniddoc = new Zend_Session_Namespace('sessioniddoc');
+		
+//		$sql=$db->select()
 //     				->from('LIENINTERNE','ID_COURRIER')
 //     				->where('ID_ETATDESTINATAIRE=1')
 //     				->where('ID_ENTITEDESTINATAIRE=?',$user_ID);

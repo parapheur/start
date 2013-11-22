@@ -26,11 +26,13 @@
   								  ->appendFile($this->baseUrl().'/js/l10n.js')
   								  ->appendFile($this->baseUrl().'/js/pdf.js')
   								  ->appendFile($this->baseUrl().'/js/viewer.js')
-  								  ->prependScript('pdf_file="../js/TD-1.pdf";')
+  								  ->prependScript('pdf_file="'.$this->pdfurl.'";')
   								  ->appendFile($this->baseUrl().'/js/sketch.js');?>
  </head>
  
 <body>
+	<?php echo "coucou"; echo $this->id_doc;?>
+	
 	<div id="loadingBox">
 		<div id="loading" data-l10n-args="{'percent': 0}" data-l10n-id="loading">Loading... 0%</div>
 		<div id="loadingBar">
