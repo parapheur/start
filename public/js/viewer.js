@@ -3,7 +3,7 @@
 
 'use strict';
 
-var kDefaultURL = 'TD-1.pdf';
+var kDefaultURL = '../js/TD-1.pdf';
 var kDefaultScale = 0.53;
 var kDefaultScaleDelta = 1.1;
 var kUnknownScale = 0;
@@ -160,31 +160,7 @@ var Settings = (function SettingsClosure() {
   var isFirefoxExtension = PDFJS.isFirefoxExtension;
 
   function Settings(fingerprint) {
-    var database = null;
-    var index=null;
-    if (isFirefoxExtension)
-      database = FirefoxCom.request('getDatabase', null) || '{}';
-    else if (isLocalStorageEnabled)
-      database = localStorage.getItem('database') || '{}';
-    else
-      return false;
-
-    database = JSONP.parse(database);
-    if (!('files' in database))
-      database.files = [];
-    if (database.files.length >= kSettingsMemory)
-      database.files.shift();
-    for (var i = 0, length = database.files.length; i < length; i++) {
-      var branch = database.files[i];
-      if (branch.fingerprint == fingerprint) {
-        index = i;
-        break;
-      }
-    }
-    if (typeof index != 'number')
-      index = database.files.push({fingerprint: fingerprint}) - 1;
-    this.file = database.files[index];
-    this.database = database;
+    
   }
 
   Settings.prototype = {
