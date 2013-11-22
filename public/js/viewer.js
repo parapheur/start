@@ -3,7 +3,7 @@
 
 'use strict';
 
-var kDefaultURL = '../js/TD-1.pdf';
+var kDefaultURL = pdf_file;//'../js/TD-1.pdf';
 var kDefaultScale = 0.53;
 var kDefaultScaleDelta = 1.1;
 var kUnknownScale = 0;

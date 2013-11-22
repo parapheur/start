@@ -26,6 +26,7 @@
   								  ->appendFile($this->baseUrl().'/js/l10n.js')
   								  ->appendFile($this->baseUrl().'/js/pdf.js')
   								  ->appendFile($this->baseUrl().'/js/viewer.js')
+  								  ->prependScript('pdf_file="../js/TD-1.pdf";')
   								  ->appendFile($this->baseUrl().'/js/sketch.js');?>
  </head>
  
