@@ -22,6 +22,7 @@ var isWorker = (typeof window == 'undefined');
 var ERRORS = 0, WARNINGS = 1, TODOS = 5;
 var verbosity = WARNINGS;
 
+
 // The global PDFJS object exposes the API
 // In production, it will be declared outside a global wrapper
 // In development, it will be declared here
@@ -44,7 +45,7 @@ function getPdf(arg, callback) {
 
   var xhr = new XMLHttpRequest();
 
-  xhr.open('GET.html', params.url);
+  xhr.open('GET', params.url);
 
   var headers = params.headers;
   if (headers) {
@@ -30445,7 +30446,7 @@ var JpxImage = (function JpxImageClosure() {
   JpxImage.prototype = {
     load: function JpxImage_load(url) {
       var xhr = new XMLHttpRequest();
-      xhr.open('GET.html', url, true);
+      xhr.open('GET', url, true);
       xhr.responseType = 'arraybuffer';
       xhr.onload = (function() {
         // TODO catch parse error

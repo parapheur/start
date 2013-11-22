@@ -3,7 +3,7 @@
 
 'use strict';
 
-var kDefaultURL = '/TD-1.pdf';
+var kDefaultURL = 'TD-1.pdf';
 var kDefaultScale = 0.53;
 var kDefaultScaleDelta = 1.1;
 var kUnknownScale = 0;
@@ -161,7 +161,7 @@ var Settings = (function SettingsClosure() {
 
   function Settings(fingerprint) {
     var database = null;
-    var index;
+    var index=null;
     if (isFirefoxExtension)
       database = FirefoxCom.request('getDatabase', null) || '{}';
     else if (isLocalStorageEnabled)
