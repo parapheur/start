@@ -3,7 +3,7 @@
 	 * File : addpersonPopup.phtml
 	* Author : Mathilde de l'Hermuziere
 	* Created : 20/11/2013
-	* 1.1 : Mathilde de l'Hermuzière - creation
+	* 1.1 : Mathilde de l'Hermuziï¿½re - creation
 	* 
 	* Action pop up for add a person to the workflow of the document
 	*
@@ -19,7 +19,7 @@
 		<br />
 		<div class="write_comment">
 		<?php
-			$this->addpersonForm->setAction($this->url());
+			$this->addpersonForm->setAction($this->url(array('controller' => 'ShowPdf','action'=>'addpersonpdf', 'COURRIER_ID' => $this->id_document),'default',true));
 			echo $this->addpersonForm; 
 		?>
 		</div> 

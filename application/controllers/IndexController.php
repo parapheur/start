@@ -27,7 +27,6 @@ class IndexController extends Zend_Controller_Action
     	}
     }
 
-    //Action that will display index for documents present in database
     public function indexAction()
     {
 
@@ -89,8 +88,9 @@ class IndexController extends Zend_Controller_Action
 		$this->view->date =$date;
     	
     }
-    
-    private function signSuccessMessage(){
+
+    private function signSuccessMessage()
+    {
     	
     	$signSuccess = '';
     	$signError =  '';
@@ -108,10 +108,18 @@ class IndexController extends Zend_Controller_Action
     	$this->view->sucessMessage = $signSuccess;
     	$this->view->errorMessage = $signError;
     }
-    
+
     public function addfileAction()
     {
     }
 
+    public function addCommentPdfAction()
+    {
+        // action body
+    }
+
+
 }
+
+
 

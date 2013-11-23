@@ -17,7 +17,7 @@ class Application_Model_DbTable_Lieninterne extends Zend_Db_Table_Abstract
     	return $row->toArray();
     }
 
-    public function ajouterLieninterne($id,$id_courrier, $id_exped, $id_dest, $id_type, $id_etat, $visible, $date, $ir_auteur)
+    public function ajouterLieninterne($id_courrier, $id_exped, $id_dest, $id_type, $id_etat, $visible, $date, $ir_auteur)
     {
     	$data = array(
     			'ID_COURRIER' => $id_courrier,

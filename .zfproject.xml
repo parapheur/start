@@ -9,11 +9,13 @@
       <controllersDirectory>
         <controllerFile controllerName="Index">
           <actionMethod actionName="index"/>
+          <actionMethod actionName="addCommentPdf"/>
         </controllerFile>
         <controllerFile controllerName="Error"/>
         <controllerFile controllerName="ShowPdf">
           <actionMethod actionName="index"/>
           <actionMethod actionName="testValidate"/>
+          <actionMethod actionName="addCommentPdf"/>
         </controllerFile>
         <controllerFile controllerName="Listfiles">
           <actionMethod actionName="index"/>
@@ -70,6 +72,12 @@
           </viewControllerScriptsDirectory>
           <viewControllerScriptsDirectory forControllerName="Viewer">
             <viewScriptFile forActionName="index"/>
+          </viewControllerScriptsDirectory>
+          <viewControllerScriptsDirectory forControllerName="Index">
+            <viewScriptFile forActionName="addCommentPdf"/>
+          </viewControllerScriptsDirectory>
+          <viewControllerScriptsDirectory forControllerName="ShowPdf">
+            <viewScriptFile forActionName="addCommentPdf"/>
           </viewControllerScriptsDirectory>
         </viewScriptsDirectory>
         <viewHelpersDirectory/>

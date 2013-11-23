@@ -16,5 +16,8 @@
 			</a>
 			<h1>Valider le document</h1>
 			<p>Pour envoyer le document dans le workflow, cliquez sur le bouton valider. Une fois validé, le document ne pourra plus 				être modifié.</p>
-			<a href="#"><input class="green-button on-right" type="button" value="Valider" onclick="validate();" /></a>
+			<?php
+			$this->validateForm->setAction($this->url(array('controller' => 'ShowPdf','action'=>'validatepdf'),'default',true));
+			echo $this->validateForm; 
+			?>
 </div> 

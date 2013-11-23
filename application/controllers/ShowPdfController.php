@@ -36,20 +36,24 @@ class ShowPdfController extends Zend_Controller_Action
     	//Get the PDF
     	//Set a file name (hardcoded = to change later)
     	$this->fileName = '..\docs\debuter-avec-zend-framework.pdf';
+    	
+    	$pdf = new Zend_Pdf();
+    	$pdf = Zend_Pdf::load($this->fileName,null,true);
+    	
+    	$this->pdf = $pdf;
+
+    	//As we do not have Active Directory, we assume that our user ID is 6
+    	$this->user_ID=6;
 
     }
 
-    //Action that displays a PDF application
     public function indexAction()
     {
      	
     	$this->_helper->layout->disableLayout();
     	$this->_helper->viewRenderer->setNoRender(true);    	
-
-    	$pdf = new Zend_Pdf();
-    	$pdf = Zend_Pdf::load($this->fileName,null,true);
   	
-    	$this->signWithCanvas($pdf);
+    	$this->signWithCanvas();
     	
     	//------------SET AND SEND HEADERS TO ACTION------------------------------
     	$this->getResponse()->setHeader('Content-type', 'application/pdf', true);
@@ -63,14 +67,19 @@ class ShowPdfController extends Zend_Controller_Action
     	$this->getResponse()->sendHeaders();
 
     	//------------SET BODY OF VIEW AS PDF------------------------------
-    	$this->getResponse()->setBody($pdf->render());
+    	$this->getResponse()->setBody($this->pdf->render());
     	
     }
-    
-    public function signWithCanvas($pdf){
+//------------------------------FUNCTIONS FOR SIGNING A PDF --------------------------------------------
+    public function signpdfAction()
+    {
+    }
+
+    public function signWithCanvas()
+    {
     	 
     	// Add a new page with Zend_Pdf to the document
-    	$pdf->pages[] = ($page1 = $pdf->newPage('A4'));
+    	$this->pdf->pages[] = ($page1 = $this->pdf->newPage('A4'));
     	
     	// Reverse page order
     	//$pdf->pages = array_reverse($pdf->pages);
@@ -101,10 +110,12 @@ class ShowPdfController extends Zend_Controller_Action
     	// Update the PDF document
     	//$pdf->save($this->fileName, true);
     	// Save document as a new file
-    	//$pdf->save('test.pdf');
-    }
+    	$this->pdf->save('pdf/test.pdf');
 
-    //Action that displays the PDF app with other functionnalities such as zoom, print, comment, refuse, validate...
+    	
+    }
+    
+//------------------------------FUNCTIONS FOR SHOWING A PDF WITH ALL TIS FUNCTIONNALITIES ----------------------------
     public function showfileAction()
     {
     	//Disabling the layout
@@ -112,9 +123,6 @@ class ShowPdfController extends Zend_Controller_Action
     	
     	//Getting the database connexion
      	$db = Zend_Db_Table::getDefaultAdapter();
-    	
-     	//As we do not have Active Directory, we assume that our user ID is 6
-     	$user_ID=6;
     	 
      	//We get the ID of the document we have to display from the indexController
      	$request = $this->getRequest();
@@ -181,49 +189,22 @@ class ShowPdfController extends Zend_Controller_Action
   		$db = Zend_Db_Table::getDefaultAdapter();
 		
 		//Call the form for add person
-		$this->addPersonPopup($id_document,$user_ID,$db);
+		$this->addPersonPopup($id_document,$this->user_ID,$db);
 		
   		//Call the form for comments
-  		$this->addCommentPopup($id_document,$user_ID,$db);
+  		$this->addCommentPopup($id_document,$this->user_ID,$db);
 
   		//Call the display info
   		$this->showMeta($id_document,$db);
+  		
+  		$this->validatePopup();
     
     }
-	
-    //Action that helps to comment a PDF
-    public function addCommentPopup($id_document,$user_ID,$db)
+
+//------------------------------FUNCTIONS FOR ADDING A COMMENT INTO THE PDF -----------------------------------------
+    public function addCommentPopup($id_document, $user_ID, $db)
     {
-    	// COMMENT POPUP
-    	// Form of a comment ---------------------------------------------------
-    	$request = $this->getRequest();
     	$form = new Application_Form_Comment();
-    	
-    	//If request is post
-    	if ($this->getRequest()->isPost()) {
-    		if ($form->isValid($request->getPost())) {
-    				
-    			//Get values from form
-    			$formData = $form->getValues();
-    				
-    			$type_commentaire = $form->getValue('type_commentaire');
-    			$text_commentaire = $form->getValue('text_commentaire');
-    			
-    			//Find the ID of the lieninterne between our user and the document
-    			$sqlfind = 'SELECT ID_LIENINTERNE FROM LIENINTERNE WHERE ID_ENTITEDESTINATAIRE='.$user_ID.' AND ID_COURRIER ='.$id_document;
-    			$stmtfind = $db->query($sqlfind);
-    			$rowsfind = $stmtfind->fetchAll();
-    			$id_lieninterne= $rowsfind[0]['ID_LIENINTERNE'];
-    			
-    			//Date : for test
-    			$date = '06/11/2011';
-    			$commentaire = new Application_Model_DbTable_Commentaire();
-    			$commentaire->ajouterCommentaire($id_document, $id_lieninterne, $text_commentaire, $date, $type_commentaire);
-    				
-    		}
-    	
-    	
-    	}
     	$this->view->commentForm = $form;
     	
     	// Display old comment -------------------------------------------------
@@ -254,7 +235,61 @@ class ShowPdfController extends Zend_Controller_Action
     	$this->view->date =$date;
     }
     
-    public function showMeta($id_courrier,$db){
+
+    public function addcommentpdfAction()
+    {
+    	$request = $this->getRequest();
+    	
+    	//Get the database infos
+  		$db = Zend_Db_Table::getDefaultAdapter();
+  		$form = $this->_getCommentForm();
+  		
+     	$id_document = $request->getParam('COURRIER_ID');
+  		
+    	//If request is post
+    	if ($this->getRequest()->isPost()) {
+    		if ($form->isValid($request->getPost())) {
+    				
+    			//Get values from form
+    			$formData = $form->getValues();
+    				
+    			$type_commentaire = $form->getValue('type_commentaire');
+    			$text_commentaire = $form->getValue('text_commentaire');
+    			
+    			//Find the ID of the lieninterne between our user and the document
+    			$sqlfind = 'SELECT ID_LIENINTERNE FROM LIENINTERNE WHERE ID_ENTITEDESTINATAIRE='.$this->user_ID.' AND ID_COURRIER ='.$id_document;
+    			$stmtfind = $db->query($sqlfind);
+    			$rowsfind = $stmtfind->fetchAll();
+    			$id_lieninterne= $rowsfind[0]['ID_LIENINTERNE'];
+    			
+    			//Date : for test
+    			$date = '06/11/2011';
+    			$commentaire = new Application_Model_DbTable_Commentaire();
+    			$commentaire->ajouterCommentaire($id_document, $id_lieninterne, $text_commentaire, $date, $type_commentaire);
+    				
+    		}
+    	
+    	
+    	}
+    }
+
+    private function _getCommentForm()
+    {
+    	 
+    	if (!Zend_Registry::isRegistered('commentForm')){
+    		require_once (APPLICATION_PATH . '/forms/Comment.php');
+    		$form = new Application_Form_Comment();
+    		Zend_Registry::set('commentForm', $form);
+    	}else{
+    		$form = Zend_Registry::get('commentForm');
+    	}
+    	return $form;
+    }
+
+//------------------------------FUNCTIONS FOR SHOWING META INFORMATIONS --------------------------------------------
+
+    public function showMeta($id_courrier, $db)
+    {
 
     	//We get the infos from the database
     	
@@ -348,56 +383,65 @@ class ShowPdfController extends Zend_Controller_Action
     	
     }
 
-    //Function that valid a document
-    public function validatePopup(){
+//------------------------------FUNCTIONS FOR VALIDATING A FILE --------------------------------------------
+    public function validatePopup()
+    {
+    	
+    	$form = new Application_Form_Validate();
+    	
+    	$this->view->validateForm = $form;
+    	
+    }
+
+    public function validatepdfAction()
+    {
+
+    	$request = $this->getRequest();
+    	$form = $this->_getValidateForm();
     	
     	if ($this->getRequest()->isPost()) {
-    		//Get the data
-    		$this->getRequest()->getParam('data');
-    	
-    		//Get the PDF
-    		
-    		//Add validation image to PDF
-    		
-    		//Do associate changes into database
-    		
-    		//Save the PDF
-    		
-    	
+    		if ($form->isValid($request->getPost())) {
+    			 
+    			//Add validation image to PDF
+    			$image = Zend_Pdf_Image::imageWithPath('../public/img/icons/ico_validated.png');
+    			
+    			$this->pdf->pages[0]->drawImage($image, 50, 50, 40, 35);
+    			
+    			//Do associate changes into database
+    			 
+    			//Save the PDF
+    			// Save document as a new file
+    			$this->pdf->save('pdf/test.pdf');
+    			//Redirect the action
+    			//$this->_helper->redirector('showfile');
+    		}
     	}
     	
     }
-    
-    //Action that helps to sign a PDF
-    public function signpdfAction()
+
+    private function _getValidateForm()
     {
+    	
+    	if (!Zend_Registry::isRegistered('validateForm')){
+    		require_once (APPLICATION_PATH . '/forms/Validate.php');
+    		$form = new Application_Form_Validate();
+    		Zend_Registry::set('validateForm', $form);
+    	}else{
+    		$form = Zend_Registry::get('validateForm');
+    	}
+    	return $form;
     }
-    
-    //Action that add people to the workflow
-    public function addPersonPopup($id_document,$user_ID,$db)
+
+//------------------------------FUNCTIONS ADDING A PERSON --------------------------------------------
+      
+    public function addPersonPopup($id_document, $user_ID, $db)
     {
     	//----------------------------------------------------------------------
     	// ADD PERSON POPUP
     	// Form of a person ----------------------------------------------------
-    	$request = $this->getRequest();
+    	
     	$form = new Application_Form_Addperson();
-    	 
-    	if ($this->getRequest()->isPost()) {
-    		if ($form->isValid($request->getPost())) {
-    	
-    			$formData = $form->getValues();
-    	
-    			$id_dest = $form->getValue('id_person');
-    			$IRauteur = $form->getValue('IRauteur');
-    			$type = $form->getValue('type');
-    			$date = '06/11/2011';
-    			
-    			$lieninterne = new Application_Model_DbTable_Lieninterne();
-    			$lieninterne->ajouterLieninterne($id_document, $user_ID, $id_dest, $type, '1', 'N', $date, $IRauteur);
-    	
-    			//return $this->_helper->redirector('showfile');
-    		}   		
-    	}
+
     	$this->view->addpersonForm = $form;
     	$this->view->id_doc= $id_document;
     	
@@ -426,8 +470,58 @@ class ShowPdfController extends Zend_Controller_Action
     	$this->view->etat = $etat;
     	$this->view->date = $date;
     }
+    
+    public function addpersonpdfAction(){
+    	
+    	$request = $this->getRequest();
+    	 
+    	//Get the database infos
+    	$db = Zend_Db_Table::getDefaultAdapter();
+    	$form = $this->_getAddPersonForm();
+    	
+    	$id_document = $request->getParam('COURRIER_ID');
+    	
+    	//If request is post
+    	if ($this->getRequest()->isPost()) {
+    		if ($form->isValid($request->getPost())) {
+    	
+    			$formData = $form->getValues();
+    			 
+    			$id_dest = $form->getValue('id_person');
+    			$IRauteur = $form->getValue('IRauteur');
+    			$type = $form->getValue('type');
+    			$date = '06/11/2011';
+    			 
+    			$lieninterne = new Application_Model_DbTable_Lieninterne();
+    			$lieninterne->ajouterLieninterne($id_document, $this->user_ID, $id_dest, $type, '1', 'N', $date, $IRauteur);
+    			 
+    			//return $this->_helper->redirector('showfile');
+
+    		}
+    		 
+    		 
+    	}
+    	
+    }
+    
+    private function _getAddPersonForm()
+    {
+    	 
+    	if (!Zend_Registry::isRegistered('addpersonForm')){
+    		require_once (APPLICATION_PATH . '/forms/Addperson.php');
+    		$form = new Application_Form_Addperson();
+    		Zend_Registry::set('addpersonForm', $form);
+    	}else{
+    		$form = Zend_Registry::get('addpersonForm');
+    	}
+    	return $form;
+    }
+
+
 
 }
+
+
 
 
 
