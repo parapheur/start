@@ -4,6 +4,7 @@
 	* Author : Fanny Seiler
 	* Created : 09/11/2013
 	* 1.1 : Fanny Seiler - creation
+	* 1.2 : Hina Tufail - modification
 	* 
 	* Action pop up for refusing a document
 	*
@@ -20,7 +21,7 @@
 		<div class="popup_message on-left"><h2>Message</h2></div>
 		
 		<?php
-			$this->refuseForm->setAction($this->url(array('controller' => 'ShowPdf','action'=>'refusepdf'),'default',true));
+			$this->refuseForm->setAction($this->url(array('controller' => 'ShowPdf','action'=>'refusepdf','COURRIER_ID' => $this->id_document),'default',true));
 			echo $this->refuseForm; 
 		?>
 	</div>

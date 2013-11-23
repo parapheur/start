@@ -28,6 +28,7 @@
 class ShowPdfController extends Zend_Controller_Action
 {
 
+	//Function that initializes the controller
     public function init()
     {
     	//We get the ID of the document we have to display from the indexController
@@ -48,6 +49,7 @@ class ShowPdfController extends Zend_Controller_Action
 
     }
 
+    //Function that renders the PDF application
     public function indexAction()
     {
      	
@@ -72,10 +74,12 @@ class ShowPdfController extends Zend_Controller_Action
     	
     }
 //------------------------------FUNCTIONS FOR SIGNING A PDF --------------------------------------------
+    //Action for signing the file
     public function signpdfAction()
     {
     }
 
+    //Action for adding the signature to the file by a canvas
     public function signWithCanvas()
     {
     	 
@@ -117,6 +121,7 @@ class ShowPdfController extends Zend_Controller_Action
     }
     
 //------------------------------FUNCTIONS FOR SHOWING A PDF WITH ALL TIS FUNCTIONNALITIES ----------------------------
+    //Main function that show pdf with all its functionnalities and forms (add comment, meta info display...)
     public function showfileAction()
     {
     	//Disabling the layout
@@ -198,13 +203,16 @@ class ShowPdfController extends Zend_Controller_Action
   		//Call the display info
   		$this->showMeta($id_document,$db);
   		
+  		//Add the validate form
   		$this->validatePopup();
   		
+  		//Add the refuse form
   		$this->refusePopup();
     
     }
 
 //------------------------------FUNCTIONS FOR ADDING A COMMENT INTO THE PDF -----------------------------------------
+    //Function that add a comment form to the view
     public function addCommentPopup($id_document, $user_ID, $db)
     {
     	$form = new Application_Form_Comment();
@@ -239,6 +247,7 @@ class ShowPdfController extends Zend_Controller_Action
     }
     
 
+    //Function that treats the request from the comment form
     public function addcommentpdfAction()
     {
     	$request = $this->getRequest();
@@ -276,6 +285,7 @@ class ShowPdfController extends Zend_Controller_Action
     	}
     }
 
+    //Function that retrieves the form for comments
     private function _getCommentForm()
     {
     	 
@@ -291,6 +301,7 @@ class ShowPdfController extends Zend_Controller_Action
 
 //------------------------------FUNCTIONS FOR SHOWING META INFORMATIONS --------------------------------------------
 
+    //Function that add a meta information form to the view
     public function showMeta($id_courrier, $db)
     {
 
@@ -388,71 +399,95 @@ class ShowPdfController extends Zend_Controller_Action
 
 //------------------------------FUNCTIONS FOR REFUSING A FILE --------------------------------------------
 
-public function refusePopup()
-{
-    	 
-    	$form = new Application_Form_Refuse();
-    	 
-    	$this->view->refuseForm = $form;
-    	 
-}
-
-private function _getRefuseForm()
-{
-
-	if (!Zend_Registry::isRegistered('refuseForm')){
-		require_once (APPLICATION_PATH . '/forms/Refuse.php');
-		$form = new Application_Form_Refuse();
-		Zend_Registry::set('refuseForm', $form);
-	}else{
-		$form = Zend_Registry::get('refuseForm');
+    //Function that add a comment form to the view
+	public function refusePopup()
+	{
+	    	 
+	    	$form = new Application_Form_Refuse();
+	    	 
+	    	$this->view->refuseForm = $form;
+	    	 
 	}
-	return $form;
-}
-
-public function refusepdfAction()
-{
-
-	$request = $this->getRequest();
-	$form = $this->_getRefuseForm();
-	 
-	if ($this->getRequest()->isPost()) {
-		if ($form->isValid($request->getPost())) {
-
-			//Add validation image to PDF
-			 
-			//Get image
-			$image = Zend_Pdf_Image::imageWithPath('../public/img/icons/ico_refused.png');
-			 
-			//Count pdf pages
-			$count = count($this->pdf->pages)-1;
-			 
-			//Get the last page of pdf file
-			$lastpage = $this->pdf->pages[$count];
-			 
-			//Get width and height of page
-			$width  = $lastpage->getWidth();
-			$height = $lastpage->getHeight();
-			 
-			$imgWidth = $image->getPixelWidth();
-			$imgHeight = $image->getPixelHeight();
-			 
-			//Draw image on the last page
-			$lastpage->drawImage($image, $width*0.45, $height*0.05, $width*0.45 + $imgWidth, $height*0.05 + $imgHeight);
-			 
-			//Do associate changes into database
-
-			//Save the PDF
-			// Save document as a new file
-			$this->pdf->save('pdf/test.pdf');
-			//Redirect the action
-			//$this->_helper->redirector('showfile');
+	
+	//Function that retrieves the form for refusing a document
+	private function _getRefuseForm()
+	{
+	
+		if (!Zend_Registry::isRegistered('refuseForm')){
+			require_once (APPLICATION_PATH . '/forms/Refuse.php');
+			$form = new Application_Form_Refuse();
+			Zend_Registry::set('refuseForm', $form);
+		}else{
+			$form = Zend_Registry::get('refuseForm');
 		}
+		return $form;
 	}
-	 
-}
-    
+	//Function that treats the request from the refuse form
+	public function refusepdfAction()
+	{
+	
+		$request = $this->getRequest();
+		$form = $this->_getRefuseForm();
+		 
+		//Get the database infos
+		$db = Zend_Db_Table::getDefaultAdapter();
+	
+		$id_document = $request->getParam('COURRIER_ID');
+		
+		if ($this->getRequest()->isPost()) {
+			if ($form->isValid($request->getPost())) {
+	
+				//Add validation image to PDF
+				 
+				//Get image
+				$image = Zend_Pdf_Image::imageWithPath('../public/img/icons/ico_refused.png');
+				 
+				//Count pdf pages
+				$count = count($this->pdf->pages)-1;
+				 
+				//Get the last page of pdf file
+				$lastpage = $this->pdf->pages[$count];
+				 
+				//Get width and height of page
+				$width  = $lastpage->getWidth();
+				$height = $lastpage->getHeight();
+				 
+				$imgWidth = $image->getPixelWidth();
+				$imgHeight = $image->getPixelHeight();
+				 
+				//Draw image on the last page
+				$lastpage->drawImage($image, $width*0.45, $height*0.05, $width*0.45 + $imgWidth, $height*0.05 + $imgHeight);
+				 
+				//------------------------------------Do associate changes into database---------------------------
+				$text_commentaire = $form->getValue('text_commentaire_refuse');
+				 
+				//MATHILDE : Je pense que le code en dessous c'est ca qu'il faut faire mais j'ai un gros doute concernant
+				//le type lien interne (id_lieninterne dans les variables PHP)
+				
+				//Find the ID of the lieninterne between our user and the document
+				/*$sqlfind = 'SELECT ID_LIENINTERNE FROM LIENINTERNE WHERE ID_ENTITEDESTINATAIRE='.$this->user_ID.' AND ID_COURRIER ='.$id_document;
+				$stmtfind = $db->query($sqlfind);
+				$rowsfind = $stmtfind->fetchAll();
+				$id_lieninterne= $rowsfind[0]['ID_LIENINTERNE'];
+				 
+				//Date : for test
+				$date = '06/11/2011';
+				$commentaire = new Application_Model_DbTable_Commentaire();
+				$commentaire->ajouterCommentaire($id_document, $id_lieninterne, $text_commentaire, $date, '1');*/
+	
+				//------------------------------------------------------------------------------------------------
+				//Save the PDF
+				// Save document as a new file
+				$this->pdf->save('pdf/test.pdf');
+				//Redirect the action
+				//$this->_helper->redirector('showfile');
+			}
+		}
+		 
+	}
+	    
 //------------------------------FUNCTIONS FOR VALIDATING A FILE --------------------------------------------
+	//Function that add a validation form to the view
     public function validatePopup()
     {
     	
@@ -461,7 +496,7 @@ public function refusepdfAction()
     	$this->view->validateForm = $form;
     	
     }
- 
+    //Function that treats the request from the validation form
     public function validatepdfAction()
     {
 
@@ -503,7 +538,7 @@ public function refusepdfAction()
     	}
     	
     }
-
+    //Function that retrieves the form for validation
     private function _getValidateForm()
     {
     	
@@ -518,7 +553,7 @@ public function refusepdfAction()
     }
 
 //------------------------------FUNCTIONS ADDING A PERSON --------------------------------------------
-      
+    //Function that add a add-a-person form to the view
     public function addPersonPopup($id_document, $user_ID, $db)
     {
     	$form = new Application_Form_Addperson();
@@ -552,6 +587,7 @@ public function refusepdfAction()
     	$this->view->date = $date;
     }
     
+    //Function that treats the request from the form
     public function addpersonpdfAction(){
     	
     	$request = $this->getRequest();
@@ -585,6 +621,7 @@ public function refusepdfAction()
     	
     }
     
+    //Function that retrieves the form for adding a person
     private function _getAddPersonForm()
     {
     	 
