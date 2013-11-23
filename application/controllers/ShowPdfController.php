@@ -111,7 +111,7 @@ class ShowPdfController extends Zend_Controller_Action
     	// Update the PDF document
     	//$pdf->save($this->fileName, true);
     	// Save document as a new file
-    	$this->pdf->save('pdf/test.pdf');
+    	$this->pdf->save('pdf/testSign.pdf');
 
     	
     }
@@ -404,9 +404,25 @@ class ShowPdfController extends Zend_Controller_Action
     		if ($form->isValid($request->getPost())) {
     			 
     			//Add validation image to PDF
+    			
+    			//Get image
     			$image = Zend_Pdf_Image::imageWithPath('../public/img/icons/ico_validated.png');
     			
-    			$this->pdf->pages[0]->drawImage($image, 50, 50, 40, 35);
+    			//Count pdf pages
+    			$count = count($this->pdf->pages)-1;
+    			
+    			//Get the last page of pdf file
+    			$lastpage = $this->pdf->pages[$count];
+    			
+    			//Get width and height of page
+    			$width  = $lastpage->getWidth();
+    			$height = $lastpage->getHeight();
+    			
+    			$imgWidth = $image->getPixelWidth();
+    			$imgHeight = $image->getPixelHeight();
+    			
+    			//Draw image on the last page
+    			$lastpage->drawImage($image, $width*0.75, $height*0.25, $width*0.75 + $imgWidth, $height*0.25 + $imgHeight);
     			
     			//Do associate changes into database
     			 
