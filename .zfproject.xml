@@ -33,6 +33,7 @@
       <formsDirectory>
         <formFile formName="Addafile"/>
         <formFile formName="Validate"/>
+        <formFile formName="Refuse"/>
       </formsDirectory>
       <layoutsDirectory>
         <layoutScriptsDirectory>

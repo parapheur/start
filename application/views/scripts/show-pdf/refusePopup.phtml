@@ -18,7 +18,10 @@
 		<h1>Refuser le document</h1>
 		<p>Si vous souhaitez retourner le document à son destinataire, cliquez sur le bouton refuser.</p>
 		<div class="popup_message on-left"><h2>Message</h2></div>
-		<textarea  class=" on-right"></textarea>
-		<a href="#"><input class="red-button on-right" type="button" value="Refuser" /></a>
+		
+		<?php
+			$this->refuseForm->setAction($this->url(array('controller' => 'ShowPdf','action'=>'refusepdf'),'default',true));
+			echo $this->refuseForm; 
+		?>
 	</div>
 		

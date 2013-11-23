@@ -199,6 +199,8 @@ class ShowPdfController extends Zend_Controller_Action
   		$this->showMeta($id_document,$db);
   		
   		$this->validatePopup();
+  		
+  		$this->refusePopup();
     
     }
 
@@ -384,6 +386,72 @@ class ShowPdfController extends Zend_Controller_Action
     	
     }
 
+//------------------------------FUNCTIONS FOR REFUSING A FILE --------------------------------------------
+
+public function refusePopup()
+{
+    	 
+    	$form = new Application_Form_Refuse();
+    	 
+    	$this->view->refuseForm = $form;
+    	 
+}
+
+private function _getRefuseForm()
+{
+
+	if (!Zend_Registry::isRegistered('refuseForm')){
+		require_once (APPLICATION_PATH . '/forms/Refuse.php');
+		$form = new Application_Form_Refuse();
+		Zend_Registry::set('refuseForm', $form);
+	}else{
+		$form = Zend_Registry::get('refuseForm');
+	}
+	return $form;
+}
+
+public function refusepdfAction()
+{
+
+	$request = $this->getRequest();
+	$form = $this->_getRefuseForm();
+	 
+	if ($this->getRequest()->isPost()) {
+		if ($form->isValid($request->getPost())) {
+
+			//Add validation image to PDF
+			 
+			//Get image
+			$image = Zend_Pdf_Image::imageWithPath('../public/img/icons/ico_refused.png');
+			 
+			//Count pdf pages
+			$count = count($this->pdf->pages)-1;
+			 
+			//Get the last page of pdf file
+			$lastpage = $this->pdf->pages[$count];
+			 
+			//Get width and height of page
+			$width  = $lastpage->getWidth();
+			$height = $lastpage->getHeight();
+			 
+			$imgWidth = $image->getPixelWidth();
+			$imgHeight = $image->getPixelHeight();
+			 
+			//Draw image on the last page
+			$lastpage->drawImage($image, $width*0.45, $height*0.05, $width*0.45 + $imgWidth, $height*0.05 + $imgHeight);
+			 
+			//Do associate changes into database
+
+			//Save the PDF
+			// Save document as a new file
+			$this->pdf->save('pdf/test.pdf');
+			//Redirect the action
+			//$this->_helper->redirector('showfile');
+		}
+	}
+	 
+}
+    
 //------------------------------FUNCTIONS FOR VALIDATING A FILE --------------------------------------------
     public function validatePopup()
     {
@@ -393,7 +461,7 @@ class ShowPdfController extends Zend_Controller_Action
     	$this->view->validateForm = $form;
     	
     }
-
+ 
     public function validatepdfAction()
     {
 
@@ -422,7 +490,7 @@ class ShowPdfController extends Zend_Controller_Action
     			$imgHeight = $image->getPixelHeight();
     			
     			//Draw image on the last page
-    			$lastpage->drawImage($image, $width*0.75, $height*0.25, $width*0.75 + $imgWidth, $height*0.25 + $imgHeight);
+    			$lastpage->drawImage($image, $width*0.45, $height*0.05, $width*0.45 + $imgWidth, $height*0.05 + $imgHeight);
     			
     			//Do associate changes into database
     			 
