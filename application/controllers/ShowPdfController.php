@@ -19,6 +19,7 @@
 * 1.12 : Mathilde de l'Hermuzi�re - meta informations revision
 * 1.13 : Hina Tufail - modification - 20/11/2013
 * 1.14 : Hina Tufail - modification - 23/11/2013
+* 1.15 : Mathilde de l'Hermuziere - Ajout Refus - 23/11/2013
 *
 * Controller that controls views for doing action on a PDF document
 *
@@ -73,12 +74,13 @@ class ShowPdfController extends Zend_Controller_Action
     	$this->getResponse()->setBody($this->pdf->render());
     	
     }
+
 //------------------------------FUNCTIONS FOR SIGNING A PDF --------------------------------------------
+
     //Action for signing the file
     public function signpdfAction()
     {
     }
-
     //Action for adding the signature to the file by a canvas
     public function signWithCanvas()
     {
@@ -120,7 +122,8 @@ class ShowPdfController extends Zend_Controller_Action
     	
     }
     
-//------------------------------FUNCTIONS FOR SHOWING A PDF WITH ALL TIS FUNCTIONNALITIES ----------------------------
+//------------------------------FUNCTIONS FOR SHOWING A PDF WITH ALL HIS FUNCTIONNALITIES ----------------------------
+    
     //Main function that show pdf with all its functionnalities and forms (add comment, meta info display...)
     public function showfileAction()
     {
@@ -135,13 +138,17 @@ class ShowPdfController extends Zend_Controller_Action
      	$id_document = $request->getParam('COURRIER_ID');
      	
 		$this->view->id_document= $this->id_document;
-		/*
+		
      	//We have to check is this user is habilitated to see this document...
-     	//$sql1 = 'SELECT ID_ETATDESTINATAIRE FROM LIENINTERNE WHERE ID_COURRIER = 82 AND ID_ENTITEDESTINATAIRE = 6';
      	$sql1 = 'SELECT ID_ETATDESTINATAIRE FROM LIENINTERNE WHERE ID_COURRIER = '.$id_document.'AND ID_ENTITEDESTINATAIRE = 6';
      	//Get the result
      	$stmt1 = $db->query($sql1);
-  		$rows1 = $stmt1->fetchAll();*/
+  		$rows1 = $stmt1->fetchAll();
+  		//if($rows1=0){
+  			//This person is not habilitated to see this document, we redirect him to his index of document
+  			//$this->_helper->redirector('index','index');
+  		//}
+  		//else{
 //  		$etat=$rows1[0]['ID_ETATDESTINATAIRE'];
  		
 //  		if($etat==1||$etat==2){//user is allowed to see the document
@@ -189,7 +196,8 @@ class ShowPdfController extends Zend_Controller_Action
 // 	    	echo $this->url(array('controller' => 'index',
 // 	    					      'action'=>'index'),
 // 	    			              'default',true);
-// 	    }	
+// 	    }
+  			
     
   		//Get the database infos
   		$db = Zend_Db_Table::getDefaultAdapter();
@@ -208,10 +216,11 @@ class ShowPdfController extends Zend_Controller_Action
   		
   		//Add the refuse form
   		$this->refusePopup();
-    
+  		//}
     }
 
 //------------------------------FUNCTIONS FOR ADDING A COMMENT INTO THE PDF -----------------------------------------
+
     //Function that add a comment form to the view
     public function addCommentPopup($id_document, $user_ID, $db)
     {
@@ -245,8 +254,6 @@ class ShowPdfController extends Zend_Controller_Action
     	$this->view->contenu =$contenu;
     	$this->view->date =$date;
     }
-    
-
     //Function that treats the request from the comment form
     public function addcommentpdfAction()
     {
@@ -279,12 +286,9 @@ class ShowPdfController extends Zend_Controller_Action
     			$commentaire = new Application_Model_DbTable_Commentaire();
     			$commentaire->ajouterCommentaire($id_document, $id_lieninterne, $text_commentaire, $date, $type_commentaire);
     				
-    		}
-    	
-    	
+    		}    	
     	}
     }
-
     //Function that retrieves the form for comments
     private function _getCommentForm()
     {
@@ -408,7 +412,6 @@ class ShowPdfController extends Zend_Controller_Action
 	    	$this->view->refuseForm = $form;
 	    	 
 	}
-	
 	//Function that retrieves the form for refusing a document
 	private function _getRefuseForm()
 	{
@@ -461,32 +464,41 @@ class ShowPdfController extends Zend_Controller_Action
 				//------------------------------------Do associate changes into database---------------------------
 				$text_commentaire = $form->getValue('text_commentaire_refuse');
 				 
-				//MATHILDE : Je pense que le code en dessous c'est ca qu'il faut faire mais j'ai un gros doute concernant
-				//le type lien interne (id_lieninterne dans les variables PHP)
-				
 				//Find the ID of the lieninterne between our user and the document
-				/*$sqlfind = 'SELECT ID_LIENINTERNE FROM LIENINTERNE WHERE ID_ENTITEDESTINATAIRE='.$this->user_ID.' AND ID_COURRIER ='.$id_document;
+				$sqlfind = 'SELECT ID_LIENINTERNE FROM LIENINTERNE WHERE ID_ENTITEDESTINATAIRE='.$this->user_ID.' AND ID_COURRIER ='.$id_document;
 				$stmtfind = $db->query($sqlfind);
 				$rowsfind = $stmtfind->fetchAll();
 				$id_lieninterne= $rowsfind[0]['ID_LIENINTERNE'];
+				$expediteur= $rowsfind[0]['ID_ENTITEEXPEDITEUR'];
 				 
 				//Date : for test
-				$date = '06/11/2011';
-				$commentaire = new Application_Model_DbTable_Commentaire();
-				$commentaire->ajouterCommentaire($id_document, $id_lieninterne, $text_commentaire, $date, '1');*/
-	
+				if($text_commentaire!=null){
+					$date = '06/11/2011';
+					$commentaire = new Application_Model_DbTable_Commentaire();
+					$commentaire->ajouterCommentaire($id_document, $id_lieninterne, $text_commentaire, $date, '1');
+				}
+				
+				//------------------------------------------------------------------------------------------------
+				//Archive the link between the user and the document
+				$sqlupdate='UPDATE LIENINTERNE SET ID_ETATDESTINATAIRE=5 WHERE ID_LIENINTERNE='.$id_lieninterne;
+				$stmtupdate = $db->query($sqlupdate);
+				
+				//Update the state of the expeditor so he can see the file in his index of documents
+				$sqlupdatereceiver='UPDATE LIENINTERNE SET ID_ETATDESTINATAIRE=1 WHERE ID_ENTITEDESTINATAIRE='.$expediteur;
+				$stmtupdatereceiver = $db->query($sqlupdatereceiver);
+				
 				//------------------------------------------------------------------------------------------------
 				//Save the PDF
 				// Save document as a new file
 				$this->pdf->save('pdf/test.pdf');
 				//Redirect the action
-				//$this->_helper->redirector('showfile');
+				$this->_helper->redirector('index','index');
 			}
-		}
-		 
+		}		 
 	}
 	    
 //------------------------------FUNCTIONS FOR VALIDATING A FILE --------------------------------------------
+
 	//Function that add a validation form to the view
     public function validatePopup()
     {
@@ -528,12 +540,38 @@ class ShowPdfController extends Zend_Controller_Action
     			$lastpage->drawImage($image, $width*0.45, $height*0.05, $width*0.45 + $imgWidth, $height*0.05 + $imgHeight);
     			
     			//Do associate changes into database
-    			 
-    			//Save the PDF
+    			//------------------------------------------------------------------------------------------------
+    			//Archive the link between the user and the document
+    			$sqlupdate='UPDATE LIENINTERNE SET ID_ETATDESTINATAIRE=3 WHERE ID_LIENINTERNE='.$id_lieninterne;
+    			$stmtupdate = $db->query($sqlupdate);
+    			
+    			//Find the next receiver of the document
+    			$sqlnewreceiver='SELECT * FROM LIENINTERNE WHERE ID_ETATDESTINATAIRE=5 AND ID_DOCUMENT='.$id_document.' ORDER BY DATECREATION';
+    			$stmtreceiver = $db->query($sqlreceiver);
+    			$rowsreceiver = $stmtreceiver->fetchAll();
+    			$id_lieninternereceiver= $rowsreceiver[0]['ID_LIENINTERNE'];
+    			
+    			if($rowsreceiver!=0){// There is still someone in the workflow
+    				//Update the state of this receiver so he can see the file in his index of documents
+    				$sqlupdatereceiver='UPDATE LIENINTERNE SET ID_ETATDESTINATAIRE=1 WHERE ID_LIENINTERNE='.$id_lieninternereceiver;
+    				$stmtupdatereceiver = $db->query($sqlupdatereceiver);
+    			}
+    			else{//Everyone approved the document, we can send it to the first demandeur
+    				$sqlfinddemandeur='SELECT * FROM LIENINTERNE WHERE ID_ETATDESTINATAIRE=6 AND ID_DOCUMENT='.$id_document;
+    				$stmtfinddemandeur = $db->query($sqlfinddemandeur);
+    				$rowsfinddemandeur = $stmtfinddemandeur->fetchAll();
+    				$id_lieninternedemandeur= $rowsfinddemandeur[0]['ID_LIENINTERNE'];
+    				
+    				$sqlupdatedemandeur='UPDATE LIENINTERNE SET ID_ETATDESTINATAIRE=1 WHERE ID_LIENINTERNE='.$id_lieninternedemandeur;
+    				$stmtupdatedemandeur = $db->query($sqlupdatereceiver);
+    			}
+    			
+    			//------------------------------------------------------------------------------------------------    			//Save the PDF
     			// Save document as a new file
     			$this->pdf->save('pdf/test.pdf');
+    			
     			//Redirect the action
-    			//$this->_helper->redirector('showfile');
+    			$this->_helper->redirector('index','index');
     		}
     	}
     	
@@ -553,6 +591,7 @@ class ShowPdfController extends Zend_Controller_Action
     }
 
 //------------------------------FUNCTIONS ADDING A PERSON --------------------------------------------
+
     //Function that add a add-a-person form to the view
     public function addPersonPopup($id_document, $user_ID, $db)
     {
@@ -585,8 +624,7 @@ class ShowPdfController extends Zend_Controller_Action
     	$this->view->destinataire = $destinataire;
     	$this->view->etat = $etat;
     	$this->view->date = $date;
-    }
-    
+    }    
     //Function that treats the request from the form
     public function addpersonpdfAction(){
     	
@@ -614,13 +652,9 @@ class ShowPdfController extends Zend_Controller_Action
     			 
     			//return $this->_helper->redirector('showfile');
 
-    		}
-    		 
-    		 
-    	}
-    	
-    }
-    
+    		}   		 
+    	}    	
+    }    
     //Function that retrieves the form for adding a person
     private function _getAddPersonForm()
     {
@@ -634,9 +668,6 @@ class ShowPdfController extends Zend_Controller_Action
     	}
     	return $form;
     }
-
-
-
 }
 
 
