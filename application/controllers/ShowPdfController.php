@@ -18,6 +18,7 @@
 * 1.11 : Hina Tufail - méta informations and comment pop ups
 * 1.12 : Mathilde de l'Hermuzi�re - meta informations revision
 * 1.13 : Hina Tufail - modification - 20/11/2013
+* 1.14 : Hina Tufail - modification - 23/11/2013
 *
 * Controller that controls views for doing action on a PDF document
 *
@@ -436,10 +437,6 @@ class ShowPdfController extends Zend_Controller_Action
       
     public function addPersonPopup($id_document, $user_ID, $db)
     {
-    	//----------------------------------------------------------------------
-    	// ADD PERSON POPUP
-    	// Form of a person ----------------------------------------------------
-    	
     	$form = new Application_Form_Addperson();
 
     	$this->view->addpersonForm = $form;
