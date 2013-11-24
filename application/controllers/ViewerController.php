@@ -41,6 +41,10 @@ class ViewerController extends Zend_Controller_Action
     	//We get the ID of the document we have to display from the indexController
     	$request = $this->getRequest();
     	$this->id_document = $request->getParam('COURRIER_ID');
+    	
+    	
+    	$this->pdf = new Zend_Pdf();
+    	$this->pdf = Zend_Pdf::load($this->filePath,null,true);
     	 
     }
 
@@ -49,8 +53,6 @@ class ViewerController extends Zend_Controller_Action
         $this->_helper->layout->disableLayout();
     	//$this->_helper->viewRenderer->setNoRender(true);
     	
-    	//$this->signWithCanvas(); 
-
         $this->view->id_document= $this->id_document;
         
     	//Get the database infos
@@ -82,12 +84,9 @@ class ViewerController extends Zend_Controller_Action
     //Action for adding the signature to the file by a canvas
     public function signwithcanvasAction()
     {
-    
-    	$pdf = new Zend_Pdf();
-    	$pdf = Zend_Pdf::load($this->filePath,null,true);
-    	
+        	
     	// Add a new page with Zend_Pdf to the document
-    	$pdf->pages[] = ($page1 = $pdf->newPage('A4'));
+    	//$this->pdf->pages[] = ($page1 = $this->pdf->newPage('A4'));
     	 
     	// Reverse page order
     	//$pdf->pages = array_reverse($pdf->pages);
@@ -112,13 +111,31 @@ class ViewerController extends Zend_Controller_Action
     
     	//Load signature image and add it to the PDF
     	$image = Zend_Pdf_Image::imageWithPath('../public/img/test2.png');
-    	$page1->drawImage($image, 100, 100, 400, 350);
+    	
+    	//Count pdf pages
+    	$count = count($this->pdf->pages)-1;
+    	
+    	//Get the last page of pdf file
+    	$lastpage = $this->pdf->pages[$count];
+    	
+    	//Get width and height of page
+    	$width  = $lastpage->getWidth();
+    	$height = $lastpage->getHeight();
+    	
+    	$imgWidth = $image->getPixelWidth();
+    	$imgWidth = $imgWidth*0.50;
+    	$imgHeight = $image->getPixelHeight();
+    	$imgHeight = $imgHeight*0.50;
+    	
+    	//Draw image on the last page
+    	$lastpage->drawImage($image, $width*0.45, $height*0.05, $width*0.45 + $imgWidth, $height*0.05 + $imgHeight);
+    	//$page1->drawImage($image, 100, 100, 400, 350);
     
     	 
     	// Update the PDF document
     	//$pdf->save($this->fileName, true);
     	// Save document as a new file
-    	$pdf->save('pdf/testSign.pdf'); 
+    	$this->pdf->save('pdf/testSign.pdf'); 
     }
     
     //------------------------------FUNCTIONS FOR ADDING A COMMENT INTO THE PDF -----------------------------------------
@@ -390,7 +407,7 @@ class ViewerController extends Zend_Controller_Action
     			//------------------------------------------------------------------------------------------------
     			//Save the PDF
     			// Save document as a new file
-    			$this->pdf->save('pdf/test.pdf');
+    			$this->pdf->save('pdf/testSign.pdf');
     			//Redirect the action
     			$this->_helper->redirector('index','index');
     		}
@@ -412,6 +429,8 @@ class ViewerController extends Zend_Controller_Action
     public function validatepdfAction()
     {
     
+    	//Get the database infos
+    	$db = Zend_Db_Table::getDefaultAdapter();
     	$request = $this->getRequest();
     	$form = $this->_getValidateForm();
     	 
@@ -468,7 +487,7 @@ class ViewerController extends Zend_Controller_Action
     			 
     			//------------------------------------------------------------------------------------------------    			//Save the PDF
     			// Save document as a new file
-    			$this->pdf->save('pdf/test.pdf');
+    			$this->pdf->save('pdf/testSign.pdf');
     			 
     			//Redirect the action
     			$this->_helper->redirector('index','index');
