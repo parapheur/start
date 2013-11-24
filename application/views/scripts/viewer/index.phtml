@@ -5,9 +5,10 @@
 * Author : Mathilde de l'Hermuzière
 * Created : 09/11/2013
 * Modified : 13/11/2013
-* 1.1 :  Mathilde de l'Hermuzière - creation and modification
+* 1.1 : Mathilde de l'Hermuzière - creation and modification
 * 1.2 : Thomas Nguyen-huu - modification
-* 1.3 :  Mathilde de l'Hermuzière - modification
+* 1.3 : Mathilde de l'Hermuzière - modification
+* 1.4 : Mathilde de l'Hermuziere - add of dynamism
 * Action to use a flipbook
 *
 * Projet parapheur 2014
@@ -19,7 +20,11 @@
 	<meta charset="utf-8">
 	<title>PDF Flip Book</title>
 	<?php echo $this->headLink()->appendStylesheet($this->baseUrl().'/css/reset.css')
-  								->appendStylesheet($this->baseUrl().'/css/flip.css'); ?>
+  								->appendStylesheet($this->baseUrl().'/css/flip.css')
+								->appendStylesheet($this->baseUrl().'/css/style.css')
+  								//->appendStylesheet($this->baseUrl().'/css/showfileStyle.css')
+							  	//->appendStylesheet($this->baseUrl().'/css/viewer.css')
+							  	//->appendStylesheet($this->baseUrl().'/css/book.css'); ?>
   	<?php echo $this->headScript()->appendFile($this->baseUrl().'/js/jquery-1.7.1.min.js')
   								  ->appendFile($this->baseUrl().'/js/turn.js')
   							      ->appendFile($this->baseUrl().'/js/compatibility.js')
@@ -27,7 +32,9 @@
   								  ->appendFile($this->baseUrl().'/js/pdf.js')
   								  ->appendFile($this->baseUrl().'/js/viewer.js')
   								  ->prependScript('pdf_file="'.$this->pdfurl.'";')
-  								  ->appendFile($this->baseUrl().'/js/sketch.js');?>
+  								  ->appendFile($this->baseUrl().'/js/sketch.js')
+  								  ->appendFile($this->baseUrl().'/js/custom.js')
+ 								  ->prependFile($this->baseUrl().'/js/jquery-1.9.1.js');;?>
  </head>
  
 <body>
@@ -45,22 +52,29 @@
 	<div id="side-bar">
 		<ul>
 			<li>
-				<input id="download" class="btn-meta" type="button">
+				<!-- Meta info icon -->
+				<br/><br/><a href="#" data-width="720" data-rel="info_doc" class="poplight"><img src='../../../img/icons/ico_meta.png' alt='icone info image'/></a>
+
+				<!-- <input id="download" class="btn-meta" type="button">-->
 			</li>
 			<li>
+				<!-- Print icon -->
 				<input id="download" class="btn-print" type="button">
 			</li>
 			<li>
+				<!-- Download icon -->
 				<input id="download" class="btn-download" type="button" onclick="PDFView.download();">
 			</li>
 			<li>
+				<!-- Export icon -->
 				<input id="download" class="btn-export" type="button">			
 			</li>
 		</ul>
 	</div>
 	<div id="tool-bar">
 		<div class="tool-left">
-			<input class="btn-comment" type="button">		
+			<a href="#" data-width="720" data-rel="comment_doc" class="poplight"><img src='../../../img/icons/ico_com.png' alt='icone ajout de commentaire image'/></a>
+			<!-- <input class="btn-comment" type="button" data-rel="comment_doc">	-->	
 		</div>
 		<ul>
 			<li>
@@ -86,14 +100,31 @@
 				<input id="go-last" class="btn-golast"  type="button" onclick="PDFView.page = PDFView.pages.length">
 			</li>
 			<li>
-				<a class="btn-home" href="/" class=""></a>
+				<a class="btn-home" href="<?php 	
+											echo $this->url(array(
+												'controller' => 'Index',
+					           					'action'=>'index'),
+					            				'default', true) ?>" 
+					            				class=""></a>
 			</li>
 			<li>
+				<a href="<?php 	
+							echo $this->url(array(
+								'controller' => 'ShowPdf',
+					            'action'=>'signpdf'),
+					            'default', true) ?>" 
+					            id="SignerIcone">
+					            <img src='../../../img/icons/ico_sign.png' 
+					            alt='icone signer image'/></a>
 			</li>
 		</ul>		
 		<div class="tool-right">
-			<input class="btn-valid" type="button">		
-			<input class="btn-invalid" type="button">	
+			<!--Liens vers les popup : valider et refuser le document -->
+			<a href="#" id="validateBtn" data-width="720" data-rel="validate_doc" class="poplight"><img src='../../../img/icons/ico_val.png' alt='icone valider document'/></a>
+			<a href="#" id="refuseBtn" data-width="720" data-rel="refuse_doc" class="poplight"><img src='../../../img/icons/ico_refus.png' alt='icone refus document'/></a>
+			
+			<!-- <input class="btn-valid" type="button">		
+			<input class="btn-invalid" type="button">	-->
 		</div>
 		<select id="scaleSelect" onchange="PDFView.parseScale(this.value);" style="display:none;">
 			<option id="pageAutoOption" value="auto">Automatic Zoom</option>
@@ -101,5 +132,25 @@
 		</select>
 	</div>
 	
+<!--POPUP DEBUT -->
+	<!--Comment Document -->
+	<?php include('commentpopup.phtml')?>
+	
+	<!--Display Document Informations -->
+	<?php include('metainfoPopup.phtml')?>
+	
+	<!--Validate Document -->
+	<?php include ('validatePopup.phtml'); ?>
+	
+	<!--Refuse Document -->
+	<?php include('refusePopup.phtml')?>
+	
+	<!--Add person to Document -->
+	<?php include('addpersonpopup.phtml')?>
+	
+	<div id="popup_fade"></div>
+	
+<!--POPUP FIN -->
+		
 </body>
 </html>

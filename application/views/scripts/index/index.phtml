@@ -4,7 +4,7 @@
 	* Author : Thomas Nguyen-huu
 	* Created : 09/11/2013
 	* Modified : 16/11/2013
-	* 1.1 :  Thomas Nguyen-huu - creation and modification
+	* 1.1 : Thomas Nguyen-huu - creation and modification
 	* 1.2 : Mathilde de l'Hermuzière - modification
 	* 1.3 : Hina Tufail - modification
 	* 1.4 : Mathilde de l'Hermuzière - modification
@@ -35,32 +35,35 @@
  				<?php foreach($this->id_document as $id_document) : ?>
  					<li> 
 	 					
-	 						<a class="preview" href="<?php 
-								echo $this->url(
-					            		array(
-										'controller' => 'viewer',
-										'action'=>'index')
-										)
+	 					<a id="<?php $this->id_document[$i]?>" class="preview" onClick="<?php 
+	 						$id= $this->id;
+	 						Zend_Session::start();
+	 						$sessioniddoc = new Zend_Session_Namespace('sessioniddoc');
+	 						$sessioniddoc->id=$id;
+	 					?>" href="<?php 
+							echo $this->url(
+					           		array(
+									'controller' => 'viewer',
+									'action'=>'index')
+									)
+						?> "> 
+							<?php 
+							?>
+	 						<img src="img/icons/ico_pdf.png" alt="" /> 
+	 					</a>
+						 <a href="<?php 
+							echo $this->url(
+	 				           	array(
+	 				           		'controller' => 'showPdf',
+	 				           		'action'=>'showfile',
+	 								'COURRIER_ID'=>$this->id_document[$i]),
+	 				           		'default',
+	 				        true)
 							?>"> 
-								<?php $id=$this->id_document[$i];
-		 						  Zend_Session::start();
-		 						  $sessioniddoc = new Zend_Session_Namespace('sessioniddoc');
-								  $sessioniddoc->id=$id;
-								?>
-	 							<img src="img/icons/ico_pdf.png" alt="" /> 
-	 						</a>
-							 <a href="<?php 
-								echo $this->url(
-	 				            	array(
-	 				            		'controller' => 'showPdf',
-	 				            		'action'=>'showfile',
-	 									'COURRIER_ID'=>$this->id_document[$i]),
-	 				            		'default',
-	 				            true)
-							?>"> 
-							<?php echo $this->titre[$i];?></a>
-							<p>Créé le : <?php echo $this->date[$i]; $i++;?></p><br/>
-	 						<p><input type="checkbox" name="<?php echo $this->titre[$i];?>"></p>
+							<?php echo $this->titre[$i];?>
+						</a>
+						<p>Créé le : <?php echo $this->date[$i]; $i++;?></p><br/>
+	 					<p><input type="checkbox" name="<?php echo $this->titre[$i];?>"></p>
 						<?php if($i%5==0){?></ul><ul class ="index-row"><?php }?>
  					</li> 
  				<?php endforeach; ?>

@@ -1,0 +1,47 @@
+<?php 
+	/*
+	* File : commentPopup.phtml
+	* Author : Fanny Seiler
+	* Created : 09/11/2013
+	* 1.1 : Fanny Seiler - creation
+	* 1.2 : Mathilde de l'Hermuziere - adding database info - 18/11/2013
+	* 1.3 : Hina Tufail - modification and testing database info - 18/11/2013
+	* 
+	* Action pop up for commenting a document
+	*
+	* Projet parapheur 2014
+	*/
+	?>
+
+	<div id="comment_doc" class="popup_block">
+		<a class="close" href="#">
+			<img class="btn_close" alt="" src="../../../img/icons/close_pop.png"></img>
+		</a>
+		<h1>Commentaires</h1>
+		<div class="write_comment">
+		<?php
+			$this->commentForm->setAction($this->url(array('controller' => 'Viewer','action'=>'addCommentPdf', 'COURRIER_ID' => $this->id_document),'default',true));
+			echo $this->commentForm; 
+		?>
+		</div> 
+		<br />
+		<?php $i=0;?>
+		<div class="all_comments">
+			<?php foreach($this->id_comment as $id_comment) : ?>
+			<ul>
+				<li>
+					<div>
+						<div class="author on-left"><?php echo $this->id_author[$i]; ?></div>
+						<div class="on-left">&nbsp•&nbsp</div>
+						<div class="on-left"><?php echo $this->date[$i]; ?></div>
+					</div><br />	
+					<div class="comment-inner">
+						<div class="quote on-left"><img src="../../../img/pop/quote_start.png"></img></div>
+						<div class="comment"><?php echo $this->contenu[$i]; $i++; ?></div>
+						<div class="quote on-right on-bottom"><img src="../../../img/pop/quote_end.png"></img></div>
+					</div>
+				</li>
+			</ul>
+			<?php endforeach; ?>
+		</div>
+	</div>
