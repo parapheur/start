@@ -2,10 +2,10 @@
 
 /*
  * File : ViewerController.php
-* Author : Mathilde de l'Hermuzière
+* Author : Mathilde de l'Hermuziï¿½re
 * Created : 19/11/2013
 * Modified : 24/11/2013
-* 1.1 : Mathilde de l'HermuziÃ¨re - création
+* 1.1 : Mathilde de l'HermuziÃ¨re - crï¿½ation
 * 1.2 : Mathilde de l'HermuziÃ¨re - insertion showPdfcontroller
 *
 * Controller that controls views for doing action on a PDF document
@@ -24,17 +24,24 @@ class ViewerController extends Zend_Controller_Action
     	$sessioniddoc = new Zend_Session_Namespace('sessioniddoc');
     	$id_doc = $sessioniddoc->id;
     	
-    	$url='../pdf/TD-1.pdf';
-    	//$filename='..\pdf\TD-1.pdf';
-    	//$pdf = new Zend_Pdf();
-    	//$pdf = Zend_Pdf::load($filename,null,true);  	 
-    	//$this->pdf = $pdf;
+    	//URL used to retrieve the document for the flipbook
+    	$url='../../../pdf/testSign.pdf';
+    	
+    	//File PDF that is used = useful for signature and images
+    	$this->filePath= APPLICATION_PATH.'\..\public\pdf\debuter-avec-zend-framework.pdf';
+
     	
     	$this->view->pdfurl=$url;
     	$this->view->id_doc=$id_doc;
     	
     	//As we do not have Active Directory, we assume that our user ID is 6
     	$this->user_ID=6;
+    	
+
+    	//We get the ID of the document we have to display from the indexController
+    	$request = $this->getRequest();
+    	$this->id_document = $request->getParam('COURRIER_ID');
+    	 
     }
 
     public function indexAction()
@@ -42,26 +49,28 @@ class ViewerController extends Zend_Controller_Action
         $this->_helper->layout->disableLayout();
     	//$this->_helper->viewRenderer->setNoRender(true);
     	
-    	$this->signWithCanvas(); 
+    	//$this->signWithCanvas(); 
 
+        $this->view->id_document= $this->id_document;
+        
     	//Get the database infos
     	$db = Zend_Db_Table::getDefaultAdapter();
     	
     	//Call the form for add person
-    	//$this->addPersonPopup($id_document,$this->user_ID,$db);
+    	$this->addPersonPopup($this->id_document,$this->user_ID,$db);
     	
     	//Call the form for comments
-    	$id_document=82;
-    	$this->addCommentPopup($id_document,$this->user_ID,$db);
+    	//$id_document=82;
+    	$this->addCommentPopup($this->id_document,$this->user_ID,$db);
     	
     	//Call the display info
-    	//$this->showMeta($id_document,$db);
+    	$this->showMeta($this->id_document,$db);
     	
     	//Add the validate form
-    	//$this->validatePopup();
+    	$this->validatePopup();
     	
     	//Add the refuse form
-    	//$this->refusePopup();
+    	$this->refusePopup();
     }
     
     //------------------------------FUNCTIONS FOR SIGNING A PDF --------------------------------------------
@@ -71,11 +80,14 @@ class ViewerController extends Zend_Controller_Action
     {
     }
     //Action for adding the signature to the file by a canvas
-    public function signWithCanvas()
+    public function signwithcanvasAction()
     {
     
-    	/*// Add a new page with Zend_Pdf to the document
-    	$this->pdf->pages[] = ($page1 = $this->pdf->newPage('A4'));
+    	$pdf = new Zend_Pdf();
+    	$pdf = Zend_Pdf::load($this->filePath,null,true);
+    	
+    	// Add a new page with Zend_Pdf to the document
+    	$pdf->pages[] = ($page1 = $pdf->newPage('A4'));
     	 
     	// Reverse page order
     	//$pdf->pages = array_reverse($pdf->pages);
@@ -106,7 +118,7 @@ class ViewerController extends Zend_Controller_Action
     	// Update the PDF document
     	//$pdf->save($this->fileName, true);
     	// Save document as a new file
-    	$this->pdf->save('pdf/testSign.pdf');   */	 
+    	$pdf->save('pdf/testSign.pdf'); 
     }
     
     //------------------------------FUNCTIONS FOR ADDING A COMMENT INTO THE PDF -----------------------------------------
@@ -152,9 +164,7 @@ class ViewerController extends Zend_Controller_Action
     	//Get the database infos
     	$db = Zend_Db_Table::getDefaultAdapter();
     	$form = $this->_getCommentForm();
-    
-    	$id_document = 82; //!!!!!!!!!!!!!!!!!!
-    
+        
     	//If request is post
     	if ($this->getRequest()->isPost()) {
     		if ($form->isValid($request->getPost())) {
@@ -166,7 +176,7 @@ class ViewerController extends Zend_Controller_Action
     			$text_commentaire = $form->getValue('text_commentaire');
     			 
     			//Find the ID of the lieninterne between our user and the document
-    			$sqlfind = 'SELECT ID_LIENINTERNE FROM LIENINTERNE WHERE ID_ENTITEDESTINATAIRE='.$this->user_ID.' AND ID_COURRIER ='.$id_document;
+    			$sqlfind = 'SELECT ID_LIENINTERNE FROM LIENINTERNE WHERE ID_ENTITEDESTINATAIRE='.$this->user_ID.' AND ID_COURRIER ='.$this->id_document;
     			$stmtfind = $db->query($sqlfind);
     			$rowsfind = $stmtfind->fetchAll();
     			$id_lieninterne= $rowsfind[0]['ID_LIENINTERNE'];
