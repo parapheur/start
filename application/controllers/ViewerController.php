@@ -25,8 +25,10 @@ class ViewerController extends Zend_Controller_Action
     	$id_doc = $sessioniddoc->id;
     	
     	//URL used to retrieve the document for the flipbook
-    	$url='../../../pdf/testSign.pdf';
-    	
+    	//Url relative (here absolute is prefered, depends on the parameters in the URL)
+    	//$url='../../../pdf/testSign.pdf';
+    	//Url absolute
+    	$url='http://parapheur/pdf/testSign.pdf';
     	//File PDF that is used = useful for signature and images
     	$this->filePath= APPLICATION_PATH.'\..\public\pdf\debuter-avec-zend-framework.pdf';
 
