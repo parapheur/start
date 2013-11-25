@@ -21,20 +21,20 @@ class ViewerController extends Zend_Controller_Action
     	//We get the ID of the document we have to display from the indexController
     	$request = $this->getRequest();
     	
-    	$sessioniddoc = new Zend_Session_Namespace('sessioniddoc');
-    	$id_doc = $sessioniddoc->id;
+    	//$sessioniddoc = new Zend_Session_Namespace('sessioniddoc');
+    	//$id_doc = $sessioniddoc->id;
     	
     	//URL used to retrieve the document for the flipbook
     	//Url relative (here absolute is prefered, depends on the parameters in the URL)
     	//$url='../../../pdf/testSign.pdf';
     	//Url absolute
-    	$url='http://parapheur/pdf/testSign.pdf';
+    	$url='../../../pdf/testSign.pdf';
     	//File PDF that is used = useful for signature and images
     	$this->filePath= APPLICATION_PATH.'\..\public\pdf\debuter-avec-zend-framework.pdf';
 
     	
     	$this->view->pdfurl=$url;
-    	$this->view->id_doc=$id_doc;
+    	//$this->view->id_doc=$id_doc;
     	
     	//As we do not have Active Directory, we assume that our user ID is 6
     	$this->user_ID=6;
@@ -60,16 +60,15 @@ class ViewerController extends Zend_Controller_Action
     	//Get the database infos
     	$db = Zend_Db_Table::getDefaultAdapter();
     	
+    	//Call the display info
+    	$this->showMeta($this->id_document,$db);
+    	
     	//Call the form for add person
     	$this->addPersonPopup($this->id_document,$this->user_ID,$db);
     	
     	//Call the form for comments
-    	//$id_document=82;
     	$this->addCommentPopup($this->id_document,$this->user_ID,$db);
-    	
-    	//Call the display info
-    	$this->showMeta($this->id_document,$db);
-    	
+    	    	
     	//Add the validate form
     	$this->validatePopup();
     	
