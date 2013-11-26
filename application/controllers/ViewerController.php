@@ -44,7 +44,6 @@ class ViewerController extends Zend_Controller_Action
     	$request = $this->getRequest();
     	$this->id_document = $request->getParam('COURRIER_ID');
     	
-    	
     	$this->pdf = new Zend_Pdf();
     	$this->pdf = Zend_Pdf::load($this->filePath,null,true);
     	 
@@ -182,6 +181,7 @@ class ViewerController extends Zend_Controller_Action
     	//Get the database infos
     	$db = Zend_Db_Table::getDefaultAdapter();
     	$form = $this->_getCommentForm();
+    	$id_document = $this->id_document;
         
     	//If request is post
     	if ($this->getRequest()->isPost()) {
@@ -203,7 +203,6 @@ class ViewerController extends Zend_Controller_Action
     			$date = '06/11/2011';
     			$commentaire = new Application_Model_DbTable_Commentaire();
     			$commentaire->ajouterCommentaire($id_document, $id_lieninterne, $text_commentaire, $date, $type_commentaire);
-    
     		}
     	}
     }

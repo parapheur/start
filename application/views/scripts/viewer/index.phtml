@@ -23,10 +23,7 @@
 	<title>PDF Flip Book</title>
 	<?php echo $this->headLink()->appendStylesheet($this->baseUrl().'/css/reset.css')
   								->appendStylesheet($this->baseUrl().'/css/flip.css')
-								->appendStylesheet($this->baseUrl().'/css/style.css')
-  								//->appendStylesheet($this->baseUrl().'/css/showfileStyle.css')
-							  	//->appendStylesheet($this->baseUrl().'/css/viewer.css')
-							  	//->appendStylesheet($this->baseUrl().'/css/book.css'); ?>
+								->appendStylesheet($this->baseUrl().'/css/style.css'); ?>
   	<?php echo $this->headScript()->appendFile($this->baseUrl().'/js/jquery-1.7.1.min.js')
   								  ->appendFile($this->baseUrl().'/js/turn.js')
   							      ->appendFile($this->baseUrl().'/js/compatibility.js')
@@ -54,7 +51,7 @@
 		<ul>
 			<li>
 				<!-- Meta info icon -->
-				<br/><br/><a href="#" data-width="720" data-rel="info_doc" class="btn-meta"></a>
+				<br/><br/><a href="#" data-width="720" data-rel="info_doc" class="poplight"><img src='../../../img/icons/ico_meta.png' alt='icone info image'/></a>
 
 				<!-- <input id="download" class="btn-meta" type="button">-->
 			</li>
@@ -74,7 +71,7 @@
 	</div>
 	<div id="tool-bar">
 		<div class="tool-left">
-			<a href="#" data-width="720" data-rel="comment_doc" class="btn-comment"></a>
+			<a href="#" data-width="720" data-rel="comment_doc" class="poplight"><img src='../../../img/icons/ico_com.png' alt='icone ajout de commentaire image'/></a>
 			<!-- <input class="btn-comment" type="button" data-rel="comment_doc">	-->	
 		</div>
 		<ul>
@@ -121,8 +118,8 @@
 		</ul>		
 		<div class="tool-right">
 			<!--Liens vers les popup : valider et refuser le document -->
-			<a href="#" id="validateBtn" data-width="720" data-rel="validate_doc" class="btn-valid"></a>
-			<a href="#" id="refuseBtn" data-width="720" data-rel="refuse_doc" class="btn-invalid"></a>
+			<a href="#" id="validateBtn" data-width="720" data-rel="validate_doc" class="poplight"><img src='../../../img/icons/ico_val.png' alt='icone valider document'/></a>
+			<a href="#" id="refuseBtn" data-width="720" data-rel="refuse_doc" class="poplight"><img src='../../../img/icons/ico_refus.png' alt='icone refus document'/></a>
 			
 			<!-- <input class="btn-valid" type="button">		
 			<input class="btn-invalid" type="button">	-->
@@ -139,7 +136,6 @@
 	
 	<!--Comment Document -->
 	<?php include('commentpopup.phtml')?>
-	
 	
 	
 	<!--Validate Document -->
