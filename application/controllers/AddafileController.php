@@ -7,6 +7,7 @@
 * Modified : 16/11/2013
 * 1.1 : Mathilde de l'Hermuzière - Creation and modification for adding clob
 * 1.2 : Hina Tufail - modification
+* 1.3: Mathilde de l'Hermuziere - redirection into a filer
 * 
 * Controller that controls views for adding a file into database
 *
@@ -69,8 +70,8 @@ class AddafileController extends Zend_Controller_Action
              if ($form->isValid($request->getPost())) {
               	
              	//Set destination for the PDF file : data file into application
-             	$upload = new Zend_File_Transfer_Adapter_Http();
-              	$upload->setDestination(realpath(APPLICATION_PATH . '\data'));
+             	//$upload = new Zend_File_Transfer_Adapter_Http();
+              	//$upload->setDestination(realpath(APPLICATION_PATH . '\data'));
               	
               	try { 
               		// call receive() before getValues()
@@ -79,13 +80,13 @@ class AddafileController extends Zend_Controller_Action
               		$e->getMessage();
               	}
                 $formData = $form->getValues();
-              	$filename = $upload->getFileName('upfile');
-              	$filesize = $upload->getFileSize('upfile');
-              	$filemimeType = $upload->getMimeType('upfile');
+              	//$filename = $upload->getFileName('upfile');
+              	//$filesize = $upload->getFileSize('upfile');
+              	//$filemimeType = $upload->getMimeType('upfile');
               	
-              	echo $filename;
-              	echo $filesize;
-              	echo $filemimeType;
+              	//echo $filename;
+              	//echo $filesize;
+              	//echo $filemimeType;
               	 
 //              	$dstFilePath = '/images/'.$filename;
              	
@@ -99,7 +100,7 @@ class AddafileController extends Zend_Controller_Action
 //              		$file=file_get_contents('/data/minicdcparapheur.pdf');
 //              		$pdf=Zend_Pdf::parse(file);
              		//$pdf = Zend_Pdf::load('C:\a.pdf');
-             		$pdf = Zend_Pdf::load(realpath(APPLICATION_PATH . '/data/a.pdf'));
+             		//$pdf = Zend_Pdf::load(realpath(APPLICATION_PATH . '/data/a.pdf'));
              		//$pdf = Zend_Pdf::load($filename);
 					$title = $form->getValue('titre');
 					

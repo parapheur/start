@@ -405,9 +405,9 @@ h2 {
 	border-top: 1px solid #CBCBCB;
 }
 .all_comments ul{
-	list-style-type: none;
-	overflow: hidden;
+	list-style: none outside none;
 	padding: 0px;
+	height: 180px;
 }
 .all_comments li{
 	margin: 10px 0 30px 0;

@@ -211,13 +211,14 @@ class ViewerController extends Zend_Controller_Action
     {
     
     	if (!Zend_Registry::isRegistered('commentForm')){
-    		require_once (APPLICATION_PATH . '/forms/Comment.php');
+    		require_once (APPLICATION_PATH .'/forms/Comment.php');
     		$form = new Application_Form_Comment();
     		Zend_Registry::set('commentForm', $form);
     	}else{
     		$form = Zend_Registry::get('commentForm');
     	}
     	return $form;
+    	
     }
     
     //------------------------------FUNCTIONS FOR SHOWING META INFORMATIONS --------------------------------------------
