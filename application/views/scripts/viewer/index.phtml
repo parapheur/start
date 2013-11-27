@@ -22,8 +22,7 @@
 	<meta charset="utf-8">
 	<title>PDF Flip Book</title>
 	<?php echo $this->headLink()->appendStylesheet($this->baseUrl().'/css/reset.css')
-  								->appendStylesheet($this->baseUrl().'/css/flip.css')
-								->appendStylesheet($this->baseUrl().'/css/style.css'); ?>
+  								->appendStylesheet($this->baseUrl().'/css/flip.css'); ?>
   	<?php echo $this->headScript()->appendFile($this->baseUrl().'/js/jquery-1.7.1.min.js')
   								  ->appendFile($this->baseUrl().'/js/turn.js')
   							      ->appendFile($this->baseUrl().'/js/compatibility.js')
@@ -51,7 +50,7 @@
 		<ul>
 			<li>
 				<!-- Meta info icon -->
-				<br/><br/><a href="#" data-width="720" data-rel="info_doc" class="poplight"><img src='../../../img/icons/ico_meta.png' alt='icone info image'/></a>
+				<br/><br/><a class="btn-meta poplight" href="#" data-width="720" data-rel="info_doc"></a>
 				
 				<!-- <input id="download" class="btn-meta" type="button">-->
 			</li>
@@ -67,12 +66,14 @@
 				<!-- Export icon -->
 				<input id="download" class="btn-export" type="button">			
 			</li>
+			<li>
+				<a href="#" data-width="720" class="btn-add-person poplight" data-rel="addperson_doc"></a>
+			</li>
 		</ul>
 	</div>
 	<div id="tool-bar">
 		<div class="tool-left">
-			<a href="#" data-width="720" data-rel="comment_doc" class="poplight"><img src='../../../img/icons/ico_com.png' alt='icone ajout de commentaire image'/></a>
-			<!-- <input class="btn-comment" type="button" data-rel="comment_doc">	-->	
+			<a href="#" data-width="720" data-rel="comment_doc" class="btn-comment poplight"></a>
 		</div>
 		<ul>
 			<li>
@@ -117,8 +118,7 @@
 			</li>
 		</ul>		
 		<div class="tool-right">
-			<a href="#" data-width="720" data-rel="addperson_doc" class="poplight"><img src='../../../img/icons/ico_print.png' alt='icone ajout de destinataire image'/></a>
-		
+			
 			<!--Liens vers les popup : valider et refuser le document -->
 			<a href="#" id="validateBtn" data-width="720" data-rel="validate_doc" class="poplight"><img src='../../../img/icons/ico_val.png' alt='icone valider document'/></a>
 			<a href="#" id="refuseBtn" data-width="720" data-rel="refuse_doc" class="poplight"><img src='../../../img/icons/ico_refus.png' alt='icone refus document'/></a>

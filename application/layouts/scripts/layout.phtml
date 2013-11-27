@@ -29,7 +29,7 @@
 		<div id="header">
 			<div class="wrap">
 				<ul id="nav">
-					<li><a class="nav-sel" href="<?php 
+					<li class="n1"><a href="<?php 
 					echo $this->url(
 		            	array(
 		            		'controller' => 'index',
@@ -37,7 +37,7 @@
 		            		'default',
 		            true) 
 					?>">Index</a></li>
-					<li><a href="<?php 
+					<li class="n2"><a href="<?php 
 					echo $this->url(
 		            	array(
 		            		'controller' => 'addafile',
@@ -45,7 +45,7 @@
 		            		'default',
 		            true) 
 					?>">Ajouter</a></li>
-					<li><a href="<?php 
+					<li class="n3"><a href="<?php 
 					echo $this->url(
 		            	array(
 		            		'controller' => 'admin',
@@ -53,18 +53,18 @@
 		            		'default',
 		            true) 
 					?>">Administration</a></li>
-					<li><a href="<?php 
+					<li class="n4"><a href="<?php 
 					echo $this->url(
 		            	array(
 		            		'controller' => 'admin',
 		            		'action'=>'diagnostic'),
 		            		'default',
 		            true) 
-					?>">Diagnostique</a></li>
+					?>">Diagnostic</a></li>
 				</ul>
 				<div class="search-box">
 					<label>Rechercher</label>
-					<input type="text" name="search" value = "aaa">
+					<input type="text" name="search" value = "">
 				</div>
 			</div>
 		</div>
