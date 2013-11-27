@@ -59,13 +59,13 @@
 	   url: "signwithcanvas",                     
 	  data: "&data="+strdata,
 	  success: function(arrResult) {
-			var str = 'http://parapheur/index/index/SUCCESS/1';
+			var str = 'http://parapheur:81/index/index/SUCCESS/1';
 			window.location.replace(str);
 		  },
   	  error: function(arrResult) {
 		//do something
 		alert("error");
-		var str = 'http://parapheur/index/index/SUCCESS/0';
+		var str = 'http://parapheur:81/index/index/SUCCESS/0';
 		window.location.replace(str);
 	  },
 	  complete: function(){

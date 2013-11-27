@@ -22,16 +22,15 @@ class Application_Form_Addafile extends Zend_Form
     	$this->setMethod('post');
  
         // The file to upload
-        $this->addElement('file','upfile',array(
-        		'label' => 'Document',
-        		//'destination'=> 'C:\Windows\Temp',
-        		'required' => true,
-        ));
+       // $this->addElement('file','upfile',array(
+        //		'label' => 'Document',
+        	//	'required' => true,
+      //  ));
         
         // Le titre du document
         $this->addElement('text', 'titre', array(
             'label'      => 'Titre',
-            'required'   => true,
+            'required'   => false,
         	
         ));
 		

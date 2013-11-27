@@ -70,9 +70,13 @@ class AddafileController extends Zend_Controller_Action
              if ($form->isValid($request->getPost())) {
               	
              	//Set destination for the PDF file : data file into application
-             	//$upload = new Zend_File_Transfer_Adapter_Http();
-              	//$upload->setDestination(realpath(APPLICATION_PATH . '\data'));
-              	
+             	$upload = new Zend_File_Transfer_Adapter_Http();
+              	$upload->setDestination(realpath(APPLICATION_PATH . '/../public/pdf/'));
+             	
+             	if (!$upload->receive()) {
+             		$messages = $upload->getMessages();
+             		echo implode("\n", $messages);
+             	}
               	try { 
               		// call receive() before getValues()
               		$upload->receive();
@@ -80,6 +84,7 @@ class AddafileController extends Zend_Controller_Action
               		$e->getMessage();
               	}
                 $formData = $form->getValues();
+                $file = new Zend_Form_Element_File('file');
               	//$filename = $upload->getFileName('upfile');
               	//$filesize = $upload->getFileSize('upfile');
               	//$filemimeType = $upload->getMimeType('upfile');
@@ -118,14 +123,14 @@ class AddafileController extends Zend_Controller_Action
 					$fichier = new Application_Model_DbTable_Fichier();
 					$contenu = new Application_Model_DbTable_Contenu();
 					
-					$id_courrier=  $courrier->ajouterCourrier($id_typecourrier);
-					echo $id_courrier;
+					//$id_courrier=  $courrier->ajouterCourrier($id_typecourrier);
+					//echo $id_courrier;
 					
-					$id_fichier=$fichier->ajouterFichier($id_courrier, $id_typefichier, $taille, $title);
-					echo $id_fichier;
+					//$id_fichier=$fichier->ajouterFichier($id_courrier, $id_typefichier, $taille, $title);
+					//echo $id_fichier;
 					
-					$pdfString = $pdf->render();
-					$contenu->ajouterContenu($id_fichier, $pdfString);
+					//$pdfString = $pdf->render();
+					//$contenu->ajouterContenu($id_fichier, $pdfString);
 					$this->_helper->redirector('index', 'index');
              }
         }
