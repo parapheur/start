@@ -37,9 +37,6 @@
 	 					
 	 					<a id="<?php $this->id_document[$i]?>" class="preview" onClick="<?php 
 	 						$id= $this->id;
-	 						Zend_Session::start();
-	 						$sessioniddoc = new Zend_Session_Namespace('sessioniddoc');
-	 						$sessioniddoc->id=$id;
 	 					?>" href="<?php 
 							echo $this->url(
 					           		array(
@@ -55,11 +52,10 @@
 						 <a href="<?php 
 							echo $this->url(
 	 				           	array(
-	 				           		'controller' => 'showPdf',
-	 				           		'action'=>'showfile',
-	 								'COURRIER_ID'=>$this->id_document[$i]),
-	 				           		'default',
-	 				        true)
+								'controller' => 'viewer',
+								'action'=>'index',
+								'COURRIER_ID'=>$this->id_document[$i])
+								)
 							?>"> 
 							<?php echo $this->titre[$i];?>
 						</a>

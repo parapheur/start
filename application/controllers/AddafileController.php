@@ -70,19 +70,19 @@ class AddafileController extends Zend_Controller_Action
              if ($form->isValid($request->getPost())) {
               	
              	//Set destination for the PDF file : data file into application
-             	$upload = new Zend_File_Transfer_Adapter_Http();
-              	$upload->setDestination(realpath(APPLICATION_PATH . '/../public/pdf/'));
+             	//$upload = new Zend_File_Transfer_Adapter_Http();
+              	//$upload->setDestination(realpath(APPLICATION_PATH . '/../public/pdf/'));
              	
-             	if (!$upload->receive()) {
-             		$messages = $upload->getMessages();
-             		echo implode("\n", $messages);
-             	}
-              	try { 
+             	//if (!$upload->receive()) {
+             		//$messages = $upload->getMessages();
+             		//echo implode("\n", $messages);
+             	//}
+              	//try { 
               		// call receive() before getValues()
-              		$upload->receive();
-              	} catch (Zend_File_Transfer_Exception $e) {
-              		$e->getMessage();
-              	}
+              		//$upload->receive();
+              	//} catch (Zend_File_Transfer_Exception $e) {
+              		//$e->getMessage();
+              //	}
                 $formData = $form->getValues();
                 $file = new Zend_Form_Element_File('file');
               	//$filename = $upload->getFileName('upfile');
