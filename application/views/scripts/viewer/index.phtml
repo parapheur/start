@@ -50,21 +50,21 @@
 		<ul>
 			<li>
 				<!-- Meta info icon -->
-				<br/><br/><a class="btn-meta poplight" href="#" data-width="720" data-rel="info_doc"></a>
+				<br/><br/><a title="Meta-Informations" class="btn-meta poplight" href="#" data-width="720" data-rel="info_doc"></a>
 				
 				<!-- <input id="download" class="btn-meta" type="button">-->
 			</li>
 			<li>
 				<!-- Print icon -->
-				<input id="download" class="btn-print" type="button">
+				<a id="print" class="btn-print" title="Imprimer"></a>
 			</li>
 			<li>
 				<!-- Download icon -->
-				<input id="download" class="btn-download" type="button" onclick="PDFView.download();">
+				<input id="download" title="Telecharger" class="btn-download" type="button" onclick="PDFView.download();">
 			</li>
 			<li>
 				<!-- Export icon -->
-				<input id="download" class="btn-export" type="button">			
+				<input id="export" title="Exporter Tablette" class="btn-export" type="button">			
 			</li>
 			<li>
 				<a href="#" data-width="720" class="btn-add-person poplight" data-rel="addperson_doc"></a>
@@ -73,55 +73,52 @@
 	</div>
 	<div id="tool-bar">
 		<div class="tool-left">
-			<a href="#" data-width="720" data-rel="comment_doc" class="btn-comment poplight"></a>
+			<a href="#" data-width="720" Title="Commenter/Commentaires" data-rel="comment_doc" class="btn-comment poplight"></a>
 		</div>
 		<ul>
 			<li>
-				<input class="btn-zoomin" type="button" onclick="PDFView.zoomIn();">
+				<input class="btn-zoomin" title="Zoomer" type="button" onclick="PDFView.zoomIn();">
 			</li>
 			<li>
-				<input class="btn-zoomout"  type="button" onclick="PDFView.zoomOut();">
+				<input class="btn-zoomout" title="Dezoomer" type="button" onclick="PDFView.zoomOut();">
 			</li>
 			<li>
-				<input id="go-first" class="btn-gofirst"  type="button" onclick="PDFView.page = 1">
+				<input id="go-first" title="Premiere Page" class="btn-gofirst"  type="button" onclick="PDFView.page = 1">
 			</li>
 			<li>
-				<input id="previous" class="btn-previous"  type="button" onclick="PDFView.page--">
+				<input id="previous" title="Page Precedente" class="btn-previous"  type="button" onclick="PDFView.page--">
 			</li>
 			<li class="page-cur">
 				<input id="pageNumber" type="text" value="1" onchange="PDFView.page = this.value;" disabled="true">
 				<span id="numPages"></span>
 			</li>
 			<li>
-				<input id="next" class="btn-next" type="button" onclick="PDFView.page++">
+				<input id="next" title="Page Suivante" class="btn-next" type="button" onclick="PDFView.page++">
 			</li>
 			<li>
-				<input id="go-last" class="btn-golast"  type="button" onclick="PDFView.page = PDFView.pages.length">
+				<input id="go-last" title="Derniere Page" class="btn-golast"  type="button" onclick="PDFView.page = PDFView.pages.length">
 			</li>
 			<li>
-				<a class="btn-home" href="<?php 	
+				<a class="btn-home" title="Retour Page d'Accueil" href="<?php 	
 											echo $this->url(array(
 												'controller' => 'Index',
 					           					'action'=>'index'),
 					            				'default', true) ?>" 
 					            				class=""></a>
 			</li>
-			<li>
-				<a href="<?php 	
+		</ul>		
+		<div class="tool-right">
+				<a title="Signer Document" href="<?php 	
 							echo $this->url(array(
 								'controller' => 'Viewer',
 					            'action'=>'signpdf'),
 					            'default', true) ?>" 
 					            id="SignerIcone">
 					            <img src='../../../img/icons/ico_sign.png' 
-					            alt='icone signer image'/></a>
-			</li>
-		</ul>		
-		<div class="tool-right">
-			
+					            alt='icone signer image'/></a>			
 			<!--Liens vers les popup : valider et refuser le document -->
-			<a href="#" id="validateBtn" data-width="720" data-rel="validate_doc" class="poplight"><img src='../../../img/icons/ico_val.png' alt='icone valider document'/></a>
-			<a href="#" id="refuseBtn" data-width="720" data-rel="refuse_doc" class="poplight"><img src='../../../img/icons/ico_refus.png' alt='icone refus document'/></a>
+			<a title="Valider Document" href="#" id="validateBtn" data-width="720" data-rel="validate_doc" class="poplight"><img src='../../../img/icons/ico_val.png' alt='icone valider document'/></a>
+			<a title="Refuser Document" href="#" id="refuseBtn" data-width="720" data-rel="refuse_doc" class="poplight"><img src='../../../img/icons/ico_refus.png' alt='icone refus document'/></a>
 			
 			<!-- <input class="btn-valid" type="button">		
 			<input class="btn-invalid" type="button">	-->

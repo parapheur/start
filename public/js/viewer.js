@@ -14,7 +14,7 @@ var kMinScale = 0.3;
 var kMaxScale = 2;
 var kImageDirectory = 'img/index.html';
 var kSettingsMemory = 20;
-
+var pdfTitleParapheur = '';
 var tp_CurrentPage;
 var tp_Range;
 
@@ -304,7 +304,7 @@ var PDFView = {
     var parameters = {password: password};
     if (typeof url === 'string') { // URL
       this.url = url;
-      document.title = decodeURIComponent(getFileName(url)) || url;
+      document.title = 'test de titre'; // decodeURIComponent(getFileName(url)) || url;
       parameters.url = url;
     } else if (url && 'byteLength' in url) { // ArrayBuffer
       parameters.data = url;
@@ -1446,14 +1446,14 @@ window.addEventListener('keydown', function keydown(evt) {
   if (cmd == 0) { // no control key pressed at all.
     switch (evt.keyCode) {
       case 37: // left arrow
-      case 75: // 'k'
-      case 80: // 'p'
+      // case 75: // 'k'
+      // case 80: // 'p'
         PDFView.page--;
         handled = true;
         break;
       case 39: // right arrow
-      case 74: // 'j'
-      case 78: // 'n'
+      // case 74: // 'j'
+      // case 78: // 'n'
         PDFView.page++;
         handled = true;
         break;
