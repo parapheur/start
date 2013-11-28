@@ -28,7 +28,7 @@ class ViewerController extends Zend_Controller_Action
     	//Url relative (here absolute is prefered, depends on the parameters in the URL)
     	//$url='../../../pdf/testSign.pdf';
     	//Url absolute
-    	$url='../../../pdf/testSign.pdf';
+    	$url='../../../pdf/minicdcparapheur.pdf';
     	//File PDF that is used = useful for signature and images
     	$this->filePath= APPLICATION_PATH.'\..\public\pdf\debuter-avec-zend-framework.pdf';
 
