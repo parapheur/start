@@ -2,6 +2,9 @@
 
 #colors_sketch{
 	border:1px solid #000000;
+	position:relative;
+	width:500px;
+	height:500px;
 }
 
 .blue-button {
