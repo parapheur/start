@@ -1,13 +1,13 @@
 <?php
 
 /*
- * File : ErrorController.php
-* Author : 
-* Created : 
-* Modified : 
+ * Fichier : ErrorController.php
+* Auteur : 
+* Créé : 
+* Modifié : 
 * 1.1 : 
 *
-* Controller that controls views for errors
+* Controller pour les erreurs
 *
 * Projet parapheur 2014
 */
@@ -15,7 +15,7 @@
 class ErrorController extends Zend_Controller_Action
 {
 
-	//Action that handles errors events
+	//Action qui gère les événements d'erreurs
     public function errorAction()
     {
         $errors = $this->_getParam('error_handler');
@@ -29,26 +29,26 @@ class ErrorController extends Zend_Controller_Action
             case Zend_Controller_Plugin_ErrorHandler::EXCEPTION_NO_ROUTE:
             case Zend_Controller_Plugin_ErrorHandler::EXCEPTION_NO_CONTROLLER:
             case Zend_Controller_Plugin_ErrorHandler::EXCEPTION_NO_ACTION:
-                // 404 error -- controller or action not found
+                // 404 error -- controller ou action non trouvé
                 $this->getResponse()->setHttpResponseCode(404);
                 $priority = Zend_Log::NOTICE;
                 $this->view->message = 'Page not found';
                 break;
             default:
-                // application error
+                // erreur de l'application
                 $this->getResponse()->setHttpResponseCode(500);
                 $priority = Zend_Log::CRIT;
                 $this->view->message = 'Application error';
                 break;
         }
         
-        // Log exception, if logger available
+        // Log exception, si le logger est disponible
         if ($log = $this->getLog()) {
             $log->log($this->view->message, $priority, $errors->exception);
             $log->log('Request Parameters', $priority, $errors->request->getParams());
         }
         
-        // conditionally display exceptions
+        // Afficher conditionnelement les exceptions
         if ($this->getInvokeArg('displayExceptions') == true) {
             $this->view->exception = $errors->exception;
         }
@@ -56,7 +56,7 @@ class ErrorController extends Zend_Controller_Action
         $this->view->request   = $errors->request;
     }
 
-    //Action that gets logs
+    //Action qui récupère les logs
     public function getLog()
     {
         $bootstrap = $this->getInvokeArg('bootstrap');

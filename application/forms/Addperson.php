@@ -1,11 +1,11 @@
 <?php
 
 /*
- * File : Addperson.php
-* Author : Mathilde de l'Hermuzière
-* Created : 20/11/2013
+ * Fichier : Addperson.php
+* Auteur : Mathilde de l'Hermuzière
+* Créé : 20/11/2013
 * 1.1 :  Mathilde de l'Hermuzière - creation and modification
-* Form that permits to add a person to the file workflow
+* Formulaire d'ajout de destinataire dans le workflow
 * 
 * Projet parapheur 2014
 */
@@ -14,7 +14,7 @@ class Application_Form_Addperson extends Zend_Form
 {
 	public function init()
 	{
-		// HTTP method of sending form : Post
+		// HTTP méthode : Post
 		$this->setAttrib('enctype', 'multipart/form-data');
 		$this->setMethod('post');
 		
@@ -24,7 +24,7 @@ class Application_Form_Addperson extends Zend_Form
 				'required'   => true,
 		));
 		
-		// Type of link
+		// Type du lien
 		$this->addElement('select', 'type', array(
 				//'class'		 => 'on-right',
 				'label'		=> 'Type de lien',
@@ -45,7 +45,7 @@ class Application_Form_Addperson extends Zend_Form
 				'required'   => true
 		));
 		
-		// Submit comment button
+		// Soumettre le commentaire - bouton
 		$this->addElement('submit', 'ajouter', array(
 				'ignore'   => true,
 				'label'    => 'Ajouter',

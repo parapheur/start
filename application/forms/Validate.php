@@ -1,12 +1,12 @@
 <?php
 
 /*
- * File : Validate.php
-* Author : Hina Tufail
-* Created : 16/11/2013
-* Modified : 16/11/2013
-* 1.1 :  Hina Tufail - creation and modification
-* Form that permits to validate a file
+ * Fichier : Validate.php
+* Auteur : Hina Tufail
+* Créé : 16/11/2013
+* Modifié : 16/11/2013
+* 1.1 :  Hina Tufail - création et modification
+* Formulaire de validation d'un document
 *
 * Projet parapheur 2014
 */
@@ -16,11 +16,11 @@ class Application_Form_Validate extends Zend_Form
 
     public function init()
     {
-    	// HTTP method of sending form : Post
+    	// méthode HTTP : post
     	$this->setAttrib('enctype', 'multipart/form-data');
     	$this->setMethod('post');
     	
-    	// Submit validation button
+    	// Valider - bouton de type submit
     	$this->addElement('submit', 'valider', array(
     			'ignore'   => true,
     			'label'    => 'Valider',

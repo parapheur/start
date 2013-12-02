@@ -1,13 +1,13 @@
 <?php
 
 /*
- * File : AdminController.php
-* Author : 
-* Created : 
-* Modified : 16/11/2013
+ * Fichier : AdminController.php
+* Auteur : 
+* Créé : 
+* Modifié : 16/11/2013
 * 1.1 : - Creation
 *
-* Controller that controls views for administration
+* Controller qui contrôle la vue de l'administration
 *
 * Projet parapheur 2014
 */
@@ -23,7 +23,7 @@ class AdminController extends Zend_Controller_Action
     {
     }
     
-    //Action for tests to do into the application
+    //Action pour les tests à faire au sein de l'application
     public function diagnosticAction()
     {
     }

@@ -1,13 +1,13 @@
 <?php
 
 /*
- * File : Addafile.php
-* Author : Mathilde de l'Hermuzière
-* Created : 09/11/2013
-* Modified : 11/11/2013
-* 1.1 :  Mathilde de l'Hermuzière - creation and modification
+ * Fichier : Addafile.php
+* Auteur : Mathilde de l'Hermuzière
+* Créé : 09/11/2013
+* Modifié : 11/11/2013
+* 1.1 :  Mathilde de l'Hermuzière - création et modification
 * 1.2 :  Mathilde de l'Hermuzière - modification
-* Form that permits to add a file 
+* Formulaire d'ajout de document 
 * 
 * Projet parapheur 2014
 */
@@ -17,11 +17,11 @@ class Application_Form_Addafile extends Zend_Form
 
     public function init()
     {
-		// HTTP method of sending form : Post
+		// HTTP méthode : Post
     	$this->setAttrib('enctype', 'multipart/form-data');
     	$this->setMethod('post');
  
-        // The file to upload
+        // Le fichier à charger
        // $this->addElement('file','upfile',array(
         //		'label' => 'Document',
         	//	'required' => true,
@@ -114,7 +114,7 @@ class Application_Form_Addafile extends Zend_Form
         		
         ));
 		
-        // Cancel button
+        // Bouton d'annulation
         $this->addElement('button', 'btncancel', array(
         		'ignore'   => true,
         		'label'    => 'Annuler',

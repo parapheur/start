@@ -1,15 +1,15 @@
 <?php
 
 /*
-* File : AddafileController.php
-* Author : Mathilde De l'Hermuzière
-* Created : 09/11/2013
-* Modified : 16/11/2013
-* 1.1 : Mathilde de l'Hermuzière - Creation and modification for adding clob
+* Fichier : AddafileController.php
+* Auteur : Mathilde De l'Hermuzière
+* Crée : 09/11/2013
+* Modifié : 16/11/2013
+* 1.1 : Mathilde de l'Hermuzière - Création et modification pour l'ajout d'un clob
 * 1.2 : Hina Tufail - modification
-* 1.3: Mathilde de l'Hermuziere - redirection into a filer
+* 1.3: Mathilde de l'Hermuziere - redirection dans un filer
 * 
-* Controller that controls views for adding a file into database
+* Controller d'une vue permettant l'ajout d'un document dans la base de données
 *
 * Projet parapheur 2014
 */
@@ -21,22 +21,22 @@ class AddafileController extends Zend_Controller_Action
     {
     }
 
-    //Test action for retrieving document into clob format from database
+    //Action (test) pour récupérer un clob depuis la base de données
     public function indexAction()
     {
-    	//Database connexion
+    	//Connexion à la base de données
     	$id = '63';
     	$conn = oci_connect('DBA_PARAPHEUR', '12345678', 'XE');
     	if (!$conn){
     		echo 'Connection error.';
     	}
-    	//Select the file from ID
+    	//sélectionner l'ID du fichier
     	$sql = 'SELECT * FROM CONTENU WHERE ID_FICHIER=:id';
     	$stid = oci_parse($conn, $sql);
     	oci_bind_by_name($stid, ":id", $id);
     	$result = oci_execute($stid);
     	
-    	//Fetch the row
+    	//Récupération du résultat
     	if($result !== false){
 	    	while($row = oci_fetch_assoc($stid)){
 	            echo $row['CONTENU']->load();
@@ -45,7 +45,7 @@ class AddafileController extends Zend_Controller_Action
 	        }
     	}
      	
-     	//---------------------SET AND SEND HEADER AS TO INDICATE IT IS A PDF APPLICATION---------------
+     	//---------------------METTRE EN PLACE UN HEADER POUR INDIQUER QU'IL S'AGIT D'UNE APPLICATION PDF---------------
      	$this->getResponse()->setHeader('Content-type', 'application/pdf', true);
      	$this->getResponse()->setHeader('Content-disposition','inline;filename='.$module.'_'.$m_no.'.pdf', true);
      	
@@ -56,11 +56,11 @@ class AddafileController extends Zend_Controller_Action
      	$this->getResponse()->clearBody();
      	$this->getResponse()->sendHeaders();
      	
-     	//Set the body
+     	//mettre en place le body de la vue
      	$this->getResponse()->setBody($pdf->render());
     }
 
-    //Action that adds a document into clob format in the database
+    //Action permettant l'ajout d'un document sous le format clob dans la base de données
 	public function signAction()
     {
         $request = $this->getRequest();
@@ -69,7 +69,7 @@ class AddafileController extends Zend_Controller_Action
         if ($this->getRequest()->isPost()) {
              if ($form->isValid($request->getPost())) {
               	
-             	//Set destination for the PDF file : data file into application
+             	//Choisir la destination pour le fichier PDF : fichier data dans application
              	//$upload = new Zend_File_Transfer_Adapter_Http();
               	//$upload->setDestination(realpath(APPLICATION_PATH . '/../public/pdf/'));
              	
@@ -118,7 +118,7 @@ class AddafileController extends Zend_Controller_Action
 					$id_typefichier=1; //is a PDF
 					$taille=500;
 					
-					//Get from tables Courrier, Fichier and Contenu
+					//Récupération des tables Courrier, Fichier and Contenu (création d'objet)
 					$courrier = new Application_Model_DbTable_Courrier();
 					$fichier = new Application_Model_DbTable_Fichier();
 					$contenu = new Application_Model_DbTable_Contenu();
@@ -138,7 +138,7 @@ class AddafileController extends Zend_Controller_Action
         $this->view->form = $form;
     }
     
-    //Test action for the flipbook - to be deleted later
+    //Test action pour le flipbook - A EFFACER PLUS TARD
     public function imagickAction()
     {    	$this->_helper->layout->disableLayout();
     }

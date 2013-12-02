@@ -1,12 +1,12 @@
 <?php
 
 /*
- * File : Comment.php
-* Author : Mathilde de l'Hermuzière
-* Created : 17/11/2013
-* Modified : 17/11/2013
-* 1.1 :  Mathilde de l'Hermuzière - creation and modification
-* Form that permits to comment a file 
+ * Fichier : Comment.php
+* Auteur : Mathilde de l'Hermuzière
+* Créé : 17/11/2013
+* Modifié : 17/11/2013
+* 1.1 :  Mathilde de l'Hermuzière - création et modification
+* Formulaire de commentaire dans un document 
 * 
 * Projet parapheur 2014
 */
@@ -15,11 +15,11 @@ class Application_Form_Comment extends Zend_Form
 {
 	public function init()
 	{
-		// HTTP method of sending form : Post
+		// HTTP méthode: Post
 		$this->setAttrib('enctype', 'multipart/form-data');
 		$this->setMethod('post');
 		
-		// Type of comment
+		// Type du commentaire
 		$this->addElement('select', 'type_commentaire', array(
 				'class'		 => 'write_comment',
 				'required'   => false,
@@ -32,7 +32,7 @@ class Application_Form_Comment extends Zend_Form
 				),
 		));
 		
-		// Content of comment
+		// Contenu du commentaire
 		$this->addElement('textarea', 'text_commentaire', array(
 				'class'		 => 'on-right',
 				'required'   => false,
@@ -45,7 +45,7 @@ class Application_Form_Comment extends Zend_Form
 				),
 		));
 		
-		// Submit comment button
+		// Soumettre le formulaire - bouton
 		$this->addElement('submit', 'commenter', array(
 				'ignore'   => true,
 				'label'    => 'Commenter',
