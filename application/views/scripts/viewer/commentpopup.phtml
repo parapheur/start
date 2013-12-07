@@ -21,7 +21,7 @@
 		<h1>Commentaires</h1>
 		<div class="write_comment">
 		<?php
-			$this->commentForm->setAction($this->url());
+			$this->commentForm->setAction($this->url(array('controller' => 'Viewer','action'=>'add-comment-pdf','COURRIER_ID' => $this->id_document),'default',true));
 			echo $this->commentForm; 
 		?>
 		</div> 

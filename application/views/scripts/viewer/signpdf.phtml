@@ -29,13 +29,17 @@
   								->prependFile($this->baseUrl().'/js/base64.js');?>
 
 <br/>
+<div id="sign_doc" class="popup_block">
+	
 <div class="tools">
 <!--  data-download="png" -->
-<a href="#" data-download="png" class="blue-button" onClick='createPNGButton();'>Download</a>
+<a href="#" data-download="png" onClick='createPNGButton();'><input class="blue-button" type="button" value="Signer le document" /></a>
 </div>
 
 
 <canvas id="colors_sketch" 	 width="500" height="500"></canvas>
+
+</div>
 <script type="text/javascript">
   $(function() {
     $.each(['#f00', '#ff0', '#0f0', '#0ff', '#00f', '#f0f', '#000', '#fff'], function() {
@@ -54,16 +58,16 @@
 
     $.ajax({
 	 type: "POST",                                                  
-	   url: "signwithcanvas",                     
+	   url: "../../signwithcanvas/COURRIER_ID/"+<?php echo $this->id_document;?>,                     
 	  data: "&data="+strdata,
 	  success: function(arrResult) {
-			var str = 'http://parapheur:81/index/index/SUCCESS/1';
+			var str = window.location.protocol + "//" + window.location.host+'/index/index/SUCCESS/1';
 			window.location.replace(str);
 		  },
   	  error: function(arrResult) {
 		//do something
 		alert("error");
-		var str = 'http://parapheur:81/index/index/SUCCESS/0';
+		var str = window.location.protocol + "//" + window.location.host+'/index/index/SUCCESS/0';
 		window.location.replace(str);
 	  },
 	  complete: function(){

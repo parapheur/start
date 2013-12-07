@@ -309,3 +309,26 @@ html[xmlns] .clearfix {
 * html .clearfix {
 	height: 1%;
 }
+
+/* SIGNATURE MESSAGE DE SUCCES ET D'ERROR
+-----------------------------------------------*/
+#display-sign-success p{
+	width : 400px;
+	padding : 5px;
+	border-radius : 5px;
+	text-transform : uppercase;
+	color:green;
+	text-align:center;
+	margin-top : 10px;
+	
+}
+
+#display-sign-error p{
+	width : 400px;
+	padding : 5px;
+	border-radius : 5px;
+	text-transform : uppercase;
+	color:rgb(211,0,0);
+	text-align:center;
+	
+}

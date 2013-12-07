@@ -24,13 +24,6 @@ class ViewerController extends Zend_Controller_Action
     	//$sessioniddoc = new Zend_Session_Namespace('sessioniddoc');
     	//$id_doc = $sessioniddoc->id;
     	
-    	//URL utilisé pour récupérer le document pour la liseuse
-    	$url='../../../pdf/minicdcparapheur.pdf';
-    	//Fichier PDF qui est utilisé = useful for signature and images
-    	$this->filePath= APPLICATION_PATH.'\..\public\pdf\debuter-avec-zend-framework.pdf';
-
-    	
-    	$this->view->pdfurl=$url;
     	//$this->view->id_doc=$id_doc;
     	
     	//Comme nous n'avons pas Active Directory, on suppose que l'ID utilisateur est de 6
@@ -40,6 +33,13 @@ class ViewerController extends Zend_Controller_Action
     	//On récupère l'ID du document que nous souhaitons afficher à partir de l'indexController
     	$request = $this->getRequest();
     	$this->id_document = $request->getParam('COURRIER_ID');
+    	
+    	//URL utilisé pour récupérer le document pour la liseuse
+    	$url='../../../pdf/ID-'.$this->id_document.'.pdf';
+    	//Fichier PDF qui est utilisé = useful for signature and images
+    	$this->filePath= APPLICATION_PATH.'\..\public\pdf\ID-'.$this->id_document.'.pdf';
+    	
+    	$this->view->pdfurl=$url;
     	
     	$this->pdf = new Zend_Pdf();
     	$this->pdf = Zend_Pdf::load($this->filePath,null,true);
@@ -128,8 +128,13 @@ class ViewerController extends Zend_Controller_Action
     	 
     	// Mettre à jour le document PDF
     	//$pdf->save($this->fileName, true);
+
     	// Enregistrer le document en tant que nouveau fichier
-    	$this->pdf->save('pdf/testSign.pdf'); 
+    	$string_save = 'pdf-sign/ID-'.$this->id_document.'_SIGN.pdf';
+    	$this->pdf->save($string_save); 
+    	/* TO DELETE THE FILE IN PDF FOLDER - Ne pas effacer
+    	$mask = "pdf/ID-".$this->id_document.".pdf";
+    	array_map( "unlink", glob( $mask ) );*/
     }
     
     //------------------------------FONCTIONS D'AJOUT DE COMMENTAIRES DANS UN PDF -----------------------------------------
@@ -170,7 +175,7 @@ class ViewerController extends Zend_Controller_Action
     }
     
     //Fonction traitant les requêtes à partir du formulaire de commentaires
-    public function addcommentpdfAction()
+    public function addCommentPdfAction()
     {
     	$request = $this->getRequest();
     	 
@@ -195,10 +200,16 @@ class ViewerController extends Zend_Controller_Action
     			$rowsfind = $stmtfind->fetchAll();
     			$id_lieninterne= $rowsfind[0]['ID_LIENINTERNE'];
     			 
-    			//Date : pour le test
-    			$date = '06/11/2011';
+    			//Date
+    			$date = new Zend_Date();
+    			$month= $date->get(Zend_Date::MONTH);
+    			$day = $date->get(Zend_Date::DAY);
+    			$year=$date->get(Zend_Date::YEAR);
+    			$date = $day.'/'.$month.'/'.$year;
+
     			$commentaire = new Application_Model_DbTable_Commentaire();
     			$commentaire->ajouterCommentaire($id_document, $id_lieninterne, $text_commentaire, $date, $type_commentaire);
+    			$this->_helper->redirector('index','viewer','default',array('COURRIER_ID' => $this->id_document));
     		}
     	}
     }
@@ -388,7 +399,12 @@ class ViewerController extends Zend_Controller_Action
     				
     			//Date : pour le test
     			if($text_commentaire!=null){
-    				$date = '06/11/2011';
+    				//Date
+	    			$date = new Zend_Date();
+	    			$month= $date->get(Zend_Date::MONTH);
+	    			$day = $date->get(Zend_Date::DAY);
+	    			$year=$date->get(Zend_Date::YEAR);
+	    			$date = $day.'/'.$month.'/'.$year;
     				$commentaire = new Application_Model_DbTable_Commentaire();
     				$commentaire->ajouterCommentaire($id_document, $id_lieninterne, $text_commentaire, $date, '1');
     			}
@@ -562,7 +578,13 @@ class ViewerController extends Zend_Controller_Action
     			$id_dest = $form->getValue('id_person');
     			$IRauteur = $form->getValue('IRauteur');
     			$type = $form->getValue('type');
-    			$date = '06/11/2011';
+    			//Date
+    			$date = new Zend_Date();
+    			$month= $date->get(Zend_Date::MONTH);
+    			$day = $date->get(Zend_Date::DAY);
+    			$year=$date->get(Zend_Date::YEAR);
+    			$date = $day.'/'.$month.'/'.$year;
+    			
     
     			$lieninterne = new Application_Model_DbTable_Lieninterne();
     			$lieninterne->ajouterLieninterne($id_document, $this->user_ID, $id_dest, $type, '1', 'N', $date, $IRauteur);
