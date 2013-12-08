@@ -35,7 +35,7 @@ class ViewerController extends Zend_Controller_Action
     	$this->id_document = $request->getParam('COURRIER_ID');
     	
     	//URL utilisé pour récupérer le document pour la liseuse
-    	$url='../../../pdf/ID-'.$this->id_document.'.pdf';
+    	$url='../../../pdf/'.$this->id_document.'.pdf';
     	//Fichier PDF qui est utilisé = useful for signature and images
     	$this->filePath= APPLICATION_PATH.'\..\public\pdf\ID-'.$this->id_document.'.pdf';
     	
@@ -130,10 +130,10 @@ class ViewerController extends Zend_Controller_Action
     	//$pdf->save($this->fileName, true);
 
     	// Enregistrer le document en tant que nouveau fichier
-    	$string_save = 'pdf-sign/ID-'.$this->id_document.'_SIGN.pdf';
+    	$string_save = 'pdf-sign/'.$this->id_document.'.pdf';
     	$this->pdf->save($string_save); 
     	/* TO DELETE THE FILE IN PDF FOLDER - Ne pas effacer
-    	$mask = "pdf/ID-".$this->id_document.".pdf";
+    	$mask = "pdf/".$this->id_document.".pdf";
     	array_map( "unlink", glob( $mask ) );*/
     }
     
