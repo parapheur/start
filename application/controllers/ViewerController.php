@@ -37,7 +37,7 @@ class ViewerController extends Zend_Controller_Action
     	//URL utilisé pour récupérer le document pour la liseuse
     	$url='../../../pdf/'.$this->id_document.'.pdf';
     	//Fichier PDF qui est utilisé = useful for signature and images
-    	$this->filePath= APPLICATION_PATH.'\..\public\pdf\ID-'.$this->id_document.'.pdf';
+    	$this->filePath = APPLICATION_PATH.'/../public/pdf/'.$this->id_document.'.pdf';
     	
     	$this->view->pdfurl=$url;
     	
