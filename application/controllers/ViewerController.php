@@ -6,7 +6,21 @@
 * Création : 19/11/2013
 * Modifié : 24/11/2013
 * 1.1 : Mathilde de l'Hermuzière - création
-* 1.2 : Mathilde de l'Hermuzière - insertion showPdfcontroller
+* 1.2 : Hina Tufail - modification
+* 1.3 : Clément Mouraud - modification
+* 1.4 : Mathilde de l'Hermuzière - modification
+* 1.5 : Hina Tufail - modification
+* 1.6 : Clément Mouraud - modification
+* 1.7 : Hina Tufail - modification
+* 1.8 : Hina Tufail - modification
+* 1.9 : Mathilde de l'Hermuziere - link with the index of documents and comment
+* 1.10 : Hina Tufail - méta informations and comment pop ups
+* 1.11 : Mathilde de l'Hermuziere - meta informations revision
+* 1.12 : Hina Tufail - modification - 20/11/2013
+* 1.13 : Hina Tufail - modification - 23/11/2013
+* 1.14 : Mathilde de l'Hermuziere - Ajout Refus - 23/11/2013
+* 1.15 : Mathilde de l'Hermuzière - insertion showPdfcontroller
+* 1.16 : Hina Tufail - signature, valider
 *
 * Controller pour la vue permettant de travailler sur un document PDF
 *
@@ -36,6 +50,7 @@ class ViewerController extends Zend_Controller_Action
     	
     	//URL utilisé pour récupérer le document pour la liseuse
     	$url='../../../pdf/'.$this->id_document.'.pdf';
+    	//$url= '../../../application/data/'.$this->id_document.'.pdf';
     	//Fichier PDF qui est utilisé = useful for signature and images
     	$this->filePath = APPLICATION_PATH.'/../public/pdf/'.$this->id_document.'.pdf';
     	
@@ -132,9 +147,9 @@ class ViewerController extends Zend_Controller_Action
     	// Enregistrer le document en tant que nouveau fichier
     	$string_save = 'pdf-sign/'.$this->id_document.'.pdf';
     	$this->pdf->save($string_save); 
-    	/* TO DELETE THE FILE IN PDF FOLDER - Ne pas effacer
-    	$mask = "pdf/".$this->id_document.".pdf";
-    	array_map( "unlink", glob( $mask ) );*/
+    	//Effacer le fichier pour pas avoir de doublon dans le fichier public/pdf
+    	//$mask = "pdf/".$this->id_document.".pdf";
+    	//array_map( "unlink", glob( $mask ) );
     }
     
     //------------------------------FONCTIONS D'AJOUT DE COMMENTAIRES DANS UN PDF -----------------------------------------
@@ -473,34 +488,15 @@ class ViewerController extends Zend_Controller_Action
     			$lastpage->drawImage($image, $width*0.45, $height*0.05, $width*0.45 + $imgWidth, $height*0.05 + $imgHeight);
     			 
     			//Faire les changements associés dans la base de données
-    			//Archiver le lien entre l'utilisateur et le document
-    			$sqlupdate='UPDATE LIENINTERNE SET ID_ETATDESTINATAIRE=3 WHERE ID_LIENINTERNE='.$id_lieninterne;
-    			$stmtupdate = $db->query($sqlupdate);
-    			 
-    			//Chercher le prochain destinataire du document
-    			$sqlnewreceiver='SELECT * FROM LIENINTERNE WHERE ID_ETATDESTINATAIRE=5 AND ID_DOCUMENT='.$id_document.' ORDER BY DATECREATION';
-    			$stmtreceiver = $db->query($sqlreceiver);
-    			$rowsreceiver = $stmtreceiver->fetchAll();
-    			$id_lieninternereceiver= $rowsreceiver[0]['ID_LIENINTERNE'];
-    			 
-    			if($rowsreceiver!=0){// S'il y a toujours quelqu'un dans le workflox
-    				//Mettre à jour l'état du destinataire pour qu'il puisse voir le fichier dans son index des documents
-    				$sqlupdatereceiver='UPDATE LIENINTERNE SET ID_ETATDESTINATAIRE=1 WHERE ID_LIENINTERNE='.$id_lieninternereceiver;
-    				$stmtupdatereceiver = $db->query($sqlupdatereceiver);
-    			}
-    			else{//tout le monde a approuvé le document, donc on peut l'envoyer au demandeur
-    				$sqlfinddemandeur='SELECT * FROM LIENINTERNE WHERE ID_ETATDESTINATAIRE=6 AND ID_DOCUMENT='.$id_document;
-    				$stmtfinddemandeur = $db->query($sqlfinddemandeur);
-    				$rowsfinddemandeur = $stmtfinddemandeur->fetchAll();
-    				$id_lieninternedemandeur= $rowsfinddemandeur[0]['ID_LIENINTERNE'];
-    
-    				$sqlupdatedemandeur='UPDATE LIENINTERNE SET ID_ETATDESTINATAIRE=1 WHERE ID_LIENINTERNE='.$id_lieninternedemandeur;
-    				$stmtupdatedemandeur = $db->query($sqlupdatereceiver);
-    			}
+				$this->_validateInDB($db);
     			 
     			//------------------------------------------------------------------------------------------------    			//Save the PDF
     			// Enregistrer le document en tant que nouveau fichier
-    			$this->pdf->save('pdf/testSign.pdf');
+    			$this->pdf->save('pdf-sign/'.$this->id_document.'.pdf');
+    			
+    			//TO DELETE THE FILE IN PDF FOLDER - Ne pas effacer
+    			//$mask = "pdf/".$this->id_document.".pdf";
+    			//array_map( "unlink", glob( $mask ) );
     			 
     			//Rediriger l'action
     			$this->_helper->redirector('index','index');
@@ -508,6 +504,49 @@ class ViewerController extends Zend_Controller_Action
     	}
     	 
     }
+    
+    //Fonction permettant de valider en faisant les changements nécessaires dans la base de données
+    private function _validateInDB($db){
+
+    	//Récupérer l'ID du lieninterne entre notre utilisateur et le document
+    	$sqlfind = 'SELECT ID_LIENINTERNE FROM LIENINTERNE WHERE ID_ENTITEDESTINATAIRE='.$this->user_ID.' AND ID_COURRIER ='.$this->id_document;
+    	$stmtfind = $db->query($sqlfind);
+    	$rowsfind = $stmtfind->fetchAll();
+    	$id_lieninterne= $rowsfind[0]['ID_LIENINTERNE'];
+    	 
+    	//Récupérer l'expéditeur
+    	$sqlfindexp = 'SELECT ID_ENTITEEXPEDITEUR FROM LIENINTERNE WHERE ID_ENTITEDESTINATAIRE='.$this->user_ID.' AND ID_COURRIER ='.$this->id_document;
+    	$stmtfindexp = $db->query($sqlfindexp);
+    	$rowsfindexp = $stmtfindexp->fetchAll();
+    	$expediteur= $rowsfindexp[0]['ID_ENTITEEXPEDITEUR'];
+    	 
+    	 
+    	//Archiver le lien entre l'utilisateur et le document
+    	$sqlupdate='UPDATE LIENINTERNE SET ID_ETATDESTINATAIRE=3 WHERE ID_LIENINTERNE='.$id_lieninterne;
+    	$stmtupdate = $db->query($sqlupdate);
+    	
+    	//Chercher le prochain destinataire du document
+    	$sqlnewreceiver='SELECT * FROM LIENINTERNE WHERE ID_ETATDESTINATAIRE=5 AND ID_COURRIER='.$this->id_document.' ORDER BY DATECREATION';
+    	$stmtreceiver = $db->query($sqlnewreceiver);
+    	$rowsreceiver = $stmtreceiver->fetchAll();
+    	$id_lieninternereceiver= $rowsreceiver[0]['ID_LIENINTERNE'];
+    	
+    	if($rowsreceiver!= null){// S'il y a toujours quelqu'un dans le workflow
+    		//Mettre à jour l'état du destinataire pour qu'il puisse voir le fichier dans son index des documents
+    		$sqlupdatereceiver='UPDATE LIENINTERNE SET ID_ETATDESTINATAIRE=1 WHERE ID_LIENINTERNE='.$id_lieninternereceiver;
+    		$stmtupdatereceiver = $db->query($sqlupdatereceiver);
+    	}
+    	else{//tout le monde a approuvé le document, donc on peut l'envoyer au demandeur
+    		$sqlfinddemandeur='SELECT * FROM LIENINTERNE WHERE ID_ETATDESTINATAIRE='.$this->user_ID.' AND ID_COURRIER='.$this->id_document;
+    		$stmtfinddemandeur = $db->query($sqlfinddemandeur);
+    		$rowsfinddemandeur = $stmtfinddemandeur->fetchAll();
+    		$id_lieninternedemandeur= $rowsfinddemandeur[0]['ID_LIENINTERNE'];
+    	
+    		$sqlupdatedemandeur='UPDATE LIENINTERNE SET ID_ETATDESTINATAIRE=1 WHERE ID_LIENINTERNE='.$id_lieninternedemandeur;
+    		$stmtupdatedemandeur = $db->query($sqlupdatereceiver);
+    	}
+    }
+    
     //Fonction récupérant le formulaire de validation
     private function _getValidateForm()
     {
