@@ -78,7 +78,7 @@ class AddafileController extends Zend_Controller_Action
              	$taille=500;
              	$values=$form->getValues();
              	$title=$form->getValue('titre');
-             	echo $title;	
+             		
              	//Récupération des tables Courrier, Fichier and Contenu (création d'objet)
              	$courrier = new Application_Model_DbTable_Courrier();
              	$fichier = new Application_Model_DbTable_Fichier();
@@ -89,7 +89,6 @@ class AddafileController extends Zend_Controller_Action
              	
              	//Récupérer le fichier téléchargé
 			 	$upload = new Zend_File_Transfer_Adapter_Http();
-			   // $upload->setDestination(realpath(APPLICATION_PATH . '\data'));
 			    $upload->addFilter('Rename', array(
 			    'target' => APPLICATION_PATH . '/data/'.$id_fichier.'.pdf',
 			    'overwrite' => true));
@@ -99,9 +98,7 @@ class AddafileController extends Zend_Controller_Action
 			 	    $e->getMessage();
 			 	}
 			 	
-//             	$file = file_get_contents($fileName);
-				//$url=APPLICATION_PATH.'\data\minicdcparapheur.pdf';
-           		//$pdf=Zend_Pdf::parse(file_get_contents($filename));
+                //$pdf=Zend_Pdf::parse(file_get_contents($filename));
            		//$path='/data'.$name;
            		//$file=file_get_contents('/data/minicdcparapheur.pdf');
            		//$pdf=Zend_Pdf::parse(file);
@@ -141,18 +138,16 @@ class AddafileController extends Zend_Controller_Action
 					
 					if (($validator->isValid($author)) && ($validatorPositive->isValid($author))) {
 						//on spécifie que l'auteur est le demandeur
-						//$lieninterne->ajouterLieninterne($id_courrier, $user_ID, $author, $demandeur, $date);
+						$lieninterne->ajouterLieninterne($id_courrier, $user_ID, $author, $demandeur, $date);
 						$exist=true;
-						echo "youhou1";
 					}
 					else{//le champs auteur n'est pas rempli correctement, on considère que l'utilisateur est le demandeur
-						echo "youhou2";
-						//$lieninterne->ajouterLieninterne($id_courrier, $user_ID, $user_ID, $demandeur, $date);
+						$lieninterne->ajouterLieninterne($id_courrier, $user_ID, $user_ID, $demandeur, $date);
 					}					
 				}
 				else{//le champs auteur est vide, on considère que l'utilisateur est le demandeur
-					echo "youhou3";
-					//$lieninterne->ajouterLieninterne($id_courrier, $user_ID, $user_ID, $demandeur, $date);
+					
+					$lieninterne->ajouterLieninterne($id_courrier, $user_ID, $user_ID, $demandeur, $date);
 				}
 				
 				if($des1!=null && $des1!=""){
