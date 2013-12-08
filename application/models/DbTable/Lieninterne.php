@@ -17,17 +17,17 @@ class Application_Model_DbTable_Lieninterne extends Zend_Db_Table_Abstract
     	return $row->toArray();
     }
 
-    public function ajouterLieninterne($id_courrier, $id_exped, $id_dest, $id_type, $id_etat, $visible, $date, $ir_auteur)
+    public function ajouterLieninterne($id_courrier, $id_exped, $id_dest, $id_etat, $date)
     {
     	$data = array(
     			'ID_COURRIER' => $id_courrier,
     			'ID_ENTITEEXPEDITEUR' => $id_exped,
     			'ID_ENTITEDESTINATAIRE' => $id_dest,
-    			'ID_TYPELIENENTITE' => $id_type,
+    			'ID_TYPELIENENTITE' => '1',
     			'ID_ETATDESTINATAIRE' => $id_etat,
-    			'VISIBLE' => $visible,
-    			'DATECREATION' => new Zend_Db_Expr("TO_DATE('06/05/2012', 'DD/MM/YYYY')"),
-    			'IRAUTEUR' => $ir_auteur
+    			'VISIBLE' => 'N',
+    			'DATECREATION' => new Zend_Db_Expr("TO_DATE('06/05/2012', 'DD/MM/YYYY')"),//$date,
+    			'IRAUTEUR' => 'test ajout'
     	);
     	$this->insert($data);
     }
