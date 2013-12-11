@@ -31,7 +31,7 @@ class Application_Form_Comment extends Zend_Form
 						'2' => 'Document',
 				),
 		));
-		
+
 		// Contenu du commentaire
 		$this->addElement('textarea', 'text_commentaire', array(
 				'class'		 => 'on-right',

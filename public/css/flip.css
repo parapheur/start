@@ -305,6 +305,22 @@ h2 {
 	margin: 0px;
 	padding: 0 0 0 15px;
 }
+.informations dt {
+	height: 27px;
+	width: 130px;
+	padding: 8px 0 0;
+	margin: 0 0 10px;
+	float: left;
+}
+.informations dd {
+	height: 35px;
+	width: 590px;
+	margin: 0 0 10px;
+	float: left;
+}
+.informations dd select {
+	margin: 0;
+}
 .green-button {
 	background: none repeat scroll 0 0 #7BC49C;
     border: medium none;
@@ -345,15 +361,20 @@ position: absolute;
 /* AJOUTER UN DESTINATAIRE
 ----------------------------------------------------------*/
 .informations {
-    margin-bottom: 40px;
+    border-bottom: 1px solid #CBCBCB;
+    height: 170px;
+    margin-bottom: 20px;
+    padding: 0 0 30px;
 }
-
+.person-added li {
+    list-style: disc outside none;
+    margin: 0 0 7px 20px;
+}
 #id_person, #IRauteur{
 display : inline ;
-margin: 5px 0;
-height: 15px;
+height: 33px;
 width: 200px;
-padding : 3px;
+padding : 0 10px;
 font: 13px/1 Arial;
 color: #A4A4A4;
 border-radius: 3px 3px 3px 3px;
