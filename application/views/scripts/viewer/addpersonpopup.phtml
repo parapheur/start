@@ -17,20 +17,22 @@
 			<img class="btn_close" alt="" src="../../../img/icons/close_pop.png"></img>
 		</a>
 		<h1>Ajout de destinataires</h1>
-		<div class="informations on-left">
+		<div class="informations">
 			<?php
 				$this->addpersonForm->setAction($this->url());
 				echo $this->addpersonForm; 
 			?> 
-			<?php $i=0;?>
+		</div>
+		<?php $i=0;?>
+		<div>	
+			<ul>
 				<?php foreach($this->idlien as $idlien) : ?>
-				<ul>
-					<li>
-						<div class="on-left">Destinataire n&ordm;<?php echo $i+1;?>: ID <?php echo($this->destinataire[$i]); ?>, ajout&eacute; par l'ID <?php echo($this->expediteur[$i]); ?> le <?php echo $this->date[$i]; ?>.
-						</div>
-						<?php $i++;?>
-					</li>
-				</ul>
-			<?php endforeach; ?>
+				<li>
+					Destinataire n&ordm;<?php echo $i+1;?>: ID <?php echo($this->destinataire[$i]); ?>, ajout&eacute; par l'ID <?php echo($this->expediteur[$i]); ?> le <?php echo $this->date[$i]; ?>.
+					
+					<?php $i++;?>
+				</li>
+				<?php endforeach; ?>
+			</ul>
 		</div>
 	</div>

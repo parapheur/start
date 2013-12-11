@@ -20,14 +20,14 @@ class Application_Form_Addperson extends Zend_Form
 		
 		// L'identifiant de la personne que l'on veut ajouter
 		$this->addElement('text', 'id_person', array(
-				'label'      => 'ID Destinataire',
+				'label'      => 'ID du destinataire :',
 				'required'   => true,
 		));
 		
 		// Type du lien
 		$this->addElement('select', 'type', array(
-				//'class'		 => 'on-right',
-				'label'		=> 'Type de lien',
+				'class'		 => 'write_comment',
+				'label'		=> 'Type de lien :',
 				'required'   => true,
 				'attribs' =>   array(
 						'id'=>'type_id',
@@ -39,9 +39,9 @@ class Application_Form_Addperson extends Zend_Form
 		));
 		
 		// IR Auteur
-		$this->addElement('textarea', 'IRauteur', array(
-				'label'		=>	'IR Auteur',
-				//'class'		 => 'on-right',
+		$this->addElement('text', 'IRauteur', array(
+				'label'		=>	'IR Auteur :',
+				'class'		 => 'required',
 				'required'   => true
 		));
 		

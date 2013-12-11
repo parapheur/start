@@ -76,9 +76,8 @@ class AddafileController extends Zend_Controller_Action
              	$id_typecourrier=1;
              	$id_typefichier=1; //is a PDF
              	$taille=500;
-             	$values=$form->getValues();
              	$title=$form->getValue('titre');
-             		
+             	
              	//Récupération des tables Courrier, Fichier and Contenu (création d'objet)
              	$courrier = new Application_Model_DbTable_Courrier();
              	$fichier = new Application_Model_DbTable_Fichier();
@@ -90,7 +89,7 @@ class AddafileController extends Zend_Controller_Action
              	//Récupérer le fichier téléchargé
 			 	$upload = new Zend_File_Transfer_Adapter_Http();
 			    $upload->addFilter('Rename', array(
-			    'target' => APPLICATION_PATH . '/data/'.$id_fichier.'.pdf',
+			    'target' => APPLICATION_PATH . '/data/'.$id_courrier.'.pdf',
 			    'overwrite' => true));
 			    try { //be sure to call receive() before getValues()
 			    	$upload->receive();
@@ -107,6 +106,7 @@ class AddafileController extends Zend_Controller_Action
           		//$pdf = Zend_Pdf::load($filename);
 
 			 	//On récupère les autres champs du formulaire
+			 	$values= $form->getValues();
 				$author = $form->getValue('id_author');
 				$des1 = $form->getValue('id_dest1');
 				$des2 = $form->getValue('id_dest2');

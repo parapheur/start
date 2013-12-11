@@ -222,7 +222,7 @@ h2 {
 .write_comment{
 	height: 180px;
 }
-.write_comment select{
+.popup_block select{
 	display : inline ;
 	margin: 12px 0 0;
 	height: 35px;
@@ -332,6 +332,27 @@ position: absolute;
 position: absolute;
 }
 
+/* AJOUTER UN DESTINATAIRE
+----------------------------------------------------------*/
+.informations {
+    margin-bottom: 40px;
+}
+
+#id_person, #IRauteur{
+display : inline ;
+margin: 5px 0;
+height: 15px;
+width: 200px;
+padding : 3px;
+font: 13px/1 Arial;
+color: #A4A4A4;
+border-radius: 3px 3px 3px 3px;
+border: 1px solid #CBCBCB;
+box-shadow: 1px 1px 2px rgba(0,0,0,0.15);
+}
+.zend_form{
+height : 100px;
+}
 
 /* DIVERS
 ----------------------------------------------------------*/
