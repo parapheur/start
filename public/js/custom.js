@@ -25,9 +25,7 @@ jQuery(function($){
 	
 	//Fermer la popup
 	$('body').on('click', 'a.close, #popup_fade', function() {
-		$('#popup_fade , .popup_block').fadeOut(function() {
-			$('#popup_fade, a.close').remove();  
-	});
+		$('#popup_fade , .popup_block').fadeOut();
 		return false;
 	});
 });

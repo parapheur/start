@@ -31,15 +31,14 @@
   								  ->appendFile($this->baseUrl().'/js/l10n.js')
   								  ->appendFile($this->baseUrl().'/js/pdf.js')
   								  ->appendFile($this->baseUrl().'/js/viewer.js')
-  								  ->prependScript('pdf_file="'.$this->pdfurl.'";')
+  								  ->appendScript('pdf_file="'.$this->pdfurl.'";')
   								  ->appendFile($this->baseUrl().'/js/sketch.js')
   								  ->appendFile($this->baseUrl().'/js/custom.js')
- 								  ->prependFile($this->baseUrl().'/js/jquery-1.9.1.js');;?>
+ 								  ->prependFile($this->baseUrl().'/js/jquery-1.9.1.js');?>
  </head>
  
 <body>
 
-	<br/>
 	<div id="loadingBox">
 		<div id="loading" data-l10n-args="{'percent': 0}" data-l10n-id="loading">Loading... 0%</div>
 		<div id="loadingBar">
@@ -119,11 +118,10 @@
 					            id="SignerIcone">
 					            <img src='../../../img/icons/ico_sign.png' 
 					            alt='icone signer image'/></a>	-->	
-			<a title="Signer Document" href="#" id="SignerIcone" data-width="720" data-rel="sign_doc" class= "poplight"><img src='../../../img/icons/ico_sign.png' 
-					            alt='icone signer image'/></a>
+			<a title="Signer Document" href="#" id="SignerIcone" data-width="720" data-rel="sign_doc" class="btn-sign poplight"></a>
 			<!--Liens vers les popup : valider et refuser le document -->
-			<a title="Valider Document" href="#" id="validateBtn" data-width="720" data-rel="validate_doc" class="poplight"><img src='../../../img/icons/ico_val.png' alt='icone valider document'/></a>
-			<a title="Refuser Document" href="#" id="refuseBtn" data-width="720" data-rel="refuse_doc" class="poplight"><img src='../../../img/icons/ico_refus.png' alt='icone refus document'/></a>
+			<a title="Valider Document" href="#" id="validateBtn" data-width="720" data-rel="validate_doc" class="btn-valid poplight"></a>
+			<a title="Refuser Document" href="#" id="refuseBtn" data-width="720" data-rel="refuse_doc" class="btn-invalid poplight"></a>
 			
 			<!-- <input class="btn-valid" type="button">		
 			<input class="btn-invalid" type="button">	-->
