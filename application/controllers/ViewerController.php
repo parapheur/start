@@ -404,15 +404,13 @@ class ViewerController extends Zend_Controller_Action
     				
     			//Dessiner une image sur la dernière page
     			$lastpage->drawImage($image, $width*0.45, $height*0.05, $width*0.45 + $imgWidth, $height*0.05 + $imgHeight);
-    				
+
+    			// Enregistrer le PDF en tant que nouveau fichier
+    			$this->pdf->save('pdf/'.$this->id_document.'.pdf');
 
     			//Faire les changements associés dans la base de données
     			$this->_refuseInDb($db, $form);
-    
-    			//------------------------------------------------------------------------------------------------
-    			//Enregistrer le PDF
-    			// Enregistrer le PDF en tant que nouveau fichier
-    			$this->pdf->save('pdf/testSign.pdf');
+    			
     			//Redirigier l'action
     			$this->_helper->redirector('index','index');
     		}
@@ -499,20 +497,20 @@ class ViewerController extends Zend_Controller_Action
     			 
     			//Dessiner une image sur la dernière page
     			$lastpage->drawImage($image, $width*0.45, $height*0.05, $width*0.45 + $imgWidth, $height*0.05 + $imgHeight);
-    			 
-    			//Faire les changements associés dans la base de données
-				$this->_validateInDB($db);
-    			 
-    			//------------------------------------------------------------------------------------------------    			//Save the PDF
+    		
     			// Enregistrer le document en tant que nouveau fichier
-    			$this->pdf->save('pdf-sign/'.$this->id_document.'.pdf');
+    			$this->pdf->save('pdf/'.$this->id_document.'.pdf');
+    			
+
+    			//Faire les changements associés dans la base de données
+    			$this->_validateInDB($db);
     			
     			//TO DELETE THE FILE IN PDF FOLDER - Ne pas effacer
     			//$mask = "pdf/".$this->id_document.".pdf";
     			//array_map( "unlink", glob( $mask ) );
     			 
     			//Rediriger l'action
-    			$this->_helper->redirector('index','index');
+    			$this->_helper->redirector('index','index',null,array('VALID'=>'1'));
     		}
     	}
     	 

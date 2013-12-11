@@ -24,40 +24,6 @@ class AddafileController extends Zend_Controller_Action
     //Action (test) pour rÃ©cupÃ©rer un clob depuis la base de donnÃ©es
     public function indexAction()
     {
-    	//Connexion Ã  la base de donnÃ©es
-    	/*$id = '63';
-    	$conn = oci_connect('DBA_PARAPHEUR', '12345678', 'XE');
-    	if (!$conn){
-    		echo 'Connection error.';
-    	}
-    	//sÃ©lectionner l'ID du fichier
-    	$sql = 'SELECT * FROM CONTENU WHERE ID_FICHIER=:id';
-    	$stid = oci_parse($conn, $sql);
-    	oci_bind_by_name($stid, ":id", $id);
-    	$result = oci_execute($stid);
-    	
-    	//RÃ©cupÃ©ration du rÃ©sultat
-    	if($result !== false){
-	    	while($row = oci_fetch_assoc($stid)){
-	            echo $row['CONTENU']->load();
-	            //or
-	            echo $row['CONTENU']->read(2000);
-	        }
-    	}
-     	
-     	//---------------------METTRE EN PLACE UN HEADER POUR INDIQUER QU'IL S'AGIT D'UNE APPLICATION PDF---------------
-     	$this->getResponse()->setHeader('Content-type', 'application/pdf', true);
-     	$this->getResponse()->setHeader('Content-disposition','inline;filename='.$module.'_'.$m_no.'.pdf', true);
-     	
-     	$this->getResponse()->setHeader('Cache-Control: no-cache, must-revalidate');
-     	$this->getResponse()->setHeader('Content-Transfer-Encoding', 'binary', true);
-     	$this->getResponse()->setHeader('Last-Modified', date('r'));
-     	
-     	$this->getResponse()->clearBody();
-     	$this->getResponse()->sendHeaders();
-     	
-     	//mettre en place le body de la vue
-     	$this->getResponse()->setBody($pdf->render());*/
     }
 
     //Action permettant l'ajout d'un document sous le format clob dans la base de donnÃ©es
@@ -72,13 +38,13 @@ class AddafileController extends Zend_Controller_Action
         if ($this->getRequest()->isPost()) {
              if ($form->isValid($request->getPost())) {
               	
-             	//Créer les tables dans la base de données
+             	//Crï¿½er les tables dans la base de donnï¿½es
              	$id_typecourrier=1;
              	$id_typefichier=1; //is a PDF
              	$taille=500;
              	$title=$form->getValue('titre');
              	
-             	//Récupération des tables Courrier, Fichier and Contenu (création d'objet)
+             	//Rï¿½cupï¿½ration des tables Courrier, Fichier and Contenu (crï¿½ation d'objet)
              	$courrier = new Application_Model_DbTable_Courrier();
              	$fichier = new Application_Model_DbTable_Fichier();
              	$contenu = new Application_Model_DbTable_Contenu();
@@ -86,7 +52,7 @@ class AddafileController extends Zend_Controller_Action
              	$id_courrier=  $courrier->ajouterCourrier($id_typecourrier);	
              	$id_fichier=$fichier->ajouterFichier($id_courrier, $id_typefichier, $taille, $title);
              	
-             	//Récupérer le fichier téléchargé
+             	//Rï¿½cupï¿½rer le fichier tï¿½lï¿½chargï¿½
 			 	$upload = new Zend_File_Transfer_Adapter_Http();
 			    $upload->addFilter('Rename', array(
 			    'target' => APPLICATION_PATH . '/data/'.$id_courrier.'.pdf',
@@ -97,15 +63,7 @@ class AddafileController extends Zend_Controller_Action
 			 	    $e->getMessage();
 			 	}
 			 	
-                //$pdf=Zend_Pdf::parse(file_get_contents($filename));
-           		//$path='/data'.$name;
-           		//$file=file_get_contents('/data/minicdcparapheur.pdf');
-           		//$pdf=Zend_Pdf::parse(file);
-          		//$pdf = Zend_Pdf::load('C:\a.pdf');
-           		//$pdf = Zend_Pdf::load(realpath(APPLICATION_PATH . '/data/a.pdf'));
-          		//$pdf = Zend_Pdf::load($filename);
-
-			 	//On récupère les autres champs du formulaire
+			 	//On rï¿½cupï¿½re les autres champs du formulaire
 			 	$values= $form->getValues();
 				$author = $form->getValue('id_author');
 				$des1 = $form->getValue('id_dest1');
@@ -118,7 +76,7 @@ class AddafileController extends Zend_Controller_Action
 				//On va ajouter des liens avec des acteurs du documents.
 				$lieninterne = new Application_Model_DbTable_Lieninterne();
 
-				//On récupère la date d'aujourd'hui
+				//On rï¿½cupï¿½re la date d'aujourd'hui
 				$date = new Zend_Date();
 				$month= $date->get(Zend_Date::MONTH);
 				$day = $date->get(Zend_Date::DAY);
@@ -128,24 +86,24 @@ class AddafileController extends Zend_Controller_Action
 				$validator = new Zend_Validate_Int();//Permet de s'assurer que les ID sont bien des entiers
 				$min=0;
 				$validatorPositive = new Zend_Validate_GreaterThan($min);//Permet de s'assurer que les ID sont bien des entiers positifs
-				$exist=false; //Ce boolean nous permet de savoir si le premier destinataire a bien été ajouté
-				$en_cours='1'; // Le destinataire est le premier il aura donc accès directement au document
+				$exist=false; //Ce boolean nous permet de savoir si le premier destinataire a bien ï¿½tï¿½ ajoutï¿½
+				$en_cours='1'; // Le destinataire est le premier il aura donc accï¿½s directement au document
 				$en_attente='5'; // Le destinataire n'est pas le premier il est donc dans la file d'attente
-				$demandeur='6';//Dans la BDD on suppose que l'état d'un demandeur dans lieninterne est 6.
+				$demandeur='6';//Dans la BDD on suppose que l'ï¿½tat d'un demandeur dans lieninterne est 6.
 							
 				if($author!=null && $author!=""){
 					
 					
 					if (($validator->isValid($author)) && ($validatorPositive->isValid($author))) {
-						//on spécifie que l'auteur est le demandeur
+						//on spï¿½cifie que l'auteur est le demandeur
 						$lieninterne->ajouterLieninterne($id_courrier, $user_ID, $author, $demandeur, $date);
 						$exist=true;
 					}
-					else{//le champs auteur n'est pas rempli correctement, on considère que l'utilisateur est le demandeur
+					else{//le champs auteur n'est pas rempli correctement, on considï¿½re que l'utilisateur est le demandeur
 						$lieninterne->ajouterLieninterne($id_courrier, $user_ID, $user_ID, $demandeur, $date);
 					}					
 				}
-				else{//le champs auteur est vide, on considère que l'utilisateur est le demandeur
+				else{//le champs auteur est vide, on considï¿½re que l'utilisateur est le demandeur
 					
 					$lieninterne->ajouterLieninterne($id_courrier, $user_ID, $user_ID, $demandeur, $date);
 				}
@@ -189,12 +147,6 @@ class AddafileController extends Zend_Controller_Action
  
         $this->view->form = $form;
     }
-    
-    //Test action pour le flipbook - A EFFACER PLUS TARD
-    public function imagickAction()
-    {    	$this->_helper->layout->disableLayout();
-    }
-
 
 }
 

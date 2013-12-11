@@ -32,6 +32,8 @@ class IndexController extends Zend_Controller_Action
 
     	//Mettre en place le message du succès de la signature s'il y a eu une signature
     	$this->signSuccessMessage();
+    	//Mettre en place le message du validation s'il y a eu une validation
+    	$this->validationMessage();
     	
     	//Comme nous n'avons pas Active Directory, nous supposons que notre user ID est 6
     	$user_ID=6;
@@ -39,23 +41,6 @@ class IndexController extends Zend_Controller_Action
     	$number_doc=0;
     	//Récupérer les données de la base de données
     	$db = Zend_Db_Table::getDefaultAdapter();
-    	
-    	//Zend_Session::start();
-        //$sessioniddoc = new Zend_Session_Namespace('sessioniddoc');
-		
-//		$sql=$db->select()
-//     				->from('LIENINTERNE','ID_COURRIER')
-//     				->where('ID_ETATDESTINATAIRE=1')
-//     				->where('ID_ENTITEDESTINATAIRE=?',$user_ID);
-
-    	//$sql=$db->select()
-    		//	->from('FICHIER','NOMORIGINE')
-    			//->where('ID_COURRIER ='.new Zend_db_Expr($subSelect));
-    			
-    	//     	if ($this->_request->isPost()) {
-    	//     		$data = $this->_request->getPost();
-    	//     		Zend_Debug::dump($data);
-    	//     	}
 
     	//Récupérer tous les documents reliés à notre utilisateur
     	$sql = 'SELECT ID_COURRIER FROM LIENINTERNE WHERE ID_ETATDESTINATAIRE = 1 AND ID_ENTITEDESTINATAIRE = '.$user_ID;
@@ -109,16 +94,19 @@ class IndexController extends Zend_Controller_Action
     	$this->view->sucessMessage = $signSuccess;
     	$this->view->errorMessage = $signError;
     }
+    
+    private function validationMessage(){
+    	$signSuccess = '';
 
-    public function addfileAction()
-    {
+    	$request = $this->getRequest();
+    	$success = $request->getParam('VALID');
+    	if($success == '1'){
+    		//Message de succès
+    		$signSuccess='Vous avez validé votre document avec succès !';
+    	}
+
+    	$this->view->sucessMessage = $signSuccess;
     }
-
-    public function addCommentPdfAction()
-    {
-        // action body
-    }
-
 
 }
 
