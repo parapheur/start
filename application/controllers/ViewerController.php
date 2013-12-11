@@ -140,12 +140,15 @@ class ViewerController extends Zend_Controller_Action
     	//Dessiner une image sur la dernière page
     	$lastpage->drawImage($image, $width*0.45, $height*0.05, $width*0.45 + $imgWidth, $height*0.05 + $imgHeight);
     
+    	//Récupérer les informations de la base de données
+    	$db = Zend_Db_Table::getDefaultAdapter();
+    	$this->_validateInDB($db);
     	 
     	// Mettre à jour le document PDF
     	//$pdf->save($this->fileName, true);
 
     	// Enregistrer le document en tant que nouveau fichier
-    	$string_save = 'pdf-sign/'.$this->id_document.'.pdf';
+    	$string_save = 'pdf/'.$this->id_document.'.pdf';
     	$this->pdf->save($string_save); 
     	//Effacer le fichier pour pas avoir de doublon dans le fichier public/pdf
     	//$mask = "pdf/".$this->id_document.".pdf";
@@ -402,36 +405,9 @@ class ViewerController extends Zend_Controller_Action
     			//Dessiner une image sur la dernière page
     			$lastpage->drawImage($image, $width*0.45, $height*0.05, $width*0.45 + $imgWidth, $height*0.05 + $imgHeight);
     				
-    			//Faire les changements associés dans la base de données ---------
-    			$text_commentaire = $form->getValue('text_commentaire_refuse');
-    				
-    			//Récupérer l'ID du lieninterne entre notre utilisateur et le document
-    			$sqlfind = 'SELECT ID_LIENINTERNE FROM LIENINTERNE WHERE ID_ENTITEDESTINATAIRE='.$this->user_ID.' AND ID_COURRIER ='.$id_document;
-    			$stmtfind = $db->query($sqlfind);
-    			$rowsfind = $stmtfind->fetchAll();
-    			$id_lieninterne= $rowsfind[0]['ID_LIENINTERNE'];
-    			$expediteur= $rowsfind[0]['ID_ENTITEEXPEDITEUR'];
-    				
-    			//Date : pour le test
-    			if($text_commentaire!=null){
-    				//Date
-	    			$date = new Zend_Date();
-	    			$month= $date->get(Zend_Date::MONTH);
-	    			$day = $date->get(Zend_Date::DAY);
-	    			$year=$date->get(Zend_Date::YEAR);
-	    			$date = $day.'/'.$month.'/'.$year;
-    				$commentaire = new Application_Model_DbTable_Commentaire();
-    				$commentaire->ajouterCommentaire($id_document, $id_lieninterne, $text_commentaire, $date, '1');
-    			}
-    
-    			//------------------------------------------------------------------------------------------------
-    			//Archiver le lien qui existe entre l'utilisateur et le document
-    			$sqlupdate='UPDATE LIENINTERNE SET ID_ETATDESTINATAIRE=5 WHERE ID_LIENINTERNE='.$id_lieninterne;
-    			$stmtupdate = $db->query($sqlupdate);
-    
-    			//Mettre à jour l'état de l'expéditeur pour qu'il voit le fichier dans son index de documents
-    			$sqlupdatereceiver='UPDATE LIENINTERNE SET ID_ETATDESTINATAIRE=1 WHERE ID_ENTITEDESTINATAIRE='.$expediteur;
-    			$stmtupdatereceiver = $db->query($sqlupdatereceiver);
+
+    			//Faire les changements associés dans la base de données
+    			$this->_refuseInDb($db, $form);
     
     			//------------------------------------------------------------------------------------------------
     			//Enregistrer le PDF
@@ -442,6 +418,43 @@ class ViewerController extends Zend_Controller_Action
     		}
     	}
     }
+
+    public function _refuseInDb($db,$form){
+    	
+    	$text_commentaire = $form->getValue('text_commentaire_refuse');
+    	
+    	//Récupérer l'ID du lieninterne entre notre utilisateur et le document
+    	$sqlfind = 'SELECT ID_LIENINTERNE FROM LIENINTERNE WHERE ID_ENTITEDESTINATAIRE='.$this->user_ID.' AND ID_COURRIER ='.$this->id_document;
+    	$stmtfind = $db->query($sqlfind);
+    	$rowsfind = $stmtfind->fetchAll();
+    	$id_lieninterne= $rowsfind[0]['ID_LIENINTERNE'];
+    	
+    	//Récupérer l'expéditeur
+    	$sqlfindexp = 'SELECT ID_ENTITEEXPEDITEUR FROM LIENINTERNE WHERE ID_ENTITEDESTINATAIRE='.$this->user_ID.' AND ID_COURRIER ='.$this->id_document;
+    	$stmtfindexp = $db->query($sqlfindexp);
+    	$rowsfindexp = $stmtfindexp->fetchAll();
+    	$expediteur= $rowsfind[0]['ID_ENTITEEXPEDITEUR'];
+    	
+    	if($text_commentaire!=null){
+    		//Date
+    		$date = new Zend_Date();
+    		$month= $date->get(Zend_Date::MONTH);
+    		$day = $date->get(Zend_Date::DAY);
+    		$year=$date->get(Zend_Date::YEAR);
+    		$date = $day.'/'.$month.'/'.$year;
+    		$commentaire = new Application_Model_DbTable_Commentaire();
+    		$commentaire->ajouterCommentaire($this->id_document, $id_lieninterne, $text_commentaire, $date, '1');
+    	}
+    	
+    	//Archiver le lien qui existe entre l'utilisateur et le document
+    	$sqlupdate='UPDATE LIENINTERNE SET ID_ETATDESTINATAIRE=4 WHERE ID_LIENINTERNE='.$id_lieninterne;
+    	$stmtupdate = $db->query($sqlupdate);
+    	
+    	//Mettre à jour l'état de l'expéditeur pour qu'il voit le fichier dans son index de documents
+    	//$sqlupdatereceiver='UPDATE LIENINTERNE SET ID_ETATDESTINATAIRE=1 WHERE ID_ENTITEDESTINATAIRE='.$expediteur.'AND ID_COURRIER ='.$this->id_document;
+    	//$stmtupdatereceiver = $db->query($sqlupdatereceiver);
+    }
+    
     
     //------------------------------FONCTIONS DE VALIDATION D'UN DOCUMENT -----------------------------------------
     
