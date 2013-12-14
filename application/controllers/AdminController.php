@@ -20,13 +20,33 @@ class AdminController extends Zend_Controller_Action
     }
 
     public function indexAction()
-    {
+    {    
+    	$conBDD="Base de données connectée !";
+    	try {
+    		$db = Zend_Db::getDefaultAdapter;
+    		$db->getConnection();
+    	} catch (Zend_Db_Adapter_Exception $e) {
+    		// perhaps a failed login credential, or perhaps the RDBMS is not running
+    		$conBDD='db error :'.$e->getMessage();
+    	} catch (Zend_Exception $e) {
+    		// perhaps factory() failed to load the specified Adapter class
+    		$conBDD='db error :'.$e->getMessage();
+    	}
+    	$this->view->$conBDD;
     }
-    
-    //Action pour les tests Ã  faire au sein de l'application
+
     public function diagnosticAction()
     {
     }
 
+    public function connexionbddAction()
+    {
+        // action body
+        
+    }
+
+
 }
+
+
 
