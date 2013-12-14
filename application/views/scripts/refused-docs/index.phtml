@@ -1,0 +1,48 @@
+
+			<?php $i=0;?>
+ 			<div id="index"> 
+ 				<ul class="index-row"> 
+ 				<?php foreach($this->id_document as $id_document) : ?>
+ 					<li> 
+	 					
+	 					<a id="<?php $this->id_document[$i]?>" class="preview" onClick="<?php 
+	 						$id= $this->id;
+	 					?>" href="<?php 
+							echo $this->url(
+					           		array(
+									'controller' => 'viewer',
+									'action'=>'index',
+									'COURRIER_ID'=>$this->id_document[$i])
+									)
+						?> "> 
+							<?php 
+							?>
+	 						<img src="img/icons/ico_pdf.png" alt="" /> 
+	 					</a>
+						 <a href="<?php 
+							echo $this->url(
+	 				           	array(
+								'controller' => 'viewer',
+								'action'=>'index',
+								'COURRIER_ID'=>$this->id_document[$i])
+								)
+							?>"> 
+							<?php echo $this->titre[$i];?>
+						</a>
+						<p>Créé le : <?php echo $this->date[$i]; $i++;?></p><br/>
+	 					<p><input type="checkbox" name="<?php echo $this->titre[$i];?>"></p>
+						<?php if($i%5 == 0){?></ul><ul class ="index-row"><?php }?>
+ 					</li> 
+ 				<?php endforeach; ?>
+ 				</ul> 
+				
+ 			</div>
+			<script type="text/javascript">
+				$('#nav .n1 a').addClass('nav-sel');
+			</script>
+			
+			<a class="blue-button on-right" type="button" href="<?php echo $this->url(
+																	 			           	array(
+																							'controller' => 'Index',
+																							'action'=>'index')
+																							);?>"> Revenir à la page d'accueil </a>

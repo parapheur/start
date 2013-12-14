@@ -36,7 +36,7 @@ class IndexController extends Zend_Controller_Action
     	$this->validationMessage();
     	
     	//Comme nous n'avons pas Active Directory, nous supposons que notre user ID est 6
-    	$user_ID=6;
+    	$user_ID=1;
     	//Nous initialisons une variable qui comptera notre nombre de documents
     	$number_doc=0;
     	//Récupérer les données de la base de données
@@ -67,12 +67,20 @@ class IndexController extends Zend_Controller_Action
   			$titre[]=$row3['NOMORIGINE'];//Enregistrer le titre
   			$date[]=$row2['DATECREATION'];//Enregistrer la date
  		}
+ 		
+ 		//Nombre de documents refusés
+ 		$sqlRef = 'SELECT ID_COURRIER FROM LIENINTERNE WHERE ID_ETATDESTINATAIRE = 4 AND ID_ENTITEEXPEDITEUR = '.$user_ID;
+ 		$stmtRef = $db->query($sqlRef);
+ 		$rows = $stmtRef->fetchAll();
+ 		$countRefused = count($rows);
+ 		
  		//Passer les paramètres à la vue
 		$this->view->id_document=$id_document;
 		$this->view->number_doc =$number_doc;
 		$this->view->titre =$titre;
 		$this->view->date =$date;
-    	
+    	$this->view->user_id=$user_ID;
+    	$this->view->number_doc_refuse = $countRefused;
     }
 
     private function signSuccessMessage()

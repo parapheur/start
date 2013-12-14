@@ -26,7 +26,7 @@ class Application_Model_DbTable_Lieninterne extends Zend_Db_Table_Abstract
     			'ID_TYPELIENENTITE' => '1',
     			'ID_ETATDESTINATAIRE' => $id_etat,
     			'VISIBLE' => 'N',
-    			'DATECREATION' => new Zend_Db_Expr("TO_DATE('06/05/2012', 'DD/MM/YYYY')"),//$date,
+    			'DATECREATION' => new Zend_Db_Expr("TO_DATE('$date', 'DD/MM/YYYY')"),//$date,
     			'IRAUTEUR' => 'test ajout'
     	);
     	$this->insert($data);

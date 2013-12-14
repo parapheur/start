@@ -77,35 +77,6 @@ class Application_Form_Addafile extends Zend_Form
           		'label'      => 'ID Destinataire 3',
           		'required'   => false,
           ));
-          
-//         $this->addElement('text', 'date_limite', array(
-//         	'required'   => false,
-//         	'validators'  => array (
-//         			array('date', false, array('MM/dd/yyyy'))
-//         	),
-//         	'label'      => 'Date Limite Réponse',
-//         	'class'      => 'form-date'
-//         ));
-           
-//   		// La classification
-//         $this->addElement('text', 'classification', array(
-//             'label'      => 'Classification',
-//             'required'   => false,
-//         ));
-          
-//           // L'objet du document
-//         $this->addElement('text', 'code_externe', array(
-//         	'label'      => 'Code Externe',
-//         	'required'   => false,
-        	
-//         ));
-          
-//         // L'objet du document
-//         $this->addElement('text', 'message', array(
-//         	'label'      => 'Message Usage Interne',
-//         	'required'   => false,
-//         	array( 'tag' => 'br', 'placement' => 'prepend'),
-//         ));
 		
 		// Un bouton d'envoi
         $this->addElement('submit', 'ajouter', array(
