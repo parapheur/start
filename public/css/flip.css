@@ -110,7 +110,7 @@ h2 {
 }
 .btn-comment:hover, .btn-zoomin:hover, .btn-zoomout:hover, .btn-previous:hover, .btn-add-person:hover,
 .btn-next:hover, .btn-gofirst:hover, .btn-golast:hover, .btn-home:hover, .btn-download:hover,
-.btn-valid:hover, .btn-invalid:hover, .btn-meta:hover, .btn-export:hover, .btn-print:hover, .btn-sign:hover {
+.btn-valid:hover, .btn-invalid:hover, .btn-meta:hover, .btn-export:hover, .btn-print:hover, .btn-sign:hover, {
 	opacity: 0.5;
 }
 .btn-comment { background: url("../img/icons/ico_comment.png") no-repeat scroll center center transparent; }
