@@ -22,10 +22,17 @@ class IndexController extends Zend_Controller_Action
 
     public function init()
     {
-    	if($this->_request->getParam('search')!=''){
+    	/*if($this->_request->getParam('search')!=''){
     		$this->test = 'Paramètre récupéré';
     		$this->view->test = $this->test;
-    	}
+    	}*/
+    	
+    	$this->etat_encours=1;
+    	$this->etat_surtablette=2;
+    	$this->etat_valide=3;
+    	$this->etat_refuse=4;
+    	$this->etat_enattente=5;
+    	$this->etat_demandeur=6;
     }
 
     public function indexAction()
@@ -44,7 +51,7 @@ class IndexController extends Zend_Controller_Action
     	$db = Zend_Db_Table::getDefaultAdapter();
 
     	//Récupérer tous les documents reliés à notre utilisateur
-    	$sql = 'SELECT ID_COURRIER FROM LIENINTERNE WHERE ID_ETATDESTINATAIRE = 1 AND ID_ENTITEDESTINATAIRE = '.$user_ID;
+    	$sql = 'SELECT ID_COURRIER FROM LIENINTERNE WHERE ID_ETATDESTINATAIRE = '.$this->etat_encours.' AND ID_ENTITEDESTINATAIRE = '.$user_ID;
         
     	//Exécuter la requête et récupérer le résultat
     	$stmt = $db->query($sql);
@@ -70,13 +77,13 @@ class IndexController extends Zend_Controller_Action
  		}
  		
  		//Nombre de documents refusés
- 		$sqlRef = 'SELECT ID_COURRIER FROM LIENINTERNE WHERE ID_ETATDESTINATAIRE = 4 AND ID_ENTITEEXPEDITEUR = '.$user_ID;
+ 		$sqlRef = 'SELECT ID_COURRIER FROM LIENINTERNE WHERE ID_ETATDESTINATAIRE = '.$this->etat_refuse.' AND ID_ENTITEEXPEDITEUR = '.$user_ID;
  		$stmtRef = $db->query($sqlRef);
  		$rows = $stmtRef->fetchAll();
  		$countRefused = count($rows);
  		
  		//Nombre de documents validés
- 		$sqlVal = 'SELECT ID_COURRIER FROM LIENINTERNE WHERE ID_ETATDESTINATAIRE = 3 AND ID_ENTITEEXPEDITEUR = '.$user_ID;
+ 		$sqlVal = 'SELECT ID_COURRIER FROM LIENINTERNE WHERE ID_ETATDESTINATAIRE = '.$this->etat_valide.' AND ID_ENTITEEXPEDITEUR = '.$user_ID;
  		$stmtVal = $db->query($sqlVal);
  		$rows = $stmtVal->fetchAll();
  		$countValidated = count($rows);
