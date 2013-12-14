@@ -673,17 +673,6 @@ class ViewerController extends Zend_Controller_Action
     	exit;
     }
 
-    public function printAction()
-    {
-    	$fhandle = fopen($this->filepath,'rb');
-    	$contents = fread($fhandle, filesize(__DIR__.'/pdf/_test_8.pdf'));
-    	
-    	$handle = printer_open('NOM DE MON IMPRIMANTE');
-    	printer_set_option($handle, PRINTER_COPIES , 1);
-    	printer_set_option($handle,PRINTER_MODE,"raw");
-    	printer_write($handle,$contents);
-    	printer_close($handle);
-    }
 
 
 }
