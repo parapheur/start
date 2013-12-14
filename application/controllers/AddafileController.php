@@ -49,7 +49,8 @@ class AddafileController extends Zend_Controller_Action
              	$fichier = new Application_Model_DbTable_Fichier();
              	$contenu = new Application_Model_DbTable_Contenu();
              		
-             	$id_courrier=  $courrier->ajouterCourrier($id_typecourrier);	
+             	$date = $this->_getDate();
+             	$id_courrier=  $courrier->ajouterCourrier($id_typecourrier, $date);	
              	$id_fichier=$fichier->ajouterFichier($id_courrier, $id_typefichier, $taille, $title);
              	
              	//R�cup�rer le fichier t�l�charg�
@@ -77,11 +78,7 @@ class AddafileController extends Zend_Controller_Action
 				$lieninterne = new Application_Model_DbTable_Lieninterne();
 
 				//On r�cup�re la date d'aujourd'hui
-				$date = new Zend_Date();
-				$month= $date->get(Zend_Date::MONTH);
-				$day = $date->get(Zend_Date::DAY);
-				$year=$date->get(Zend_Date::YEAR);
-				$date = $day.'/'.$month.'/'.$year;
+				$date = $this->_getDate();
 				
 				$validator = new Zend_Validate_Int();//Permet de s'assurer que les ID sont bien des entiers
 				$min=0;
@@ -146,6 +143,16 @@ class AddafileController extends Zend_Controller_Action
         }
  
         $this->view->form = $form;
+    }
+    
+    private function _getDate(){
+    	
+    	$date = new Zend_Date();
+    	$month= $date->get(Zend_Date::MONTH);
+    	$day = $date->get(Zend_Date::DAY);
+    	$year=$date->get(Zend_Date::YEAR);
+    	$date = $day.'/'.$month.'/'.$year;
+    	return $date;
     }
 
 }

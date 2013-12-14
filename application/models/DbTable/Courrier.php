@@ -4,7 +4,7 @@ class Application_Model_DbTable_Courrier extends Zend_Db_Table_Abstract
 {
 
 	protected $_name = 'COURRIER';
-	protected $_primary = 'ID_COURRIER'; //Le nom de la clé primaire (case sensitive)
+	protected $_primary = 'ID_COURRIER'; //Le nom de la clï¿½ primaire (case sensitive)
 	protected $_sequence = 'COURRIERSEQ';
 	protected $_dependentTables = array('Application_Model_DbTable_Fichier');
 	
@@ -18,12 +18,12 @@ class Application_Model_DbTable_Courrier extends Zend_Db_Table_Abstract
     	return $row->toArray();
     }
 	
-	public function ajouterCourrier($id_typecourrier)
+	public function ajouterCourrier($id_typecourrier,$date)
     {
         $data = array(
 			//'ID_COURRIER' => '2',
             'ID_TYPECOURRIER' => $id_typecourrier,
-			'DATECREATION' => new Zend_Db_Expr("TO_DATE('06/05/2012', 'DD/MM/YYYY')"),
+			'DATECREATION' => new Zend_Db_Expr("TO_DATE('$date', 'DD/MM/YYYY')"),
             'ID_GROUPECREATEUR' => '1',
 			'IRDERNIEREMODIF' => 't',
             'ARCHIVE' => 'N',
