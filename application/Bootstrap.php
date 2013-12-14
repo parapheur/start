@@ -1,8 +1,8 @@
 <?php
 		/*
-		 * File : showfile.php
-		* Created : 19/10/2013
-		* 1.1 :  Clément Mouraud - creation-modification
+		 * Fichier : Bootstrap.php
+		* Créé le : 19/10/2013
+		* 1.1 :  Clément Mouraud - création-modification
 		*
 		*
 		* Projet parapheur 2014
