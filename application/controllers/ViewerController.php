@@ -639,7 +639,8 @@ class ViewerController extends Zend_Controller_Action
     			
     
     			$lieninterne = new Application_Model_DbTable_Lieninterne();
-    			$lieninterne->ajouterLieninterne($id_document, $this->user_ID, $id_dest, $type, $this->etat_enattente, 'N', $date, $IRauteur);
+    			$lieninterne->ajouterLieninterne($id_document, $this->user_ID, $id_dest, $this->etat_enattente, $date, $IRauteur);
+    			
     		}
     	}
     }
@@ -659,15 +660,16 @@ class ViewerController extends Zend_Controller_Action
 
     public function downloadAction()
     {
-        $fullPath = $this->filePath.basename($_GET['download_file']);
+    	$this->_helper->layout()->disableLayout();
+    	$this->_helper->viewRenderer->setNoRender(true);
     	
     	header("Cache-Control: public");
     	header("Content-Description: File Transfer");
-    	header('Content-disposition: attachment; filename='.basename($fullPath));
+    	header('Content-disposition: attachment; filename='.basename($this->filePath));
     	header("Content-Type: application/pdf");
     	header("Content-Transfer-Encoding: binary");
-    	header('Content-Length: '. filesize($fullPath));
-    	readfile($fullPath);
+    	header('Content-Length: '. filesize($this->filePath));
+    	readfile($this->filePath);
     	exit;
     }
 
