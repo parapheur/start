@@ -11,7 +11,9 @@
 	* Projet parapheur 2014
 	*/
 ?>
-
+	<?php echo $this->headLink()
+  								->appendStylesheet($this->baseUrl().'/css/popupStyle.css'); ?>
+  	<?php echo $this->headScript()->appendFile($this->baseUrl().'/js/custom.js');?>
 <div class="box">
 				<h1>Diagnostic</h1>
 				<p>Testez vos connexions à la base de données, au serveur et aux tablettes.</p>

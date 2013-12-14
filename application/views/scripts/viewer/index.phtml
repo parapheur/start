@@ -24,7 +24,8 @@
 	<meta charset="utf-8">
 	<title>PDF Flip Book</title>
 	<?php echo $this->headLink()->appendStylesheet($this->baseUrl().'/css/reset.css')
-  								->appendStylesheet($this->baseUrl().'/css/flip.css'); ?>
+  								->appendStylesheet($this->baseUrl().'/css/flip.css')
+								->appendStylesheet($this->baseUrl().'/css/popupStyle.css'); ?>
   	<?php echo $this->headScript()->appendFile($this->baseUrl().'/js/jquery-1.7.1.min.js')
   								  ->appendFile($this->baseUrl().'/js/turn.js')
   							      ->appendFile($this->baseUrl().'/js/compatibility.js')
