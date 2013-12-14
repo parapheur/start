@@ -55,7 +55,7 @@ class AddafileController extends Zend_Controller_Action
              	//R�cup�rer le fichier t�l�charg�
 			 	$upload = new Zend_File_Transfer_Adapter_Http();
 			    $upload->addFilter('Rename', array(
-			    'target' => APPLICATION_PATH . '/data/'.$id_courrier.'.pdf',
+			    'target' => APPLICATION_PATH.'/../public/pdf/'.$id_courrier.'.pdf',
 			    'overwrite' => true));
 			    try { //be sure to call receive() before getValues()
 			    	$upload->receive();

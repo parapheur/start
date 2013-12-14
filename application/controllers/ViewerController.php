@@ -50,7 +50,7 @@ class ViewerController extends Zend_Controller_Action
     	
     	//URL utilisé pour récupérer le document pour la liseuse
     	$url='http://'.$_SERVER['HTTP_HOST'].'/pdf/'.$this->id_document.'.pdf';
-    	//$url= APPLICATION_PATH.'/data/'.$this->id_document.'.pdf';
+
     	//Fichier PDF qui est utilisé = useful for signature and images
     	$this->filePath = APPLICATION_PATH.'/../public/pdf/'.$this->id_document.'.pdf';
     	
@@ -70,6 +70,9 @@ class ViewerController extends Zend_Controller_Action
         
     	//Récupérer les informations de la base de données
     	$db = Zend_Db_Table::getDefaultAdapter();
+
+    	$titre = $this->_getNomOrigine($this->id_document, $db);
+    	$this->view->titre =$titre;
     	
     	//Appel du pop up des méta-informations
     	$this->showMeta($this->id_document,$db);
@@ -85,6 +88,16 @@ class ViewerController extends Zend_Controller_Action
     	
     	//Appel du formulaire de refus
     	$this->refusePopup();
+    }
+    
+    //-----------------------------FONCTIONS GET BASE DE DONNEES---------------------------------------------
+    
+    private function _getNomOrigine($id,$db){
+    	$sql='SELECT NOMORIGINE FROM FICHIER WHERE ID_COURRIER = '.$this->id_document;//Récupérer le titre
+    	$stmt = $db->query($sql);
+    	$row = $stmt->fetch();
+    	$titre[]=$row['NOMORIGINE'];//Enregistrer le titre
+    	return $titre;
     }
     
     //------------------------------FONCTIONS POUR SIGNER UN PDF --------------------------------------------

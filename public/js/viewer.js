@@ -4,6 +4,7 @@
 'use strict';
 
 var kDefaultURL = pdf_file;//'../js/TD-1.pdf';
+var title = pdf_title;
 var kDefaultScale = 0.8;
 var kDefaultScaleDelta = 1.1;
 var kUnknownScale = 0;
@@ -20,14 +21,6 @@ var tp_Range;
 
 var mozL10n = document.mozL10n || document.webL10n;
 
-function getFileName(url) {
-  var anchor = url.indexOf('#');
-  var query = url.indexOf('?');
-  var end = Math.min(
-    anchor > 0 ? anchor : url.length,
-    query > 0 ? query : url.length);
-  return url.substring(url.lastIndexOf('http://www.maxims6n.bget.ru/', end) + 1, end);
-}
 
 var Cache = function cacheCache(size) {
   var data = [];
@@ -304,7 +297,7 @@ var PDFView = {
     var parameters = {password: password};
     if (typeof url === 'string') { // URL
       this.url = url;
-      document.title = 'test de titre'; // decodeURIComponent(getFileName(url)) || url;
+      document.title = title;
       parameters.url = url;
     } else if (url && 'byteLength' in url) { // ArrayBuffer
       parameters.data = url;

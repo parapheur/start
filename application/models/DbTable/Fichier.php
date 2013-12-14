@@ -24,7 +24,7 @@ class Application_Model_DbTable_Fichier extends Zend_Db_Table_Abstract
     	}
     	return $row->toArray();
     }
-	
+    
 	public function ajouterFichier($id_courrier, $id_typefichier, $taille, $nomorigine)
     {
         $data = array(

@@ -32,6 +32,7 @@
   								  ->appendFile($this->baseUrl().'/js/pdf.js')
   								  ->appendFile($this->baseUrl().'/js/viewer.js')
   								  ->appendScript('pdf_file="'.$this->pdfurl.'";')
+  								  ->appendScript('pdf_title="'.$this->titre.'";')
   								  ->appendFile($this->baseUrl().'/js/sketch.js')
   								  ->appendFile($this->baseUrl().'/js/custom.js')
  								  ->prependFile($this->baseUrl().'/js/jquery-1.9.1.js');?>
