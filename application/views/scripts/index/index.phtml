@@ -21,7 +21,7 @@
  						transférer sur tablette.
  						<?php echo $this->test;?></p> 
  				</div> 
- 				<input class="blue-button on-right" type="button" value="Transférer" /> 
+ 				<input class="blue-button on-right" type="button" value="Transférer" onClick="alert('En cours d\'implementation!')"/> 
  			</div>
  			<div id="display-sign-success">
  				<p><?php echo $this->sucessMessage;?></p>
@@ -89,7 +89,6 @@
  				<a class="blue-button on-right" type="button" href="<?php echo $this->url(
 																	 			           	array(
 																							'controller' => 'ValidatedDocs',
-																							'action'=>'index',
-																							'USER' => $this->user_id)
+																							'action'=>'index')
 																							);?>"> Consulter </a> 
  			</div>		
