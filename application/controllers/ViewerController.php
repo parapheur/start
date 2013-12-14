@@ -21,7 +21,7 @@
 * 1.14 : Mathilde de l'Hermuziere - Ajout Refus - 23/11/2013
 * 1.15 : Mathilde de l'HermuziÃ¨re - insertion showPdfcontroller
 * 1.16 : Hina Tufail - signature, valider
-* 1.17 : Mathilde de l'Hermuzière - Nettoyage - 14-12-2013
+* 1.17 : Mathilde de l'Hermuziï¿½re - Nettoyage - 14-12-2013
 *
 * Controller pour la vue permettant de travailler sur un document PDF
 *
@@ -39,7 +39,7 @@ class ViewerController extends Zend_Controller_Action
     	//Comme nous n'avons pas Active Directory, on suppose que l'ID utilisateur est de 6
     	$this->user_ID=6;
     	
-    	// Etat concernant les documents que nous avons utilisé dans la base de donnée oracle
+    	// Etat concernant les documents que nous avons utilisï¿½ dans la base de donnï¿½e oracle
     	$this->etat_encours=1;
     	$this->etat_surtablette=2;
     	$this->etat_valide=3;
@@ -53,8 +53,8 @@ class ViewerController extends Zend_Controller_Action
     	
     	$db = Zend_Db_Table::getDefaultAdapter();
     	
-    	//Si l'utilisateur n'est pas habilité à voir le document, il est renvoyé à la page d'acceuil.
-    	// On récupère le lien entre l'utilisateur et le document.
+    	//Si l'utilisateur n'est pas habilitï¿½ ï¿½ voir le document, il est renvoyï¿½ ï¿½ la page d'acceuil.
+    	// On rï¿½cupï¿½re le lien entre l'utilisateur et le document.
     	$sqlhabilitated = 'SELECT * FROM LIENINTERNE WHERE ID_COURRIER ='.$this->id_document.'AND ID_ENTITEDESTINATAIRE = '.$this->user_ID;
     	$stmthabilitated = $db->query($sqlhabilitated);
     	while ($rowhabilitated=$stmthabilitated->fetch()){
@@ -607,7 +607,7 @@ class ViewerController extends Zend_Controller_Action
     	$this->view->expediteur = $expediteur;
     	$this->view->destinataire = $destinataire;
     	$this->view->etat = $etat;
-    	$this->view->date = $date;
+    	$this->view->date_add = $date;
     }
 
     public function addpersonpdfAction()
