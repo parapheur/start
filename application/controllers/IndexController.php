@@ -10,6 +10,7 @@
 * 1.3 : Hina Tufail - modification
 * 1.4 : Mathilde de l'Hermuzière - modification
 * 1.5 : Hina Tufail - modification - 20/11/2013
+* 1.6 : Hina Tufail - modification - 15/12/2013
 *
 * Controller du la page d'accueil (index des documents)
 *
@@ -36,7 +37,7 @@ class IndexController extends Zend_Controller_Action
     	$this->validationMessage();
     	
     	//Comme nous n'avons pas Active Directory, nous supposons que notre user ID est 6
-    	$user_ID=1;
+    	$user_ID=6;
     	//Nous initialisons une variable qui comptera notre nombre de documents
     	$number_doc=0;
     	//Récupérer les données de la base de données
@@ -74,6 +75,12 @@ class IndexController extends Zend_Controller_Action
  		$rows = $stmtRef->fetchAll();
  		$countRefused = count($rows);
  		
+ 		//Nombre de documents validés
+ 		$sqlVal = 'SELECT ID_COURRIER FROM LIENINTERNE WHERE ID_ETATDESTINATAIRE = 3 AND ID_ENTITEEXPEDITEUR = '.$user_ID;
+ 		$stmtVal = $db->query($sqlVal);
+ 		$rows = $stmtVal->fetchAll();
+ 		$countValidated = count($rows);
+ 		
  		//Passer les paramètres à la vue
 		$this->view->id_document=$id_document;
 		$this->view->number_doc =$number_doc;
@@ -81,6 +88,7 @@ class IndexController extends Zend_Controller_Action
 		$this->view->date =$date;
     	$this->view->user_id=$user_ID;
     	$this->view->number_doc_refuse = $countRefused;
+    	$this->view->number_doc_accept = $countValidated;
     }
 
     private function signSuccessMessage()

@@ -1,11 +1,22 @@
 <?php
 
+/*
+ * Fichier : RefusedDocsController.php
+* Auteur : Hina Tufail
+* Créé : 14/12/2013
+* 1.1 :  Hina Tufail - création
+*
+* Controller des documents qui ont été refusés et donc renvoyés au demandeur
+*
+* Projet parapheur 2014
+*/
+
 class RefusedDocsController extends Zend_Controller_Action
 {
 
     public function init()
     {
-        /* Initialize action controller here */
+        $this->etat_refuse=4;
     }
 
     public function indexAction()
@@ -19,7 +30,7 @@ class RefusedDocsController extends Zend_Controller_Action
     	$db = Zend_Db_Table::getDefaultAdapter();
 
     	//Récupérer tous les documents reliés à notre utilisateur
-    	$sql = 'SELECT ID_COURRIER FROM LIENINTERNE WHERE ID_ETATDESTINATAIRE = 4 AND ID_ENTITEEXPEDITEUR = '.$user_ID;
+    	$sql = 'SELECT ID_COURRIER FROM LIENINTERNE WHERE ID_ETATDESTINATAIRE = '.$this->etat_refuse.' AND ID_ENTITEEXPEDITEUR = '.$user_ID;
         
     	//Exécuter la requête et récupérer le résultat
     	$stmt = $db->query($sql);
