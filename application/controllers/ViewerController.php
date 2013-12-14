@@ -635,12 +635,14 @@ class ViewerController extends Zend_Controller_Action
     			$day = $date->get(Zend_Date::DAY);
     			$year=$date->get(Zend_Date::YEAR);
     			$date = $day.'/'.$month.'/'.$year;
-    			
-    
+    			    
     			$lieninterne = new Application_Model_DbTable_Lieninterne();
     			$lieninterne->ajouterLieninterne($this->id_document, $this->user_ID, $id_dest, $this->etat_enattente, $date, $IRauteur);
     		}
     	}
+    	
+    	$this->_helper->redirector('index','viewer','default',array('COURRIER_ID' => $this->id_document));
+    	
     }
 
     private function _getAddPersonForm()

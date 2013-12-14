@@ -19,7 +19,7 @@
 		<h1>Ajout de destinataires</h1>
 		<div class="informations">
 			<?php
-				$this->addpersonForm->setAction($this->url());
+				$this->addpersonForm->setAction($this->url(array('controller' => 'Viewer','action'=>'addpersonpdf','COURRIER_ID' => $this->id_document),'default',true));
 				echo $this->addpersonForm; 
 			?> 
 		</div>
