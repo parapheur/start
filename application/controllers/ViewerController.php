@@ -585,7 +585,7 @@ class ViewerController extends Zend_Controller_Action
     	 
     	// Montrer le workflow des personnes en attente du document ---------------------------------
     	//Récupérer l'id du commentaire lié au document
-    	$sqldest = 'SELECT * FROM LIENINTERNE WHERE (ID_ETATDESTINATAIRE='.$this->etat_encours.' OR ID_ETATDESTINATAIRE='.$this->etat_surtablette.') AND ID_COURRIER ='.$id_document.'ORDER BY DATECREATION';
+    	$sqldest = 'SELECT * FROM LIENINTERNE WHERE (ID_ETATDESTINATAIRE='.$this->etat_encours.' OR ID_ETATDESTINATAIRE='.$this->etat_surtablette.' OR ID_ETATDESTINATAIRE='.$this->etat_enattente.') AND ID_COURRIER ='.$id_document.'ORDER BY DATECREATION';
     	//Exécuter la requête et récupérer le résultat
     	$stmtdest = $db->query($sqldest);
     
@@ -619,8 +619,7 @@ class ViewerController extends Zend_Controller_Action
     	$db = Zend_Db_Table::getDefaultAdapter();
     	$form = $this->_getAddPersonForm();
     	 
-    	$id_document = $request->getParam('COURRIER_ID');
-    	 
+    	
     	//Si la requête est postée
     	if ($this->getRequest()->isPost()) {
     		if ($form->isValid($request->getPost())) {
@@ -639,8 +638,7 @@ class ViewerController extends Zend_Controller_Action
     			
     
     			$lieninterne = new Application_Model_DbTable_Lieninterne();
-    			$lieninterne->ajouterLieninterne($id_document, $this->user_ID, $id_dest, $this->etat_enattente, $date, $IRauteur);
-    			
+    			$lieninterne->ajouterLieninterne($this->id_document, $this->user_ID, $id_dest, $this->etat_enattente, $date, $IRauteur);
     		}
     	}
     }

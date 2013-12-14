@@ -28,7 +28,7 @@ class Application_Form_Addperson extends Zend_Form
 		$this->addElement('select', 'type', array(
 				'class'		 => 'write_comment',
 				'label'		=> 'Type de lien :',
-				'required'   => true,
+				'required'   => false,
 				'attribs' =>   array(
 						'id'=>'type_id',
 				),
@@ -42,7 +42,7 @@ class Application_Form_Addperson extends Zend_Form
 		$this->addElement('text', 'IRauteur', array(
 				'label'		=>	'IR Auteur :',
 				'class'		 => 'required',
-				'required'   => true
+				'required'   => false
 		));
 		
 		// Soumettre le commentaire - bouton
