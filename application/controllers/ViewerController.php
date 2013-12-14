@@ -21,6 +21,7 @@
 * 1.14 : Mathilde de l'Hermuziere - Ajout Refus - 23/11/2013
 * 1.15 : Mathilde de l'Hermuzière - insertion showPdfcontroller
 * 1.16 : Hina Tufail - signature, valider
+* 1.17 : Mathilde de l'Hermuzi�re - Nettoyage - 14-12-2013
 *
 * Controller pour la vue permettant de travailler sur un document PDF
 *
@@ -29,24 +30,45 @@
 
 class ViewerController extends Zend_Controller_Action
 {
-	//Fonction initialisant le controller
-	public function init()
+
+    public function init()
     {
     	//On récupère l'id du document que l'on doit afficher à partir de l'indexController
     	$request = $this->getRequest();
     	
-    	//$sessioniddoc = new Zend_Session_Namespace('sessioniddoc');
-    	//$id_doc = $sessioniddoc->id;
-    	
-    	//$this->view->id_doc=$id_doc;
-    	
     	//Comme nous n'avons pas Active Directory, on suppose que l'ID utilisateur est de 6
     	$this->user_ID=6;
     	
-
+    	// Etat concernant les documents que nous avons utilis� dans la base de donn�e oracle
+    	$this->etat_encours=1;
+    	$this->etat_surtablette=2;
+    	$this->etat_valide=3;
+    	$this->etat_refuse=4;
+    	$this->etat_enattente=5;
+    	$this->etat_demandeur=6;
+    	 
     	//On récupère l'ID du document que nous souhaitons afficher à partir de l'indexController
     	$request = $this->getRequest();
     	$this->id_document = $request->getParam('COURRIER_ID');
+    	
+    	$db = Zend_Db_Table::getDefaultAdapter();
+    	
+    	//Si l'utilisateur n'est pas habilit� � voir le document, il est renvoy� � la page d'acceuil.
+    	// On r�cup�re le lien entre l'utilisateur et le document.
+    	$sqlhabilitated = 'SELECT * FROM LIENINTERNE WHERE ID_COURRIER ='.$this->id_document.'AND ID_ENTITEDESTINATAIRE = '.$this->user_ID;
+    	$stmthabilitated = $db->query($sqlhabilitated);
+    	while ($rowhabilitated=$stmthabilitated->fetch()){
+    		$etat_habilitated[]=$rowhabilitated['ID_ETATDESTINATAIRE'];
+    	}
+    	
+    	if($etat_habilitated[0]==null||$etat_habilitated[0]==0){
+    	//Il n'existe de lien entre l'utilisateur et le document.
+    		$this->_helper->redirector('index','index');
+    	}
+    	else if ($etat_habilitated[0]!=$this->etat_encours&&$etat_habilitated[0]!=$this->etat_surtablette&&$etat_habilitated[0]!=$this->etat_demandeur){
+    	//Le lien entre la personne et le document n'est plus valide.
+    		$this->_helper->redirector('index','index');
+    	}
     	
     	//URL utilisé pour récupérer le document pour la liseuse
     	$url='http://'.$_SERVER['HTTP_HOST'].'/pdf/'.$this->id_document.'.pdf';
@@ -61,7 +83,6 @@ class ViewerController extends Zend_Controller_Action
     	 
     }
 
-    //Application PDF
     public function indexAction()
     {
         $this->_helper->layout->disableLayout();
@@ -89,33 +110,23 @@ class ViewerController extends Zend_Controller_Action
     	//Appel du formulaire de refus
     	$this->refusePopup();
     }
-    
-    //-----------------------------FONCTIONS GET BASE DE DONNEES---------------------------------------------
-    
-    private function _getNomOrigine($id,$db){
+
+    private function _getNomOrigine($id, $db)
+    {
     	$sql='SELECT NOMORIGINE FROM FICHIER WHERE ID_COURRIER = '.$this->id_document;//Récupérer le titre
     	$stmt = $db->query($sql);
     	$row = $stmt->fetch();
     	$titre[]=$row['NOMORIGINE'];//Enregistrer le titre
     	return $titre;
     }
-    
-    //------------------------------FONCTIONS POUR SIGNER UN PDF --------------------------------------------
-    
-    //Action pour signer le fichier
+
     public function signpdfAction()
     {
     }
-    //Action pour l'ajout de la signature au document via un canvas
+
     public function signwithcanvasAction()
     {
         	
-    	// Ajout d'une nouvelle page avec Zend_Pdf au document
-    	//$this->pdf->pages[] = ($page1 = $this->pdf->newPage('A4'));
-    	 
-    	// Renverser l'ordre des pages
-    	//$pdf->pages = array_reverse($pdf->pages);
-    	 
     	//--------------AJOUT SIGNATURE-------------------------
     	if ($this->getRequest()->isPost()) {
     		//Récupérer les données
@@ -157,20 +168,11 @@ class ViewerController extends Zend_Controller_Action
     	$db = Zend_Db_Table::getDefaultAdapter();
     	$this->_validateInDB($db);
     	 
-    	// Mettre à jour le document PDF
-    	//$pdf->save($this->fileName, true);
-
     	// Enregistrer le document en tant que nouveau fichier
     	$string_save = 'pdf/'.$this->id_document.'.pdf';
     	$this->pdf->save($string_save); 
-    	//Effacer le fichier pour pas avoir de doublon dans le fichier public/pdf
-    	//$mask = "pdf/".$this->id_document.".pdf";
-    	//array_map( "unlink", glob( $mask ) );
     }
-    
-    //------------------------------FONCTIONS D'AJOUT DE COMMENTAIRES DANS UN PDF -----------------------------------------
-    
-    //Fonction permettant l'ajout d'un formulaire pour l'ajout de commentaires
+
     public function addCommentPopup($id_document, $user_ID, $db)
     {
     	$form = new Application_Form_Comment();
@@ -204,8 +206,7 @@ class ViewerController extends Zend_Controller_Action
     	$this->view->contenu =$contenu;
     	$this->view->date =$date;
     }
-    
-    //Fonction traitant les requêtes à partir du formulaire de commentaires
+
     public function addCommentPdfAction()
     {
     	$request = $this->getRequest();
@@ -224,7 +225,14 @@ class ViewerController extends Zend_Controller_Action
     
     			$type_commentaire = $form->getValue('type_commentaire');
     			$text_commentaire = $form->getValue('text_commentaire');
-    			 
+    			$type="";
+    			if($type_commentaire==1){// Le commentaire est un commentaire projet
+    				$type="Projet";
+    			}else if($type_commentaire==2){// Le commentaire est un commentaire document
+    				$type="Document";
+    			}
+    			$texte=$type." : ".$text_commentaire;
+    			
     			//Récupérer l'ID du lieninterne entre notre utilisateur et le document
     			$sqlfind = 'SELECT ID_LIENINTERNE FROM LIENINTERNE WHERE ID_ENTITEDESTINATAIRE='.$this->user_ID.' AND ID_COURRIER ='.$this->id_document;
     			$stmtfind = $db->query($sqlfind);
@@ -239,12 +247,12 @@ class ViewerController extends Zend_Controller_Action
     			$date = $day.'/'.$month.'/'.$year;
 
     			$commentaire = new Application_Model_DbTable_Commentaire();
-    			$commentaire->ajouterCommentaire($id_document, $id_lieninterne, $text_commentaire, $date, $type_commentaire);
+    			$commentaire->ajouterCommentaire($id_document, $id_lieninterne, $texte, $date);
     			$this->_helper->redirector('index','viewer','default',array('COURRIER_ID' => $this->id_document));
     		}
     	}
     }
-    //Fonction récupérant le formulaire de commentaire
+
     private function _getCommentForm()
     {
     
@@ -258,10 +266,7 @@ class ViewerController extends Zend_Controller_Action
     	return $form;
     	
     }
-    
-    //------------------------------FONCTIONS D'AFFICHER DES META INFORMATIONS --------------------------------------------
-    
-    //Fonction permettant l'ajout du formulaire de meta informations à la vue
+
     public function showMeta($id_courrier, $db)
     {
     
@@ -289,7 +294,7 @@ class ViewerController extends Zend_Controller_Action
     		$id_demandeur= $rowlieninterne['ID_ENTITEEXPEDITEUR'];
     		$etat= $rowlieninterne['ID_ETATDESTINATAIRE'];
     
-    		if($etat=="1"||$etat=="2"){//Si la personne est toujours dans le workflow
+    		if($etat==$this->etat_encours||$etat==$this->etat_surtablette){//Si la personne est toujours dans le workflow
     			$destinataires[]= $entitedestinataire;
     		}
     	}
@@ -358,9 +363,6 @@ class ViewerController extends Zend_Controller_Action
     	 
     }
 
-    //------------------------------FONCTIONS DE REFUS D'UN DOCUMENT --------------------------------------------
-    
-    //Fonction ajouter un formulaire de refus à la vue
     public function refusePopup()
     {
     	 
@@ -369,7 +371,7 @@ class ViewerController extends Zend_Controller_Action
     	$this->view->refuseForm = $form;
     	 
     }
-    //Fonction récupérant le formulaire de refus d'un document
+
     private function _getRefuseForm()
     {
     
@@ -382,7 +384,7 @@ class ViewerController extends Zend_Controller_Action
     	}
     	return $form;
     }
-    //Fonction traitant la requête à partir du formulaire de refus
+
     public function refusepdfAction()
     {
     
@@ -430,7 +432,8 @@ class ViewerController extends Zend_Controller_Action
     	}
     }
 
-    public function _refuseInDb($db,$form){
+    public function _refuseInDb($db, $form)
+    {
     	
     	$text_commentaire = $form->getValue('text_commentaire_refuse');
     	
@@ -454,31 +457,24 @@ class ViewerController extends Zend_Controller_Action
     		$year=$date->get(Zend_Date::YEAR);
     		$date = $day.'/'.$month.'/'.$year;
     		$commentaire = new Application_Model_DbTable_Commentaire();
-    		$commentaire->ajouterCommentaire($this->id_document, $id_lieninterne, $text_commentaire, $date, '1');
+    		$commentaire->ajouterCommentaire($this->id_document, $id_lieninterne, $text_commentaire, $date);
     	}
     	
     	//Archiver le lien qui existe entre l'utilisateur et le document
-    	$sqlupdate='UPDATE LIENINTERNE SET ID_ETATDESTINATAIRE=4 WHERE ID_LIENINTERNE='.$id_lieninterne;
+    	$sqlupdate='UPDATE LIENINTERNE SET ID_ETATDESTINATAIRE='.$this->etat_refuse.' WHERE ID_LIENINTERNE='.$id_lieninterne;
     	$stmtupdate = $db->query($sqlupdate);
     	
     	//Mettre à jour l'état de l'expéditeur pour qu'il voit le fichier dans son index de documents
     	//$sqlupdatereceiver='UPDATE LIENINTERNE SET ID_ETATDESTINATAIRE=1 WHERE ID_ENTITEDESTINATAIRE='.$expediteur.'AND ID_COURRIER ='.$this->id_document;
     	//$stmtupdatereceiver = $db->query($sqlupdatereceiver);
     }
-    
-    
-    //------------------------------FONCTIONS DE VALIDATION D'UN DOCUMENT -----------------------------------------
-    
-    //Fonction ajoutant un formulaire de validation à la vue
+
     public function validatePopup()
     {
-    	 
-    	$form = new Application_Form_Validate();
-    	 
-    	$this->view->validateForm = $form;
-    	 
+    	$form = new Application_Form_Validate();    	 
+    	$this->view->validateForm = $form;   	 
     }
-    //Fonction traitant les requêtes issues du formulaire de validation
+
     public function validatepdfAction()
     {
     
@@ -518,19 +514,15 @@ class ViewerController extends Zend_Controller_Action
     			//Faire les changements associés dans la base de données
     			$this->_validateInDB($db);
     			
-    			//TO DELETE THE FILE IN PDF FOLDER - Ne pas effacer
-    			//$mask = "pdf/".$this->id_document.".pdf";
-    			//array_map( "unlink", glob( $mask ) );
-    			 
     			//Rediriger l'action
     			$this->_helper->redirector('index','index',null,array('VALID'=>'1'));
     		}
     	}
     	 
     }
-    
-    //Fonction permettant de valider en faisant les changements nécessaires dans la base de données
-    private function _validateInDB($db){
+
+    private function _validateInDB($db)
+    {
 
     	//Récupérer l'ID du lieninterne entre notre utilisateur et le document
     	$sqlfind = 'SELECT ID_LIENINTERNE FROM LIENINTERNE WHERE ID_ENTITEDESTINATAIRE='.$this->user_ID.' AND ID_COURRIER ='.$this->id_document;
@@ -546,32 +538,31 @@ class ViewerController extends Zend_Controller_Action
     	 
     	 
     	//Archiver le lien entre l'utilisateur et le document
-    	$sqlupdate='UPDATE LIENINTERNE SET ID_ETATDESTINATAIRE=3 WHERE ID_LIENINTERNE='.$id_lieninterne;
+    	$sqlupdate='UPDATE LIENINTERNE SET ID_ETATDESTINATAIRE='.$this->etat_valide.' WHERE ID_LIENINTERNE='.$id_lieninterne;
     	$stmtupdate = $db->query($sqlupdate);
     	
     	//Chercher le prochain destinataire du document
-    	$sqlnewreceiver='SELECT * FROM LIENINTERNE WHERE ID_ETATDESTINATAIRE=5 AND ID_COURRIER='.$this->id_document.' ORDER BY DATECREATION';
+    	$sqlnewreceiver='SELECT * FROM LIENINTERNE WHERE ID_ETATDESTINATAIRE='.$this->etat_enattente.' AND ID_COURRIER='.$this->id_document.' ORDER BY DATECREATION';
     	$stmtreceiver = $db->query($sqlnewreceiver);
     	$rowsreceiver = $stmtreceiver->fetchAll();
     	$id_lieninternereceiver= $rowsreceiver[0]['ID_LIENINTERNE'];
     	
     	if($rowsreceiver!= null){// S'il y a toujours quelqu'un dans le workflow
     		//Mettre à jour l'état du destinataire pour qu'il puisse voir le fichier dans son index des documents
-    		$sqlupdatereceiver='UPDATE LIENINTERNE SET ID_ETATDESTINATAIRE=1 WHERE ID_LIENINTERNE='.$id_lieninternereceiver;
+    		$sqlupdatereceiver='UPDATE LIENINTERNE SET ID_ETATDESTINATAIRE='.$this->etat_encours.' WHERE ID_LIENINTERNE='.$id_lieninternereceiver;
     		$stmtupdatereceiver = $db->query($sqlupdatereceiver);
     	}
     	else{//tout le monde a approuvé le document, donc on peut l'envoyer au demandeur
-    		$sqlfinddemandeur='SELECT * FROM LIENINTERNE WHERE ID_ETATDESTINATAIRE='.$this->user_ID.' AND ID_COURRIER='.$this->id_document;
-    		$stmtfinddemandeur = $db->query($sqlfinddemandeur);
-    		$rowsfinddemandeur = $stmtfinddemandeur->fetchAll();
-    		$id_lieninternedemandeur= $rowsfinddemandeur[0]['ID_LIENINTERNE'];
+    		//$sqlfinddemandeur='SELECT * FROM LIENINTERNE WHERE ID_ETATDESTINATAIRE='.$this->user_ID.' AND ID_COURRIER='.$this->id_document;
+    		//$stmtfinddemandeur = $db->query($sqlfinddemandeur);
+    		//$rowsfinddemandeur = $stmtfinddemandeur->fetchAll();
+    		//$id_lieninternedemandeur= $rowsfinddemandeur[0]['ID_LIENINTERNE'];
     	
-    		$sqlupdatedemandeur='UPDATE LIENINTERNE SET ID_ETATDESTINATAIRE=1 WHERE ID_LIENINTERNE='.$id_lieninternedemandeur;
-    		$stmtupdatedemandeur = $db->query($sqlupdatereceiver);
+    		//$sqlupdatedemandeur='UPDATE LIENINTERNE SET ID_ETATDESTINATAIRE=1 WHERE ID_LIENINTERNE='.$id_lieninternedemandeur;
+    		//$stmtupdatedemandeur = $db->query($sqlupdatereceiver);
     	}
     }
-    
-    //Fonction récupérant le formulaire de validation
+
     private function _getValidateForm()
     {
     	 
@@ -584,10 +575,7 @@ class ViewerController extends Zend_Controller_Action
     	}
     	return $form;
     }
-    
-    //------------------------------FONCTIONS D'AJOUT D'UN DESTINATAIRE --------------------------------------------
-    
-    //Fonction ajoutant le formulaire d'ajout de destinaire à la vue
+
     public function addPersonPopup($id_document, $user_ID, $db)
     {
     	$form = new Application_Form_Addperson();
@@ -597,7 +585,7 @@ class ViewerController extends Zend_Controller_Action
     	 
     	// Montrer le workflow des personnes en attente du document ---------------------------------
     	//Récupérer l'id du commentaire lié au document
-    	$sqldest = 'SELECT * FROM LIENINTERNE WHERE (ID_ETATDESTINATAIRE=1 OR ID_ETATDESTINATAIRE=2) AND ID_COURRIER ='.$id_document.'ORDER BY DATECREATION';
+    	$sqldest = 'SELECT * FROM LIENINTERNE WHERE (ID_ETATDESTINATAIRE='.$this->etat_encours.' OR ID_ETATDESTINATAIRE='.$this->etat_surtablette.') AND ID_COURRIER ='.$id_document.'ORDER BY DATECREATION';
     	//Exécuter la requête et récupérer le résultat
     	$stmtdest = $db->query($sqldest);
     
@@ -621,8 +609,9 @@ class ViewerController extends Zend_Controller_Action
     	$this->view->etat = $etat;
     	$this->view->date = $date;
     }
-    //Fonction traitant les requêtes issues du formulaire
-    public function addpersonpdfAction(){
+
+    public function addpersonpdfAction()
+    {
     	 
     	$request = $this->getRequest();
     
@@ -650,14 +639,11 @@ class ViewerController extends Zend_Controller_Action
     			
     
     			$lieninterne = new Application_Model_DbTable_Lieninterne();
-    			$lieninterne->ajouterLieninterne($id_document, $this->user_ID, $id_dest, $type, '1', 'N', $date, $IRauteur);
-    
-    			//return $this->_helper->redirector('showfile');
-    
+    			$lieninterne->ajouterLieninterne($id_document, $this->user_ID, $id_dest, $type, $this->etat_enattente, 'N', $date, $IRauteur);
     		}
     	}
     }
-    //Fonction récupérant le formulaire pour l'ajout d'un destinataire
+
     private function _getAddPersonForm()
     {
     
@@ -670,5 +656,37 @@ class ViewerController extends Zend_Controller_Action
     	}
     	return $form;
     }
+
+    public function downloadAction()
+    {
+        $fullPath = $this->filePath.basename($_GET['download_file']);
+    	
+    	header("Cache-Control: public");
+    	header("Content-Description: File Transfer");
+    	header('Content-disposition: attachment; filename='.basename($fullPath));
+    	header("Content-Type: application/pdf");
+    	header("Content-Transfer-Encoding: binary");
+    	header('Content-Length: '. filesize($fullPath));
+    	readfile($fullPath);
+    	exit;
+    }
+
+    public function printAction()
+    {
+    	$fhandle = fopen($this->filepath,'rb');
+    	$contents = fread($fhandle, filesize(__DIR__.'/pdf/_test_8.pdf'));
+    	
+    	$handle = printer_open('NOM DE MON IMPRIMANTE');
+    	printer_set_option($handle, PRINTER_COPIES , 1);
+    	printer_set_option($handle,PRINTER_MODE,"raw");
+    	printer_write($handle,$contents);
+    	printer_close($handle);
+    }
+
+
 }
+
+
+
+
 

@@ -54,20 +54,28 @@
 			<li>
 				<!-- Meta info icon -->
 				<br/><br/><a title="Meta-Informations" class="btn-meta poplight" href="#" data-width="720" data-rel="info_doc"></a>
-				
-				<!-- <input id="download" class="btn-meta" type="button">-->
 			</li>
 			<li>
 				<!-- Print icon -->
-				<a id="print" class="btn-print" title="Imprimer"></a>
+				<a id="print" title="Imprimer" class="btn-print" type="button" href="<?php 	
+											echo $this->url(array(
+												'controller' => 'Viewer',
+					           					'action'=>'print',
+												'COURRIER_ID'=>$this->id_document),
+					            				'default', true) ?>" ></a>
 			</li>
 			<li>
 				<!-- Download icon -->
-				<input id="download" title="Telecharger" class="btn-download" type="button" onclick="PDFView.download();">
+				<a id="download" title="Telecharger" class="btn-download" type="button" href="<?php 	
+											echo $this->url(array(
+												'controller' => 'Viewer',
+					           					'action'=>'download',
+												'COURRIER_ID'=>$this->id_document),
+					            				'default', true) ?>" ></a>
 			</li>
 			<li>
 				<!-- Export icon -->
-				<input id="export" title="Exporter Tablette" class="btn-export" type="button">			
+				<a id="export" title="Exporter Tablette" class="btn-export" href="#" type="button" onClick="alert('En cours d\'implementation!')"></a>			
 			</li>
 			<li>
 				<a href="#" data-width="720" class="btn-add-person poplight" data-rel="addperson_doc"></a>
@@ -111,21 +119,11 @@
 			</li>
 		</ul>		
 		<div class="tool-right">
-				<!--  <a title="Signer Document" href="<?php /*	
-							echo $this->url(array(
-								'controller' => 'Viewer',
-					            'action'=>'signpdf'),
-					            'default', true)*/ ?>" 
-					            id="SignerIcone">
-					            <img src='../../../img/icons/ico_sign.png' 
-					            alt='icone signer image'/></a>	-->	
 			<a title="Signer Document" href="#" id="SignerIcone" data-width="720" data-rel="sign_doc" class="btn-sign poplight"></a>
 			<!--Liens vers les popup : valider et refuser le document -->
 			<a title="Valider Document" href="#" id="validateBtn" data-width="720" data-rel="validate_doc" class="btn-valid poplight"></a>
 			<a title="Refuser Document" href="#" id="refuseBtn" data-width="720" data-rel="refuse_doc" class="btn-invalid poplight"></a>
 			
-			<!-- <input class="btn-valid" type="button">		
-			<input class="btn-invalid" type="button">	-->
 		</div>
 		<select id="scaleSelect" onchange="PDFView.parseScale(this.value);" style="display:none;">
 			<option id="pageAutoOption" value="auto">Automatic Zoom</option>
