@@ -57,12 +57,7 @@
 			</li>
 			<li>
 				<!-- Print icon -->
-				<a id="print" title="Imprimer" class="btn-print" type="button" href="<?php 	
-											echo $this->url(array(
-												'controller' => 'Viewer',
-					           					'action'=>'print',
-												'COURRIER_ID'=>$this->id_document),
-					            				'default', true) ?>" ></a>
+				<a id="print" title="Imprimer" class="btn-print" type="button" onclick="window.print()" ></a>
 			</li>
 			<li>
 				<!-- Download icon -->
