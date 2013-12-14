@@ -43,6 +43,7 @@ class AddafileController extends Zend_Controller_Action
              	$id_typefichier=1; //is a PDF
              	$taille=500;
              	$title=$form->getValue('titre');
+             	$obj=$form->getValue('object');
              	
              	//R�cup�ration des tables Courrier, Fichier and Contenu (cr�ation d'objet)
              	$courrier = new Application_Model_DbTable_Courrier();
@@ -50,7 +51,7 @@ class AddafileController extends Zend_Controller_Action
              	$contenu = new Application_Model_DbTable_Contenu();
              		
              	$date = $this->_getDate();
-             	$id_courrier=  $courrier->ajouterCourrier($id_typecourrier, $date);	
+             	$id_courrier=  $courrier->ajouterCourrier($id_typecourrier, $date,$obj);	
              	$id_fichier=$fichier->ajouterFichier($id_courrier, $id_typefichier, $taille, $title);
              	
              	//R�cup�rer le fichier t�l�charg�

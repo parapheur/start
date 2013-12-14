@@ -18,13 +18,14 @@ class Application_Model_DbTable_Courrier extends Zend_Db_Table_Abstract
     	return $row->toArray();
     }
 	
-	public function ajouterCourrier($id_typecourrier,$date)
+	public function ajouterCourrier($id_typecourrier,$date,$obj)
     {
         $data = array(
 			//'ID_COURRIER' => '2',
             'ID_TYPECOURRIER' => $id_typecourrier,
 			'DATECREATION' => new Zend_Db_Expr("TO_DATE('$date', 'DD/MM/YYYY')"),
             'ID_GROUPECREATEUR' => '1',
+        	'OBJET' => $obj,
 			'IRDERNIEREMODIF' => 't',
             'ARCHIVE' => 'N',
 			'EXPRESS' => 'N'
