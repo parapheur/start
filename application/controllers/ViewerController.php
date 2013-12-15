@@ -46,7 +46,7 @@ class ViewerController extends Zend_Controller_Action
     	$this->etat_refuse=4;
     	$this->etat_enattente=5;
     	$this->etat_demandeur=6;
-    	 
+    	
     	//On récupère l'ID du document que nous souhaitons afficher à partir de l'indexController
     	$request = $this->getRequest();
     	$this->id_document = $request->getParam('COURRIER_ID');

@@ -4,7 +4,7 @@
 	* Créé : 14/12/2013
 	* Modifié : 16/11/2013
 	* 1.1 : Hina Tufail - création
-	* 
+	* 1.2 :  Clément Mouraud - impression
 	* Action d'affichage de l'index des documents refusés
 	*
 	* Projet parapheur 2014
@@ -20,8 +20,8 @@
 	 					?>" href="<?php 
 							echo $this->url(
 					           		array(
-									'controller' => 'viewer',
-									'action'=>'index',
+									'controller' => 'ValidatedDocs',
+									'action'=>'download',
 									'COURRIER_ID'=>$this->id_document[$i])
 									)
 						?> "> 
@@ -32,8 +32,8 @@
 						 <a href="<?php 
 							echo $this->url(
 	 				           	array(
-								'controller' => 'viewer',
-								'action'=>'index',
+								'controller' => 'ValidatedDocs',
+								'action'=>'download',
 								'COURRIER_ID'=>$this->id_document[$i])
 								)
 							?>"> 

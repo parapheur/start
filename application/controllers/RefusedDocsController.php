@@ -5,7 +5,7 @@
 * Auteur : Hina Tufail
 * Créé : 14/12/2013
 * 1.1 :  Hina Tufail - création
-*
+* 1.2 :  Clément Mouraud - impression
 * Controller des documents qui ont été refusés et donc renvoyés au demandeur
 *
 * Projet parapheur 2014
@@ -58,6 +58,28 @@ class RefusedDocsController extends Zend_Controller_Action
 		$this->view->id_document=$id_document;
 		$this->view->titre =$titre;
 		$this->view->date =$date;
+    }
+    
+    public function downloadAction()
+    {
+    	//On récupère l'ID du document que nous souhaitons afficher à partir de l'indexController
+    	$request = $this->getRequest();
+    	$id_document = $request->getParam('COURRIER_ID');
+    	//Fichier PDF qui est utilisé = useful for signature and images
+    	$filePath = APPLICATION_PATH.'/../public/pdf/'.$id_document.'.pdf';
+    	 
+    	$this->_helper->layout()->disableLayout();
+    	$this->_helper->viewRenderer->setNoRender(true);
+    
+    	header("Cache-Control: public");
+    	header("Content-Description: File Transfer");
+    	header('Content-disposition: attachment; filename='.basename($filePath));
+    	header("Content-Type: application/pdf");
+    	header("Content-Transfer-Encoding: binary");
+    	header('Content-Length: '. filesize($filePath));
+    	readfile($filePath);
+    	exit;
+    
     }
 
 
