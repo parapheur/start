@@ -30,14 +30,14 @@ class Application_Form_Addafile extends Zend_Form
         // Le titre du document
         $this->addElement('text', 'titre', array(
             'label'      => 'Titre',
-            'required'   => false,
+            'required'   => true,
         	
         ));
 		
  		// L'objet du document
          $this->addElement('text', 'object', array(
              'label'      => 'Objet du document',
-             'required'   => false,
+             'required'   => true,
          ));
 		
          // L'objet du document
@@ -57,13 +57,13 @@ class Application_Form_Addafile extends Zend_Form
   		// L'identifiant de l'auteur du document
           $this->addElement('text', 'id_author', array(
               'label'      => 'ID Auteur',
-              'required'   => false,
+              'required'   => true,
           ));
           
           // L'identifiant du destinataire 1
           $this->addElement('text', 'id_dest1', array(
           		'label'      => 'ID Destinataire 1',
-          		'required'   => false,
+          		'required'   => true,
           ));
 		
           // L'identifiant du destinataire 2
@@ -96,5 +96,6 @@ class Application_Form_Addafile extends Zend_Form
         $this->addElement('hash', 'csrf', array(
             'ignore' => true,
         ));
+
     }
 }

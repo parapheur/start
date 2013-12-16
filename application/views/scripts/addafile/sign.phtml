@@ -12,13 +12,18 @@
 */?>
 
 <h1>Ajouter un document</h1>
-<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus tincidunt 
-non diam eu consequat.</p>
+<p>Vous pouvez ajouter un document de votre bureau à notre application et l'envoyer à des destinataires.</p>
 <br />
 
+ <div id="display-sign-error">
+ 	<?php
+		echo $this->errorMsg;
+	?>
+ </div>
+
 <?php
-$this->form->setAction($this->url());
-echo $this->form; 
+	$this->form->setAction($this->url());
+	echo $this->form; 
 ?>
 
 
