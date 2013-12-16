@@ -14,46 +14,45 @@
 	<?php echo $this->headLink()
   								->appendStylesheet($this->baseUrl().'/css/popupStyle.css'); ?>
   	<?php echo $this->headScript()->appendFile($this->baseUrl().'/js/custom.js');?>
-<div class="box">
-				<h1>Diagnostic</h1>
-				<p>Testez vos connexions à la base de données, au serveur et aux tablettes.</p>
+	<div class="box">
+		<h1>Diagnostic</h1>
+		<p>Testez vos connexions à la base de données, au serveur et aux tablettes.</p>
+	</div>
+	<div id="box-test">
+		<div class="box clearfix">
+			<div class="on-left">
+				<h1>Test connexion base de données</h1>
+				<p>Ce test vous permettra de vérifier que votre connexion à la 
+				base de données est effective.</p>
 			</div>
-			<div id="box-test">
-				<div class="box clearfix">
-					<div class="on-left">
-						<h1>Test connexion base de données</h1>
-						<p>Ce test vous permettra de vérifier que votre connexion à la base de données est effective.</p>
-					</div>
-					<a href="#" class="blue-button on-right poplight" data-width="720" type="button" data-rel="connexionBDD" >Vérifier</a>
-				</div>
-				<div class="box clearfix">
-					<div class="on-left">
-						<h1>Test synchronisation tablette</h1>
-						<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus tincidunt 
-						non diam eu consequat.</p>
-					</div>
-					<input class="blue-button on-right" type="button" value="Vérifier" onClick="alert('En cours d\'implementation!')" />
-				</div>
-				<div class="box clearfix">
-					<div class="on-left">
-						<h1>Test accès serveur</h1>
-						<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus tincidunt 
-						non diam eu consequat.</p>
-					</div>
-					<input class="blue-button on-right" type="button" value="Vérifier" onClick="alert('En cours d\'implementation!')"/>
-				</div>
-				
-				
-				
-			<div id="connexionBDD" class="popup_block">
-				<a class="close" href="#">
-					<img class="btn_close" alt="" src="<?php echo 'http://'.$_SERVER['HTTP_HOST'].'/img/icons/close_pop.png'?>"></img>
-				</a>
-				<h1>Informations de connexion à la base de données Oracle :</h1>
-				<p><?php echo $this->conBDD;?></p>
+			<a href="#" class="blue-button on-right poplight" data-width="720" type="button" data-rel="connexionBDD" >Vérifier</a>
+		</div>
+		<div class="box clearfix">
+			<div class="on-left">
+				<h1>Test synchronisation tablette</h1>
+				<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. 
+				Vivamus tincidunt non diam eu consequat.</p>
 			</div>
-			<div id="popup_fade"></div>
-			
-			<script type="text/javascript">
-				$('#nav .n4 a').addClass('nav-sel');
-			</script>
+			<input class="blue-button on-right" type="button" value="Vérifier" onClick="alert('En cours d\'implementation!')" />
+		</div>
+		<div class="box clearfix">
+			<div class="on-left">
+				<h1>Test accès serveur</h1>
+				<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. 
+				Vivamus tincidunt non diam eu consequat.</p>
+			</div>
+			<input class="blue-button on-right" type="button" value="Vérifier" onClick="alert('En cours d\'implementation!')"/>
+		</div>
+				
+		<div id="connexionBDD" class="popup_block">
+			<a class="close" href="#">
+				<img class="btn_close" alt="" src="<?php echo 'http://'.$_SERVER['HTTP_HOST'].'/img/icons/close_pop.png'?>"></img>
+			</a>
+			<h1>Informations de connexion à la base de données Oracle :</h1>
+			<p><?php echo $this->conBDD;?></p>
+		</div>
+		<div id="popup_fade"></div>
+	</div>
+	<script type="text/javascript">
+		$('#nav .n4 a').addClass('nav-sel');
+	</script>
