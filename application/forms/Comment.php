@@ -35,7 +35,7 @@ class Application_Form_Comment extends Zend_Form
 		// Contenu du commentaire
 		$this->addElement('textarea', 'text_commentaire', array(
 				'class'		 => 'on-right',
-				'required'   => false,
+				'required'   => true,
 				'attribs' =>   array(
 						'id'=>'type_id',
 				),
