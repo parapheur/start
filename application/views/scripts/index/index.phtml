@@ -14,7 +14,17 @@
 	*
 	* Projet parapheur 2014
 	*/
-?> 			 <div class="box clearfix"> 
+?>			<div class="clearfix">
+				<a class="top-link on-right" type="button" href="<?php echo $this->url(array('controller' => 'ValidatedDocs', 'action'=>'index', 'USER' => $this->user_id));?>">
+					<?php echo $this->number_doc_accept; ?> documents validés
+				</a>
+				<span class="brk on-right">|</span>
+				<a class="top-link on-right" type="button" href="<?php echo $this->url(array('controller' => 'RefusedDocs', 'action'=>'index', 'USER' => $this->user_id));?>">
+					<?php echo $this->number_doc_refuse; ?> documents refusés
+				</a>
+			</div>
+			<br/>
+ 			<div class="box clearfix"> 
  				<div class="on-left">
 					<h1><?php echo $this->number_doc; ?> documents à valider</h1>
  					<p>Veuillez sélectionner à l'aide des cases à cocher les documents que vous souhaitez
@@ -70,26 +80,3 @@
 			<script type="text/javascript">
 				$('#nav .n1 a').addClass('nav-sel');
 			</script>
-			<div class="box clearfix"> 
- 				<div class="on-left">
-					<h1><?php echo $this->number_doc_refuse; ?> documents refusés</h1>
- 				</div> 
- 				<a class="blue-button on-right" type="button" href="<?php echo $this->url(
-																	 			           	array(
-																							'controller' => 'RefusedDocs',
-																							'action'=>'index',
-																							'USER' => $this->user_id)
-																							);?>"> Consulter </a>
- 			</div>
- 			<br/>
- 			<div class="box clearfix"> 
- 				<div class="on-left">
-					<h1><?php echo $this->number_doc_accept; ?> documents validés</h1>
- 				</div> 
- 				<a class="blue-button on-right" type="button" href="<?php echo $this->url(
-																	 			           	array(
-																							'controller' => 'ValidatedDocs',
-																							'action'=>'index',
-																							'USER' => $this->user_id)
-																							);?>"> Consulter </a> 
- 			</div>		
