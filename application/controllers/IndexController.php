@@ -49,16 +49,24 @@ class IndexController extends Zend_Controller_Action
     	$number_doc=0;
     	//Récupérer les données de la base de données
     	$db = Zend_Db_Table::getDefaultAdapter();
-
-    	//Récupérer tous les documents reliés à notre utilisateur
-    	$sql = 'SELECT ID_COURRIER FROM LIENINTERNE WHERE ID_ETATDESTINATAIRE = '.$this->etat_encours.' AND ID_ENTITEDESTINATAIRE = '.$user_ID;
-        
-    	//Exécuter la requête et récupérer le résultat
-    	$stmt = $db->query($sql);
-
+		
+    	$request = $this->getRequest();
+    	$name_document = $request->getParam('SEARCH');
+    	    	
 		$titre= array();
 		$date=array();
 		$id_document=array();
+		
+		if($name_document!=null){
+			$sql = "SELECT l.ID_COURRIER FROM LIENINTERNE l, FICHIER f WHERE l.ID_ETATDESTINATAIRE = ".$this->etat_encours."
+							AND l.ID_ENTITEDESTINATAIRE = ".$user_ID."
+							AND f.NOMORIGINE LIKE '%".$name_document."%' AND l.ID_COURRIER=f.ID_COURRIER(+)";
+		}
+		else{
+			$sql = 'SELECT ID_COURRIER FROM LIENINTERNE WHERE ID_ETATDESTINATAIRE = '.$this->etat_encours.' AND ID_ENTITEDESTINATAIRE = '.$user_ID;
+		}
+		//Exécuter la requête et récupérer le résultat
+		$stmt = $db->query($sql);
 		
 		//Pour chaque document
  		while ($row=$stmt->fetch()){
