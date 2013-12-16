@@ -10,6 +10,12 @@
 	* Projet parapheur 2014
 	*/?>
 			<?php $i=0;?>
+			<div class="box clearfix"> 
+ 				<div class="on-left">
+					<h1>Documents refusés</h1>
+					<p>Voici les documents que vous avez soumis et qui ont été refusés par les autres destinataires. Le document est téléchargeable en cliquant dessus.</p> 
+ 				</div>  
+ 			</div>
  			<div id="index"> 
  				<ul class="index-row"> 
  				<?php foreach($this->id_document as $id_document) : ?>
@@ -40,7 +46,6 @@
 							<?php echo $this->titre[$i];?>
 						</a>
 						<p>Créé le : <?php echo $this->date[$i]; $i++;?></p><br/>
-	 					<p><input type="checkbox" name="<?php echo $this->titre[$i];?>"></p>
 						<?php if($i%5 == 0){?></ul><ul class ="index-row"><?php }?>
  					</li> 
  				<?php endforeach; ?>
