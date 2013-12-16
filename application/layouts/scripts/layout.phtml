@@ -64,7 +64,7 @@
 				</ul>
 				<div class="search-box">
 					<label>Rechercher</label>
-					<input type="text" name="search" value = "" onKeyPress="if (event.keyCode == 13)">
+					<input id="search" type="text" name="search" value = "" onkeypress="return runScript(event)">
 				</div>
 			</div>
 		</div>
@@ -86,5 +86,12 @@
 			</p>
 		</div>
 	</div>
+	<script type="text/javascript">
+		function runScript(e) {
+		    if (e.keyCode == 13) {
+		    	window.location.replace('index?search=' + $('#search').val());
+		    }
+		}
+	</script>
 </body>
 </html>

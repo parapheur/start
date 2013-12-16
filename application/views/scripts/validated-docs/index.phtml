@@ -15,10 +15,16 @@
 	<div class="box clearfix"> 
  				<div class="on-left">
 					<h1>Documents validés</h1>
- 					<p>Voici les documents que vous avez soumis et qui ont été validés par les autres destinataires. 
- 					Le document est téléchargeable en cliquant dessus.</p> 
+ 					<p>Voici les documents soumis et qui ont été validés par les destinataires. 
+ 					Le document est téléchargeable en cliquant dessus.</p>
  				</div>  
+ 				<a class="blue-button on-right" type="button" href="<?php echo $this->url(
+																	 			           	array(
+																							'controller' => 'Index',
+																							'action'=>'index')
+																							);?>"> Retour index </a>
  			</div>
+ 			<br/><br/>
  			<div id="index"> 
  				<ul class="index-row"> 
  				<?php foreach($this->id_document as $id_document) : ?>
@@ -36,7 +42,7 @@
 						?> "> 
 							<?php 
 							?>
-	 						<img src="img/icons/ico_pdf.png" alt="" /> 
+	 						<img src="/img/icons/ico_pdf.png" alt="" /> 
 	 					</a>
 						 <a href="<?php 
 							echo $this->url(
@@ -59,9 +65,3 @@
 			<script type="text/javascript">
 				$('#nav .n1 a').addClass('nav-sel');
 			</script>
-			
-			<a class="blue-button on-right" type="button" href="<?php echo $this->url(
-																	 			           	array(
-																							'controller' => 'Index',
-																							'action'=>'index')
-																							);?>"> Revenir à la page d'accueil </a>
