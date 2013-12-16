@@ -41,18 +41,6 @@ class AddafileController extends Zend_Controller_Action
         if ($this->getRequest()->isPost()) {
              if ($form->isValid($request->getPost())) {
               	
-             	//On r�cup�re les autres champs du formulaire
-             	$values= $form->getValues();
-             	$author = $form->getValue('id_author');
-             	$des1 = $form->getValue('id_dest1');
-             	$des2 = $form->getValue('id_dest2');
-             	$des3 = $form->getValue('id_dest3');
-             	echo $author;
-             	echo $des1;
-             	echo $des2;
-             	echo $des3;
-             	
-             	if($author != $des1 && $author != $des2 && $author != $des3){
              	
 	             	//Cr�er les tables dans la base de donn�es
 	             	$id_typecourrier=1;
@@ -81,6 +69,17 @@ class AddafileController extends Zend_Controller_Action
 				 	    $e->getMessage();
 				 	}
 	
+				 	//On r�cup�re les autres champs du formulaire
+				 	$values= $form->getValues();
+				 	$author = $form->getValue('id_author');
+				 	$des1 = $form->getValue('id_dest1');
+				 	$des2 = $form->getValue('id_dest2');
+				 	$des3 = $form->getValue('id_dest3');
+				 	echo $author;
+				 	echo $des1;
+				 	echo $des2;
+				 	echo $des3;
+				 	
 					//On va ajouter des liens avec des acteurs du documents.
 					$lieninterne = new Application_Model_DbTable_Lieninterne();
 	
@@ -146,11 +145,11 @@ class AddafileController extends Zend_Controller_Action
 					}
 					//$contenu->ajouterContenu($id_fichier, $pdfString);
 					$this->_helper->redirector('index', 'index');
-             	}
-             	else
-             	{
-             		$errorMsg = 'L\'auteur doit être différent du destinataire. Pensez à re-charger votre fichier.';
-             	}
+             	//if($author != $des1 && $author != $des2 && $author != $des3){}
+             	//else
+             	//{
+             		//$errorMsg = 'L\'auteur doit être différent du destinataire. Pensez à re-charger votre fichier.';
+             	//}
              }
         }
 
