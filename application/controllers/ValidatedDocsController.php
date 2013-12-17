@@ -77,9 +77,7 @@ class ValidatedDocsController extends Zend_Controller_Action
     	header("Content-Transfer-Encoding: binary");
     	header('Content-Length: '. filesize($filePath));
     	readfile($filePath);
-    	exit;
-    	 
+    	exit;   	 
     }
-
 }
 

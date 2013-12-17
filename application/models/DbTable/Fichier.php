@@ -38,6 +38,5 @@ class Application_Model_DbTable_Fichier extends Zend_Db_Table_Abstract
         $id=$this->insert($data);
         return $id;
     }
-
 }
 

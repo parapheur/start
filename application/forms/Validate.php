@@ -26,10 +26,7 @@ class Application_Form_Validate extends Zend_Form
     			'label'    => 'Valider',
     			'class'		=> 'green-button on-right'
     	
-    	));
-    	
+    	));  	
     }
-
-
 }
 

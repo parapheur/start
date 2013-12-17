@@ -22,11 +22,6 @@ class IndexController extends Zend_Controller_Action
 
     public function init()
     {
-    	/*if($this->_request->getParam('search')!=''){
-    		$this->test = 'Paramètre récupéré';
-    		$this->view->test = $this->test;
-    	}*/
-    	
     	$this->etat_encours=1;
     	$this->etat_surtablette=2;
     	$this->etat_valide=3;
@@ -138,7 +133,6 @@ class IndexController extends Zend_Controller_Action
 
     	$this->view->sucessMessage = $signSuccess;
     }
-
 }
 
 

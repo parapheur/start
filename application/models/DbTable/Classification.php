@@ -15,6 +15,5 @@ class Application_Model_DbTable_Classification extends Zend_Db_Table_Abstract
     	}
     	return $row->toArray();
     }
-
 }
 

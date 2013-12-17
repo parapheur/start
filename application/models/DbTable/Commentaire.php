@@ -30,6 +30,5 @@ class Application_Model_DbTable_Commentaire extends Zend_Db_Table_Abstract
     	);
     	$this->insert($data);
     }
-
 }
 

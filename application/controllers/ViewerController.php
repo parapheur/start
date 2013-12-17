@@ -463,10 +463,6 @@ class ViewerController extends Zend_Controller_Action
     	//Archiver le lien qui existe entre l'utilisateur et le document
     	$sqlupdate='UPDATE LIENINTERNE SET ID_ETATDESTINATAIRE='.$this->etat_refuse.' WHERE ID_LIENINTERNE='.$id_lieninterne;
     	$stmtupdate = $db->query($sqlupdate);
-    	
-    	//Mettre à jour l'état de l'expéditeur pour qu'il voit le fichier dans son index de documents
-    	//$sqlupdatereceiver='UPDATE LIENINTERNE SET ID_ETATDESTINATAIRE=1 WHERE ID_ENTITEDESTINATAIRE='.$expediteur.'AND ID_COURRIER ='.$this->id_document;
-    	//$stmtupdatereceiver = $db->query($sqlupdatereceiver);
     }
 
     public function validatePopup()
@@ -551,15 +547,6 @@ class ViewerController extends Zend_Controller_Action
     		//Mettre à jour l'état du destinataire pour qu'il puisse voir le fichier dans son index des documents
     		$sqlupdatereceiver='UPDATE LIENINTERNE SET ID_ETATDESTINATAIRE='.$this->etat_encours.' WHERE ID_LIENINTERNE='.$id_lieninternereceiver;
     		$stmtupdatereceiver = $db->query($sqlupdatereceiver);
-    	}
-    	else{//tout le monde a approuvé le document, donc on peut l'envoyer au demandeur
-    		//$sqlfinddemandeur='SELECT * FROM LIENINTERNE WHERE ID_ETATDESTINATAIRE='.$this->user_ID.' AND ID_COURRIER='.$this->id_document;
-    		//$stmtfinddemandeur = $db->query($sqlfinddemandeur);
-    		//$rowsfinddemandeur = $stmtfinddemandeur->fetchAll();
-    		//$id_lieninternedemandeur= $rowsfinddemandeur[0]['ID_LIENINTERNE'];
-    	
-    		//$sqlupdatedemandeur='UPDATE LIENINTERNE SET ID_ETATDESTINATAIRE=1 WHERE ID_LIENINTERNE='.$id_lieninternedemandeur;
-    		//$stmtupdatedemandeur = $db->query($sqlupdatereceiver);
     	}
     }
 
@@ -672,9 +659,6 @@ class ViewerController extends Zend_Controller_Action
     	readfile($this->filePath);
     	exit;
     }
-
-
-
 }
 
 

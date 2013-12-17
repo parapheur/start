@@ -3,6 +3,13 @@
 class Application_Model_DbTable_Contenu extends Zend_Db_Table_Abstract
 {
 
+	/* ATTENTION ----------------------------------------------- 
+	 * Cette table CONTENU n'est pas utilisé à l'heure actuelle dans notre projet. 
+	 * Elle permet d'ajouter un document au format CLOB dans la base de données Oracle
+	 * utilisée par l'application. 
+	 * Pour traiter les documents PDF, nous les plaçons dans un filer, situé dans /public/pdf/.
+	 * */
+	
     protected $_name = 'CONTENU';
 	protected $_primary = 'ID_FICHIER'; //Le nom de la clÃ© primaire (case sensitive)
 	protected $_referenceMap    = array(
@@ -42,7 +49,7 @@ class Application_Model_DbTable_Contenu extends Zend_Db_Table_Abstract
 
     public function ajouterContenu($id_fichier, $contenu)
     {
-	    $sql = "INSERT INTO CONTENU(ID_FICHIER,CONTENU) VALUES ($id_fichier, EMPTY_CLOB())
+    	$sql = "INSERT INTO CONTENU(ID_FICHIER,CONTENU) VALUES ($id_fichier, EMPTY_CLOB())
         RETURNING CONTENU INTO :CONTENU_loc";
     	$conn = oci_connect("DBA_PARAPHEUR","12345678","XE");
     	$stmt = oci_parse($conn, $sql);

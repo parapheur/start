@@ -17,8 +17,6 @@ class Application_Form_Comment extends Zend_Form
 	{
 		// méthode HTTP : post
 		$this->setAttrib('enctype', 'multipart/form-data');
-		$this->setMethod('post');
-
-		 
+		$this->setMethod('post');	 
 	}
 }
