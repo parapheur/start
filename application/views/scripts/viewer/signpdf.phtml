@@ -22,10 +22,7 @@
 ?>
 	
 <title>Signer le PDF</title>
-  <?php echo $this->headLink()->appendStylesheet($this->baseUrl().'/css/sketch.css'); ?>
-  <?php echo $this->headScript()->appendFile($this->baseUrl().'/js/sketch.js')
-  								->prependFile($this->baseUrl().'/js/jquery.js')
-  								->prependFile($this->baseUrl().'/js/canvas2image.js')
+  <?php echo $this->headScript()->prependFile($this->baseUrl().'/js/canvas2image.js')
   								->prependFile($this->baseUrl().'/js/base64.js');?>
 
 <br/>

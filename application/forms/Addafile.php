@@ -37,7 +37,7 @@ class Application_Form_Addafile extends Zend_Form
  		// L'objet du document
          $this->addElement('text', 'object', array(
              'label'      => 'Objet du document',
-             'required'   => true,
+             'required'   => false,
          ));
 		
          // L'objet du document
@@ -57,7 +57,7 @@ class Application_Form_Addafile extends Zend_Form
   		// L'identifiant de l'auteur du document
           $this->addElement('text', 'id_author', array(
               'label'      => 'ID Auteur',
-              'required'   => true,
+              'required'   => false,
           ));
           
           // L'identifiant du destinataire 1

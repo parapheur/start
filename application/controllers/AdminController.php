@@ -39,14 +39,6 @@ class AdminController extends Zend_Controller_Action
     	}
     	$this->view->conBDD=$conBDD;
     }
-
-    public function connexionbddAction()
-    {
-        // action body
-        
-    }
-
-
 }
 
 
